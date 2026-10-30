@@ -890,8 +890,8 @@
       </h3>
     </div>
 
-    <!-- Giant Scrolling Marquee: COLLECTION ✦ FW26 ✦ (Faster & Continuous Loop with 15% Top & Bottom Gap) -->
-    <div style="width: 100%; overflow: hidden; margin-top: 15vh; margin-bottom: 15vh; white-space: nowrap; pointer-events: none;">
+    <!-- Giant Scrolling Marquee: COLLECTION ✦ FW26 ✦ (Moves Right to Left) -->
+    <div style="width: 100%; overflow: hidden; margin-top: 14vh; margin-bottom: 22vh; white-space: nowrap; pointer-events: none;">
       <div id="giant-marquee-track" style="display: inline-block; white-space: nowrap; will-change: transform; transform: translateX(0px);">
         <span style="font-family: var(--font-display); font-size: clamp(60px, 12.5vw, 175px); font-weight: 700; line-height: 0.9; text-transform: uppercase; letter-spacing: -0.02em; color: #000000; display: inline-block;">
           COLLECTION ✦ FW26 ✦ COLLECTION ✦ FW26 ✦ COLLECTION ✦ FW26 ✦ COLLECTION ✦ FW26 ✦ COLLECTION ✦ FW26 ✦
@@ -1188,21 +1188,21 @@
         wordFill.style.clipPath = `inset(0 ${(1 - p) * 100}% 0 0)`;
       });
 
-      // 2. Giant headline COLLECTION ✦ FW26 moves Right to Left on Scroll (FASTER SPEED)
+      // 2. Giant headline COLLECTION ✦ FW26 moves RIGHT TO LEFT on Scroll (Fast Speed)
       const scrollThrough = Math.max(0, viewportHeight - rect.top);
-      const marqueeShift = (scrollThrough * 0.95) % (viewportHeight * 3); // Fast velocity
+      const marqueeShift = (scrollThrough * 1.35) % (viewportHeight * 3.5); // Very fast velocity Right to Left
       if (marqueeTrack) {
         marqueeTrack.style.transform = `translateX(-${marqueeShift}px)`;
       }
 
-      // 3. Clothes row glides faster to the right continuously (Infinite Wrap)
+      // 3. Clothes row glides in OPPOSITE DIRECTION: LEFT TO RIGHT on Scroll (Fast Speed)
       if (!isDragging && dragTrack) {
-        // Fast scroll multiplier (0.65) so it slides across effortlessly
         const halfWidth = dragTrack.scrollWidth / 2;
-        let autoSlideX = ((scrollThrough * 0.65) + currentDragX);
-        // Infinite wrap logic so it never hits blank ends
+        // Moves LEFT TO RIGHT (+ direction) as user scrolls down
+        let autoSlideX = (scrollThrough * 1.1) + currentDragX;
         if (halfWidth > 0) {
-          autoSlideX = -((Math.abs(autoSlideX)) % halfWidth);
+          // Infinite continuous wrap
+          autoSlideX = (autoSlideX % halfWidth) - (halfWidth / 2);
         }
         dragTrack.style.transform = `translate3d(${autoSlideX}px, ${currentDragY}px, 0px)`;
       }
