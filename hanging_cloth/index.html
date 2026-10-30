@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEW COLLECTION | PREMIUM STREETWEAR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      background-color: #ffffff;
+      color: #111111;
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+      padding: 25px 20px;
+    }
+
+    /* Top Brand Header */
+    .header-bar {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .title-primary {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.26em;
+      color: #111111;
+      text-transform: uppercase;
+    }
+
+    .title-sep {
+      color: #cccccc;
+      font-size: 16px;
+      font-weight: 300;
+    }
+
+    .title-secondary {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      color: #929292;
+      text-transform: uppercase;
+    }
+
+    /* Main Wardrobe Rack Container */
+    .wardrobe-stage {
+      position: relative;
+      width: 100%;
+      max-width: 1280px;
+      height: 420px;
+      margin: 0 auto;
+    }
+
+    /* Realistic Single Continuous Metallic Rod */
+    .rod-container {
+      position: absolute;
+      top: 50px;
+      left: 0;
+      right: 0;
+      height: 14px;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .rod-bar {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      top: 0;
+      height: 12px;
+      background: linear-gradient(180deg, 
+        #ffffff 0%, 
+        #dedede 25%, 
+        #8a8a8a 55%, 
+        #4e4e4e 85%, 
+        #333333 100%
+      );
+      border-radius: 6px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.12), inset 0 2px 2px #fff;
+    }
+
+    .rod-mount {
+      position: absolute;
+      top: -16px;
+      width: 22px;
+      height: 44px;
+      background: linear-gradient(135deg, #dedede 0%, #adadad 50%, #7d7d7d 100%);
+      border: 1px solid #737373;
+      border-radius: 3px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.22);
+      z-index: 12;
+    }
+    .rod-mount.left { left: 0px; }
+    .rod-mount.right { right: 0px; }
+
+    /* Track holding all items */
+    .rack-track {
+      position: absolute;
+      top: 55px;
+      left: 15px;
+      right: 15px;
+      height: 350px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      perspective: 1200px;
+    }
+
+    /* Individual Cloth Item Slot */
+    .cloth-item {
+      position: relative;
+      width: 90px;
+      height: 330px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      cursor: pointer;
+      /* Super smooth natural transition when shifting sides */
+      transition: transform 0.48s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.3s;
+      z-index: 5;
+    }
+
+    .cloth-item.is-active {
+      z-index: 100;
+    }
+
+    /* Natural Cross-Fade & Scale-Up Container */
+    .garment-flipper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    /* Side Face (Default View) */
+    .flipper-face-side {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) scale(1);
+      transition: opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1), transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+      opacity: 1;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Front Face (Revealed on Hover directly facing front, upright and straight) */
+    .flipper-face-front {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) scale(0.92);
+      transition: opacity 0.38s cubic-bezier(0.25, 1, 0.5, 1), transform 0.48s cubic-bezier(0.25, 1, 0.5, 1), filter 0.35s ease;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 3;
+    }
+
+    /* ON HOVER (is-active): */
+    .cloth-item.is-active .flipper-face-side {
+      opacity: 0;
+      transform: translateX(-50%) scale(0.95);
+    }
+
+    .cloth-item.is-active .flipper-face-front {
+      opacity: 1;
+      transform: translateX(-50%) scale(1.06);
+      filter: drop-shadow(0 22px 26px rgba(0,0,0,0.22));
+    }
+
+    /* Pure PNG Transparent Images */
+    .pure-garment-png {
+      display: block;
+      max-height: 270px;
+      width: auto;
+      object-fit: contain;
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      filter: drop-shadow(0 5px 7px rgba(0,0,0,0.12));
+      pointer-events: none;
+    }
+
+    .flipper-face-front .pure-garment-png {
+      max-height: 275px;
+      width: 185px;
+    }
+
+    /* Ambient Floor Shadow under each garment */
+    .floor-ambient-shadow {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 45px;
+      height: 10px;
+      background: radial-gradient(ellipse, rgba(0,0,0,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      transition: width 0.45s ease, height 0.45s ease, background 0.45s ease;
+    }
+
+    .cloth-item.is-active .floor-ambient-shadow {
+      width: 130px;
+      height: 16px;
+      background: radial-gradient(ellipse, rgba(0,0,0,0.3) 0%, transparent 70%);
+    }
+
+    /* Instruction Badge */
+    .hover-note {
+      font-size: 11px;
+      color: #888;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-top: 25px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hover-note span.pill {
+      background: #111;
+      color: #fff;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 10px;
+    }
+
+    /* Bottom Info Card */
+    .product-footer-bar {
+      margin-top: 35px;
+      width: 100%;
+      max-width: 860px;
+      background: #ffffff;
+      border: 1px solid #ebebeb;
+      border-radius: 12px;
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+      transition: all 0.3s ease;
+    }
+
+    .footer-left h3 {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #111;
+    }
+
+    .footer-left p {
+      font-size: 12px;
+      color: #666;
+      margin-top: 3px;
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-price {
+      font-size: 20px;
+      font-weight: 800;
+      color: #111;
+    }
+
+    .btn-action {
+      background: #111;
+      color: #fff;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-action:hover {
+      background: #333;
+      transform: translateY(-1px);
+    }
+
+    /* ========================================================
+       MODAL / QUICK BUY DRAWER (EXACTLY MATCHING FIRST IMAGE)
+       ======================================================== */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .product-modal-card {
+      position: relative;
+      background: #ffffff;
+      width: 90%;
+      max-width: 860px;
+      min-height: 480px;
+      border-radius: 12px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+      display: flex;
+      padding: 40px 45px;
+      gap: 40px;
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .modal-backdrop.open .product-modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    /* Close Button Top Right */
+    .modal-close-btn {
+      position: absolute;
+      top: 22px;
+      right: 28px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #222;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .modal-close-btn:hover {
+      opacity: 0.6;
+    }
+
+    /* Modal Left: Large Product Image with Hanger */
+    .modal-image-col {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .modal-product-img {
+      max-height: 380px;
+      max-width: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 15px 20px rgba(0,0,0,0.15));
+      transition: transform 0.3s ease;
+    }
+
+    /* Modal Right: Details & Buying Controls */
+    .modal-info-col {
+      flex: 1.1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-left: 10px;
+    }
+
+    .modal-index-counter {
+      font-size: 13px;
+      color: #777;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .modal-product-name {
+      font-size: 28px;
+      font-weight: 700;
+      color: #222222;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+
+    .modal-price-tag {
+      font-size: 19px;
+      font-weight: 700;
+      color: #222222;
+      margin-bottom: 24px;
+    }
+
+    /* Front / Back Tabs */
+    .view-toggle-tabs {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .view-tab {
+      background: none;
+      border: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: #888;
+      cursor: pointer;
+      padding-bottom: 4px;
+      position: relative;
+      transition: color 0.2s;
+    }
+
+    .view-tab.active {
+      color: #111;
+      font-weight: 600;
+      border-bottom: 2px solid #111;
+    }
+
+    /* Size Selector Label */
+    .size-label-title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 12px;
+    }
+
+    /* Size Circles matching exactly: S, L, M, XL */
+    .size-pills-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .size-pill-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid #dfdfdf;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: #222;
+      cursor: pointer;
+      background: #ffffff;
+      transition: all 0.2s ease;
+    }
+
+    .size-pill-circle:hover {
+      border-color: #222;
+    }
+
+    .size-pill-circle.selected {
+      background: #262626;
+      color: #ffffff;
+      border-color: #262626;
+    }
+
+    /* Big Black Add To Cart Button */
+    .modal-add-to-cart-btn {
+      width: 100%;
+      background: #262626;
+      color: #ffffff;
+      border: none;
+      padding: 15px 0;
+      border-radius: 28px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      margin-bottom: 28px;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .modal-add-to-cart-btn:hover {
+      background: #111;
+      transform: translateY(-1px);
+    }
+
+    /* Bottom Divider and View in shop */
+    .modal-footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #eeeeee;
+      padding-top: 18px;
+      font-size: 14px;
+      color: #222;
+    }
+
+    .footer-cat-name {
+      font-weight: 500;
+      color: #222;
+    }
+
+    .link-view-shop {
+      color: #222;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .link-view-shop:hover {
+      opacity: 0.6;
+    }
+  </style>
+  <script src="./assets/full_wardrobe_data.js"></script>
+</head>
+<body>
+
+  <!-- Top Title exactly matching reference -->
+  <div class="header-bar">
+    <span class="title-primary">NEW COLLECTION</span>
+    <span class="title-sep">|</span>
+    <span class="title-secondary">PREMIUM STREETWEAR</span>
+  </div>
+
+  <!-- Interactive Clothes Rack -->
+  <div class="wardrobe-stage">
+    
+    <!-- Clean Single Continuous Metallic Rod -->
+    <div class="rod-container">
+      <div class="rod-mount left"></div>
+      <div class="rod-bar"></div>
+      <div class="rod-mount right"></div>
+    </div>
+
+    <!-- 10 Transparent Garments Track -->
+    <div class="rack-track" id="rackTrack"></div>
+
+  </div>
+
+  <!-- Instruction -->
+  <div class="hover-note">
+    <span class="pill">CLICK TO OPEN</span> Hover to rotate front & slide, Click to open buy details & select size!
+  </div>
+
+  <!-- Bottom Details Bar -->
+  <div class="product-footer-bar" id="productFooter">
+    <div class="footer-left">
+      <h3 id="infoTitle">DOUBLE-BREASTED WOOL COAT</h3>
+      <p id="infoDesc">Midnight Navy • Structured Peak Lapels • Horn Buttons</p>
+    </div>
+    <div class="footer-right">
+      <div class="footer-price" id="infoPrice">$199</div>
+      <button class="btn-action" id="btnQuickOpen">View Details</button>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       MODAL / BUY POPUP (EXACT MATCH WITH FIRST REFERENCE IMAGE)
+       ======================================================== -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="product-modal-card">
+      <!-- Close Button -->
+      <button class="modal-close-btn" id="modalCloseBtn">Close</button>
+
+      <!-- Left Column: Big Product Image -->
+      <div class="modal-image-col">
+        <img class="modal-product-img" id="modalImg" src="" alt="Product Front View" />
+      </div>
+
+      <!-- Right Column: Details & Sizes -->
+      <div class="modal-info-col">
+        <div class="modal-index-counter" id="modalCounter">03 / 10</div>
+        <div class="modal-product-name" id="modalName">Hoodie</div>
+        <div class="modal-price-tag" id="modalPrice">$199.00</div>
+
+        <!-- Front / Back Tabs -->
+        <div class="view-toggle-tabs">
+          <button class="view-tab active" id="tabFront">Front</button>
+          <button class="view-tab" id="tabBack">Back</button>
+        </div>
+
+        <!-- Size Selector -->
+        <div class="size-label-title">SIZE</div>
+        <div class="size-pills-row">
+          <div class="size-pill-circle selected" data-size="S">S</div>
+          <div class="size-pill-circle" data-size="L">L</div>
+          <div class="size-pill-circle" data-size="M">M</div>
+          <div class="size-pill-circle" data-size="XL">XL</div>
+        </div>
+
+        <!-- Big Black Add to Cart -->
+        <button class="modal-add-to-cart-btn" id="modalAddBtn">Add to cart</button>
+
+        <!-- Footer -->
+        <div class="modal-footer-row">
+          <span class="footer-cat-name" id="modalCategory">Hoodie</span>
+          <a class="link-view-shop">View in the shop</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const garmentsList = [
+      {
+        id: 0,
+        title: "VINTAGE WASHED HOODIE",
+        shortName: "Hoodie",
+        desc: "Faded Black • 480 GSM Heavy French Terry • Ribbed Trim",
+        price: "$199.00"
+      },
+      {
+        id: 1,
+        title: "DOUBLE-BREASTED WOOL COAT",
+        shortName: "Wool Coat",
+        desc: "Midnight Navy • Tailored Italian Wool • Signature Horn Buttons",
+        price: "$199.00"
+      },
+      {
+        id: 2,
+        title: "THANK GOD I'M AN ATHEIST HOODIE",
+        shortName: "Hoodie",
+        desc: "Heavyweight Slub Fleece • Signature Graphic Print",
+        price: "$199.00"
+      },
+      {
+        id: 3,
+        title: "SAND FLEECE SWEATSHIRT",
+        shortName: "Sweatshirt",
+        desc: "Raw Natural Cotton • Minimalist Chest Logo • Ribbed Crewneck",
+        price: "$199.00"
+      },
+      {
+        id: 4,
+        title: "FOREST GREEN HOODIE",
+        shortName: "Hoodie",
+        desc: "Deep Pine Dye • Dual Layer Hood • Heavyweight Ribbing",
+        price: "$199.00"
+      },
+      {
+        id: 5,
+        title: "CLASSIC BLACK CREW TEE",
+        shortName: "T-Shirt",
+        desc: "Supima Cotton 240 GSM • High-Density Neckband",
+        price: "$199.00"
+      },
+      {
+        id: 6,
+        title: "WASHED CHARCOAL HOODIE",
+        shortName: "Hoodie",
+        desc: "Sun-Bleached Pigment Wash • Relaxed Street Silhouette",
+        price: "$199.00"
+      },
+      {
+        id: 7,
+        title: "ATHLETIC GREY HOODIE",
+        shortName: "Hoodie",
+        desc: "Minimalist Clean Front • Brushed Warm Interior",
+        price: "$199.00"
+      },
+      {
+        id: 8,
+        title: "OATMEAL OVERSIZED SWEATSHIRT",
+        shortName: "Sweatshirt",
+        desc: "Soft Earth Tone • Custom Organic Terry Cotton",
+        price: "$199.00"
+      },
+      {
+        id: 9,
+        title: "EMERALD HEAVY HOODIE",
+        shortName: "Hoodie",
+        desc: "Botanical Pigment Wash • Structured Warm Silhouette",
+        price: "$199.00"
+      }
+    ];
+
+    const track = document.getElementById('rackTrack');
+    const infoTitle = document.getElementById('infoTitle');
+    const infoDesc = document.getElementById('infoDesc');
+    const infoPrice = document.getElementById('infoPrice');
+    const btnQuickOpen = document.getElementById('btnQuickOpen');
+
+    // Modal elements
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+    const modalImg = document.getElementById('modalImg');
+    const modalCounter = document.getElementById('modalCounter');
+    const modalName = document.getElementById('modalName');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalCategory = document.getElementById('modalCategory');
+    const modalAddBtn = document.getElementById('modalAddBtn');
+
+    let currentSelectedIdx = 2; // Default atheism grey hoodie
+    const itemElements = [];
+
+    // Create the 10 garments
+    garmentsList.forEach((garment, idx) => {
+      const itemEl = document.createElement('div');
+      itemEl.className = 'cloth-item';
+      itemEl.setAttribute('data-index', idx);
+
+      const d = WARDROBE_DATA[`item_${idx}`];
+
+      // Side view (default)
+      const sideFace = `
+        <div class="flipper-face flipper-face-side">
+          <img class="pure-garment-png" src="data:image/png;base64,${d.side}" alt="${garment.title}" />
+        </div>
+      `;
+
+      // Front view (shown on hover - straight upright front facing)
+      const frontFace = `
+        <div class="flipper-face flipper-face-front">
+          <img class="pure-garment-png" src="data:image/png;base64,${d.front}" alt="${garment.title}" />
+        </div>
+      `;
+
+      itemEl.innerHTML = `
+        <div class="garment-flipper">
+          ${sideFace}
+          ${frontFace}
+        </div>
+        <div class="floor-ambient-shadow"></div>
+      `;
+
+      track.appendChild(itemEl);
+      itemElements.push(itemEl);
+
+      // HOVER INTERACTION:
+      itemEl.addEventListener('mouseenter', () => {
+        currentSelectedIdx = idx;
+        applyHoverState(idx);
+      });
+
+      // CLICK INTERACTION:
+      // Opens the exact product purchase card shown in your reference image!
+      itemEl.addEventListener('click', () => {
+        currentSelectedIdx = idx;
+        openProductModal(idx);
+      });
+    });
+
+    // Reset when mouse leaves
+    track.addEventListener('mouseleave', () => {
+      resetAllItems();
+    });
+
+    btnQuickOpen.addEventListener('click', () => {
+      openProductModal(currentSelectedIdx);
+    });
+
+    function applyHoverState(activeIdx) {
+      const activeGarment = garmentsList[activeIdx];
+      infoTitle.textContent = activeGarment.title;
+      infoDesc.textContent = activeGarment.desc;
+      infoPrice.textContent = activeGarment.price;
+
+      const leftShiftDist = 55;
+      const rightShiftDist = 55;
+
+      itemElements.forEach((el, i) => {
+        if (i === activeIdx) {
+          el.classList.add('is-active');
+          el.style.transform = 'translateX(0px)';
+        } else if (i < activeIdx) {
+          el.classList.remove('is-active');
+          const distFactor = Math.max(0.6, 1 - (activeIdx - i - 1) * 0.15);
+          const shift = - (leftShiftDist * distFactor);
+          el.style.transform = `translateX(${shift}px)`;
+        } else {
+          el.classList.remove('is-active');
+          const distFactor = Math.max(0.6, 1 - (i - activeIdx - 1) * 0.15);
+          const shift = (rightShiftDist * distFactor);
+          el.style.transform = `translateX(${shift}px)`;
+        }
+      });
+    }
+
+    function resetAllItems() {
+      itemElements.forEach(el => {
+        el.classList.remove('is-active');
+        el.style.transform = 'translateX(0px)';
+      });
+    }
+
+    // Modal Opening Function
+    function openProductModal(idx) {
+      const g = garmentsList[idx];
+      const d = WARDROBE_DATA[`item_${idx}`];
+
+      // Set image and text
+      modalImg.src = `data:image/png;base64,${d.front}`;
+      const numStr = String(idx + 1).padStart(2, '0');
+      modalCounter.textContent = `${numStr} / 10`;
+      modalName.textContent = g.shortName;
+      modalPrice.textContent = g.price;
+      modalCategory.textContent = g.shortName;
+      modalAddBtn.textContent = "Add to cart";
+
+      modalBackdrop.classList.add('open');
+    }
+
+    // Modal Closing
+    function closeProductModal() {
+      modalBackdrop.classList.remove('open');
+    }
+
+    modalCloseBtn.addEventListener('click', closeProductModal);
+
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) {
+        closeProductModal();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalBackdrop.classList.contains('open')) {
+        closeProductModal();
+      }
+    });
+
+    // Size Selection Handler
+    document.querySelectorAll('.size-pill-circle').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.size-pill-circle').forEach(p => p.classList.remove('selected'));
+        pill.classList.add('selected');
+      });
+    });
+
+    // Front / Back Tab Handler
+    const tabFront = document.getElementById('tabFront');
+    const tabBack = document.getElementById('tabBack');
+    tabFront.addEventListener('click', () => {
+      tabFront.classList.add('active');
+      tabBack.classList.remove('active');
+      const d = WARDROBE_DATA[`item_${currentSelectedIdx}`];
+      modalImg.src = `data:image/png;base64,${d.front}`;
+    });
+    tabBack.addEventListener('click', () => {
+      tabBack.classList.add('active');
+      tabFront.classList.remove('active');
+      // Gentle flip to represent back
+      modalImg.style.transform = 'scaleX(-1)';
+      setTimeout(() => { modalImg.style.transform = 'scaleX(1)'; }, 200);
+    });
+
+    // Add to cart click
+    modalAddBtn.addEventListener('click', () => {
+      const selSize = document.querySelector('.size-pill-circle.selected').getAttribute('data-size');
+      modalAddBtn.textContent = `✓ Added (${selSize}) to Cart!`;
+      setTimeout(() => {
+        modalAddBtn.textContent = "Add to cart";
+      }, 1500);
+    });
+
+    resetAllItems();
+  </script>
+</body>
+</html>

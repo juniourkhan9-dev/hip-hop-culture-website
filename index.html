@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ELVIQUE — Seoul FW26</title>
+  
+  <!-- Exact Typography from Elvique: Oswald (Headings/Display) + JetBrains Mono (Technical Labels/Nav) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================
+       CSS VARIABLES & RESET
+       ========================================= */
+    :root {
+      --primary-red: #ff1c1c;
+      --bg-light: #ffffff;
+      --text-dark: #000000;
+      --font-display: 'Oswald', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease-framer: cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: var(--bg-light);
+      color: var(--text-dark);
+      font-family: var(--font-mono);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* =========================================
+       1. PRELOADER SCREEN (Exact Match)
+       ========================================= */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #000000;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(20px, 3.2vw, 42px);
+      transition: transform 1s var(--ease-framer);
+      will-change: transform;
+      pointer-events: all;
+    }
+
+    .preloader-top {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .preloader-center {
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .preloader-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(52px, 12vw, 190px);
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      animation: pl-rise 1s var(--ease-framer) both;
+      transform-origin: bottom left;
+    }
+
+    @keyframes pl-rise {
+      from {
+        transform: translateY(115%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0%);
+        opacity: 1;
+      }
+    }
+
+    .preloader-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .preloader-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+
+    .preloader-counter {
+      font-variant-numeric: tabular-nums;
+      color: var(--primary-red);
+      font-weight: 600;
+    }
+
+    .preloader-track {
+      width: 100%;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.18);
+      position: relative;
+    }
+
+    .preloader-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--primary-red);
+    }
+
+    #preloader.loaded {
+      transform: translateY(-100%);
+      pointer-events: none;
+    }
+
+    /* =========================================
+       2. HEADER NAVIGATION
+       ========================================= */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 20px;
+      padding: 18px clamp(20px, 3.2vw, 42px);
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.7s ease, transform 0.7s var(--ease-framer);
+    }
+
+    header.enter-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .brand-logo {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 24px;
+      letter-spacing: 0.02em;
+      color: #000000;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      gap: 26px;
+    }
+
+    nav a {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #000000;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: var(--primary-red);
+    }
+
+    .header-right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .bag-link {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #000000;
+      text-decoration: none;
+    }
+
+    .shop-btn {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      height: 36px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid var(--primary-red);
+      background: var(--primary-red);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .shop-btn:hover {
+      background: #000000;
+      border-color: #000000;
+    }
+
+    /* =========================================
+       3. HERO LOOKS SECTION
+       ========================================= */
+    .hero-container {
+      padding-top: 85px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cards-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: clamp(10px, 1.4vw, 22px);
+      padding: 30px clamp(20px, 3.2vw, 42px) 20px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .card-item {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      text-decoration: none;
+      color: inherit;
+      opacity: 0;
+      transform: translateY(80px);
+      transition: opacity 0.9s var(--ease-framer), transform 0.9s var(--ease-framer);
+    }
+
+    .card-item.enter-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-item:nth-child(1).enter-active { transition-delay: 0.05s; }
+    .card-item:nth-child(2).enter-active { transition-delay: 0.15s; }
+    .card-item:nth-child(3).enter-active { transition-delay: 0.25s; }
+    .card-item:nth-child(4).enter-active { transition-delay: 0.35s; }
+    .card-item:nth-child(5).enter-active { transition-delay: 0.45s; }
+    .card-item:nth-child(6).enter-active { transition-delay: 0.55s; }
+    .card-item:nth-child(7).enter-active { transition-delay: 0.65s; }
+
+    .top-meta-label {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #000;
+      margin-bottom: 8px;
+      align-self: center;
+    }
+
+    .card-img-box {
+      overflow: hidden;
+      background: #eaeaea;
+      position: relative;
+      width: 100%;
+    }
+
+    .card-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.7s var(--ease-framer);
+    }
+
+    .card-item:hover .card-img-box img {
+      transform: scale(1.06);
+    }
+
+    .view-look-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #000;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      pointer-events: none;
+    }
+
+    .card-item:hover .view-look-badge {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-1 { width: clamp(140px, 15vw, 240px); height: clamp(200px, 25vw, 360px); }
+    .card-2 { width: clamp(110px, 11vw, 175px); height: clamp(150px, 18vw, 250px); }
+    .card-3 { width: clamp(115px, 12vw, 185px); height: clamp(210px, 26vw, 380px); }
+    .card-4 { width: clamp(160px, 18vw, 290px); height: clamp(280px, 34vw, 500px); }
+    .card-5 { width: clamp(130px, 14vw, 220px); height: clamp(210px, 26vw, 380px); }
+    .card-6 { width: clamp(110px, 11vw, 175px); height: clamp(190px, 23vw, 330px); }
+    .card-7 { width: clamp(110px, 11vw, 175px); height: clamp(180px, 22vw, 310px); }
+
+    .card-bottom-label {
+      margin-top: 8px;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #000000;
+      text-align: right;
+      width: 100%;
+    }
+
+    .meta-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px clamp(20px, 3.2vw, 42px) 30px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.8s ease 0.6s;
+    }
+
+    .meta-footer-row.enter-active {
+      opacity: 1;
+    }
+
+    /* =========================================
+       4. PAGE 2: TEXT COLOR SCRUB ON SCROLL
+       ========================================= */
+    /* =========================================
+       4. PAGE 2: NATURAL SCROLLING TEXT (NO FREEZING)
+       ========================================= */
+    .section-feel-track {
+      width: 100%;
+      background: #ffffff;
+      padding: clamp(70px, 12vh, 140px) clamp(20px, 4vw, 60px) 0;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .section-feel-content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .feel-tag-row {
+      width: 100%;
+      max-width: 1400px;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: clamp(24px, 4vh, 48px);
+    }
+
+    .feel-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #333;
+    }
+
+    /* Giant Scrub Headline */
+    .scrub-headline {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 7.8vw, 115px);
+      line-height: 1.05;
+      font-weight: 600;
+      text-transform: uppercase;
+      text-align: center;
+      letter-spacing: -0.01em;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Each word: light grey inactive, black fill */
+    .scrub-word {
+      position: relative;
+      display: inline-block;
+      margin: 0 0.16em;
+      color: rgba(48, 56, 65, 0.15); /* Light grey base */
+      user-select: none;
+    }
+
+    .scrub-word .fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: #000000; /* Solid Black reveal */
+      white-space: nowrap;
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 0.04s ease-out;
+    }
+
+    /* Arc container under text: perfectly overlaps and clips bottom image */
+    .feel-arc-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      margin-top: clamp(20px, 4vh, 40px);
+      margin-bottom: -40px; /* Reduces gap so next image sits right under the arc */
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .feel-arc {
+      width: 120%;
+      height: 300px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 50%;
+      position: absolute;
+      top: 20px;
+      background: transparent;
+    }
+
+    /* =========================================
+       5. PAGE 3: IMAGE WITH MINIMAL GAP & SCROLL ZOOM
+       ========================================= */
+    .zoom-stage-section {
+      width: 100%;
+      height: 150vh; /* Smooth natural runway */
+      position: relative;
+      background: #ffffff;
+      margin-top: 0;
+    }
+
+    .zoom-sticky-container {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .zoom-image-wrapper {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .zoom-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      display: block;
+      transform: scale(1);
+      transform-origin: center center;
+      will-change: transform;
+      transition: transform 0.08s ease-out;
+    }
+
+    /* Gradient overlay for magazine feel */
+    .zoom-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, transparent 40%, rgba(0,0,0,0.4) 100%);
+      pointer-events: none;
+    }
+
+    .zoom-caption {
+      position: absolute;
+      bottom: 40px;
+      left: clamp(20px, 3.2vw, 42px);
+      color: #ffffff;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      z-index: 10;
+      display: flex;
+      gap: 20px;
+    }
+
+    .zoom-caption span:first-child {
+      color: var(--primary-red);
+      font-weight: 600;
+    }
+
+    /* =========================================
+       REPLAY FLOATING BUTTON
+       ========================================= */
+    .controls-overlay {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 2000;
+    }
+
+    .btn-replay {
+      background: #000000;
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+      transition: all 0.2s ease;
+    }
+
+    .btn-replay:hover {
+      background: var(--primary-red);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================
+       1. PRELOADER
+       ========================================= -->
+  <div id="preloader">
+    <div class="preloader-top">
+      SEOUL — FW26
+    </div>
+
+    <div class="preloader-center">
+      <h1 class="preloader-title">HIP HOP CULTURE</h1>
+    </div>
+
+    <div class="preloader-bottom">
+      <div class="preloader-status">
+        <span>Loading the collection</span>
+        <span id="counter" class="preloader-counter">000</span>
+      </div>
+      <div class="preloader-track">
+        <div id="progress-bar" class="preloader-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================
+       2. HEADER NAVIGATION
+       ========================================= -->
+  <header id="site-header">
+    <a href="#" class="brand-logo">ELVIQUE</a>
+    <nav>
+      <a href="#">Shop</a>
+      <a href="#">Lookbook</a>
+      <a href="#">Journal</a>
+      <a href="#">About</a>
+      <a href="#">Showrooms</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="header-right">
+      <a href="#" class="bag-link">Bag (0)</a>
+      <a href="#" class="shop-btn">Shop now</a>
+    </div>
+  </header>
+
+  <!-- =========================================
+       3. PAGE 1: HERO LOOKS ROW
+       ========================================= -->
+  <main class="hero-container">
+    <div class="cards-row">
+      
+      <!-- Card 1: Cozy -->
+      <a href="#" class="card-item">
+        <div class="card-img-box card-1">
+          <span class="view-look-badge">VIEW LOOK</span>
+          <img src="https://framerusercontent.com/images/iRMSLUf0hPyC6NbM8MR2JHf4.jpg?width=1600&height=1600" alt="Cozy Look">
+        </div>
+        <span class="card-bottom-label">COZY</span>
+      </a>
+
+      <!-- Card 2: Quiet -->
+      <a href="#" class="card-item">
+        <div class="card-img-box card-2">
+          <span class="view-look-badge">VIEW LOOK</span>
+          <img src="https://framerusercontent.com/images/eiDvMcXz3igs8S52zjagE6ah9Fw.jpg?width=1600&height=2400" alt="Quiet Look">
+        </div>
+        <span class="card-bottom-label">QUIET</span>
+      </a>
+
+      <!-- Card 3: Layered -->
+      <a href="#" class="card-item">
+        <div class="card-img-box card-3">
+          <span class="view-look-badge">VIEW LOOK</span>
+          <img src="https://framerusercontent.com/images/XD1NbwSmdtBjvlnlq5209UiIrQ.jpg?width=1600&height=2400" alt="Layered Look">
+        </div>
+        <span class="card-bottom-label">LAYERED</span>
+      </a>
+
+      <!-- Card 4: Seoul (Center) -->
+      <a href="#" class="card-item">
+        <span class="top-meta-label">SEOUL</span>
+        <div class="card-img-box card-4">
+          <span class="view-look-badge">VIEW LOOK</span>
+          <img src="https://framerusercontent.com/images/h3ZvfNQopkbi9WYdLK6WOujfq9Q.jpg?width=1600&height=2240" alt="Seoul Look">
+        </div>
+        <span class="card-bottom-label" style="opacity: 0;">.</span>
+      </a>
+
+      <!-- Card 5: Camel -->
+      <a href="#" class="card-item">
+        <div class="card-img-box card-5">
+          <span class="view-look-badge">VIEW LOOK</span>
+          <img src="https://framerusercontent.com/images/ervRbcCrfeAZcqSAIn6ableX8I.jpg?width=1600&height=2400" alt="Camel Look">
+        </div>
+        <span class="card-bottom-label">CAMEL</span>
+      </a>
+
+      <!-- Card 6: Winter -->
+      <a href="#" class="card-item">
+        <div class="card-img-box card-6">
+          <span class="view-look-badge">VIEW LOOK</span>
+          <img src="https://framerusercontent.com/images/6hykV5QkWcpSjQKeqlNjsDktweo.jpg?width=1600&height=2400" alt="Winter Look">
+        </div>
+        <span class="card-bottom-label">WINTER</span>
+      </a>
+
+      <!-- Card 7: Form -->
+      <a href="#" class="card-item">
+        <div class="card-img-box card-7">
+          <span class="view-look-badge">VIEW LOOK</span>
+          <img src="https://framerusercontent.com/images/7T7TVXcQ4wap5JTdZviaZRvnRE.jpg?width=1600&height=2844" alt="Form Look">
+        </div>
+        <span class="card-bottom-label">FORM</span>
+      </a>
+
+    </div>
+
+    <!-- Meta bottom row -->
+    <div id="meta-row" class="meta-footer-row">
+      <div class="scroll-indicator">
+        <span class="scroll-arrow">↓</span> Scroll
+      </div>
+      <div class="looks-count">
+        (07) Looks — FW26
+      </div>
+    </div>
+  </main>
+
+  <!-- =========================================
+       4. PAGE 2: NATURAL SCROLLING TEXT (NO FREEZING)
+       ========================================= -->
+  <section class="section-feel-track" id="feel-section">
+    <div class="section-feel-content">
+      <div class="feel-tag-row">
+        <span class="feel-tag">(02) — MATERIAL</span>
+      </div>
+
+      <!-- The Scrubbing Headline -->
+      <h2 class="scrub-headline" id="scrub-headline">
+        <span class="scrub-word">WARMTH<span class="fill">WARMTH</span></span>
+        <span class="scrub-word">AND<span class="fill">AND</span></span>
+        <span class="scrub-word">AFFECTION<span class="fill">AFFECTION</span></span>
+        <span class="scrub-word">BECAUSE<span class="fill">BECAUSE</span></span>
+        <span class="scrub-word">OF<span class="fill">OF</span></span>
+        <br>
+        <span class="scrub-word">YOUR<span class="fill">YOUR</span></span>
+        <span class="scrub-word">QUIET<span class="fill">QUIET</span></span>
+        <span class="scrub-word">LAYERS.<span class="fill">LAYERS.</span></span>
+      </h2>
+
+      <div class="feel-arc-wrapper">
+        <div class="feel-arc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================
+       5. PAGE 3: FULL SCREEN ZOOM-IN IMAGE ON SCROLL
+       ========================================= -->
+  <section class="zoom-stage-section" id="zoom-stage">
+    <div class="zoom-sticky-container">
+      <div class="zoom-image-wrapper">
+        <img 
+          id="zoom-image"
+          class="zoom-img" 
+          src="https://framerusercontent.com/images/bkZf7NvTiePpA3vPt06c0tD0Yco.png?width=1600&height=2400" 
+          alt="Elvique Editorial Portrait"
+        >
+        <div class="zoom-overlay"></div>
+        <div class="zoom-caption">
+          <span>(03) EDITORIAL</span>
+          <span>AUTUMN / WINTER 2026</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================
+       PAGE 4: TRY THE LOOK 3D 360 EXPERIENCE (Self-Contained File)
+       ========================================= -->
+  <section id="try-the-look-embed" style="width: 100%; height: 100vh; position: relative; background: #ffffff; border-top: 1px solid rgba(0,0,0,0.06); overflow: hidden;">
+    <iframe src="try_the_look.html" style="width: 100%; height: 100%; border: none; display: block;" title="Try the Look 360 Experience"></iframe>
+  </section>
+
+  <!-- =========================================
+       PAGE 5: HANGING CLOTH SHOWCASE (Self-Contained File)
+       ========================================= -->
+  <section id="hanging-cloth-section" style="width: 100%; height: 100vh; position: relative; background: #ffffff; border-top: 1px solid rgba(0,0,0,0.06); overflow: hidden;">
+    <iframe src="hanging_cloth/index.html" style="width: 100%; height: 100%; border: none; display: block;" title="Hanging Cloth Showcase"></iframe>
+  </section>
+
+  <!-- Replay Button -->
+  <div class="controls-overlay">
+    <button class="btn-replay" onclick="startSequence()">
+      ↻ Replay Intro
+    </button>
+  </div>
+
+  <!-- =========================================
+       6. JAVASCRIPT CONTROLLERS
+       ========================================= -->
+  <script>
+    // ---------------------------------------------
+    // INTRO LOADING SEQUENCE
+    // ---------------------------------------------
+    function startSequence() {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      const preloader = document.getElementById('preloader');
+      const counterEl = document.getElementById('counter');
+      const progressBar = document.getElementById('progress-bar');
+      const plTitle = document.querySelector('.preloader-title');
+      const header = document.getElementById('site-header');
+      const cards = document.querySelectorAll('.card-item');
+      const metaRow = document.getElementById('meta-row');
+
+      preloader.classList.remove('loaded');
+      header.classList.remove('enter-active');
+      metaRow.classList.remove('enter-active');
+      cards.forEach(card => card.classList.remove('enter-active'));
+
+      plTitle.style.animation = 'none';
+      void plTitle.offsetWidth;
+      plTitle.style.animation = 'pl-rise 1s cubic-bezier(0.76, 0, 0.24, 1) both';
+
+      const duration = 1600;
+      const startTime = performance.now();
+
+      function tick(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+        const currentVal = Math.floor(ease * 100);
+
+        counterEl.textContent = currentVal.toString().padStart(3, '0');
+        progressBar.style.width = (progress * 100) + '%';
+
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          counterEl.textContent = '100';
+          progressBar.style.width = '100%';
+
+          setTimeout(() => {
+            preloader.classList.add('loaded');
+            setTimeout(() => {
+              header.classList.add('enter-active');
+              cards.forEach(card => card.classList.add('enter-active'));
+              metaRow.classList.add('enter-active');
+            }, 300);
+          }, 200);
+        }
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    window.addEventListener('DOMContentLoaded', startSequence);
+
+    // ---------------------------------------------
+    // SCROLL LISTENER FOR (A) TEXT COLOR SCRUB & (B) ZOOM-IN IMAGE
+    // ---------------------------------------------
+    const feelSection = document.getElementById('feel-section');
+    const scrubWords = document.querySelectorAll('.scrub-word .fill');
+    const zoomStage = document.getElementById('zoom-stage');
+    const zoomImg = document.getElementById('zoom-image');
+
+    function handleScroll() {
+      const scrollY = window.scrollY;
+      const viewportHeight = window.innerHeight;
+
+      // ===========================================
+      // (A) TEXT SCRUBBING EFFECT:
+      // Page scrolls completely naturally (ZERO freezing).
+      // Animation starts when headline approaches middle of screen,
+      // and gently fills each word with pure black as page glides down.
+      // ===========================================
+      const feelRect = feelSection.getBoundingClientRect();
+      const textRect = document.getElementById('scrub-headline').getBoundingClientRect();
+      
+      // Window range across which the words fill:
+      // Starts when headline top reaches 70% of viewport
+      // Finishes when headline top reaches 15% of viewport
+      const startPoint = viewportHeight * 0.70;
+      const endPoint = viewportHeight * 0.15;
+      
+      let scrubProgress = 0;
+      if (textRect.top <= startPoint) {
+        scrubProgress = (startPoint - textRect.top) / (startPoint - endPoint);
+        scrubProgress = Math.max(0, Math.min(1, scrubProgress));
+      }
+
+      // Smooth distributed per-word color filling
+      const totalWords = scrubWords.length;
+      scrubWords.forEach((wordFill, index) => {
+        const wordStart = index / totalWords;
+        const wordEnd = (index + 1) / totalWords;
+
+        let wordProgress = 0;
+        if (scrubProgress >= wordEnd) {
+          wordProgress = 1;
+        } else if (scrubProgress > wordStart) {
+          wordProgress = (scrubProgress - wordStart) / (wordEnd - wordStart);
+        }
+
+        const clipRight = (1 - wordProgress) * 100;
+        wordFill.style.clipPath = `inset(0 ${clipRight}% 0 0)`;
+      });
+
+      // ===========================================
+      // (B) 100% FULLSCREEN IMAGE ZOOM-IN EFFECT
+      // Scales smoothly from 1.0x to 1.35x as user scrolls through zoom-stage-section
+      // ===========================================
+      const zoomRect = zoomStage.getBoundingClientRect();
+      const zoomTotalScrollable = zoomStage.offsetHeight - viewportHeight;
+      const scrolledInside = -zoomRect.top;
+
+      if (scrolledInside >= 0 && scrolledInside <= zoomTotalScrollable) {
+        const zoomProgress = scrolledInside / zoomTotalScrollable;
+        // Smooth scale between 1.0 (100% full screen) and 1.35 (zoom in)
+        const currentScale = 1 + (zoomProgress * 0.35);
+        zoomImg.style.transform = `scale(${currentScale.toFixed(4)})`;
+      } else if (scrolledInside < 0) {
+        zoomImg.style.transform = `scale(1)`;
+      } else {
+        zoomImg.style.transform = `scale(1.35)`;
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+  </script>
+</body>
+</html>

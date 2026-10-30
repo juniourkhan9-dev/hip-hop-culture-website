@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Try the Look. - WebGL 3D 360 Experience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Three.js Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #ffffff;
+      color: #0b0b0b;
+    }
+
+    .app-container {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    /* Left WebGL Stage */
+    .stage-main {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: #ffffff;
+      overflow: hidden;
+    }
+
+    /* Header */
+    .top-header {
+      padding: 44px 50px 0;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    .top-header h1 {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: #000000;
+      line-height: 1.1;
+    }
+
+    .top-header p {
+      font-size: 13.5px;
+      color: #71717a;
+      margin-top: 6px;
+    }
+
+    /* Three.js WebGL Canvas Container */
+    .webgl-container {
+      flex: 1;
+      width: 100%;
+      position: relative;
+      display: block;
+      cursor: grab;
+      touch-action: none;
+    }
+
+    .webgl-container:active {
+      cursor: grabbing;
+    }
+
+    #webglCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Bottom Slider Controls */
+    .bottom-slider-bar {
+      padding: 14px 50px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 50;
+      background: #ffffff;
+    }
+
+    .timeline-nav {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+    }
+
+    .nav-arrow {
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #09090b;
+      padding: 4px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s;
+    }
+
+    .nav-arrow:hover {
+      opacity: 0.5;
+    }
+
+    .timeline-ticks {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+
+    .tick-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: #a1a1aa;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 4px;
+      position: relative;
+      transition: color 0.3s;
+    }
+
+    .tick-btn.active {
+      color: #09090b;
+      font-weight: 700;
+    }
+
+    .tick-btn::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: #09090b;
+      transition: width 0.3s ease;
+    }
+
+    .tick-btn.active::after {
+      width: 100%;
+    }
+
+    .auto-360-btn {
+      background: #ffffff;
+      border: 1px solid #e4e4e7;
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #27272a;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      transition: all 0.2s;
+    }
+
+    .auto-360-btn:hover {
+      background: #09090b;
+      color: #fff;
+      border-color: #09090b;
+    }
+
+    /* Right Sidebar */
+    .sidebar-details {
+      width: 390px;
+      background: #ffffff;
+      border-left: 1px solid #f0f0f2;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      z-index: 60;
+      box-shadow: -8px 0 28px rgba(0,0,0,0.02);
+    }
+
+    .sidebar-head {
+      padding: 38px 32px 18px;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-bottom: 1px solid #f4f4f5;
+    }
+
+    .sidebar-head h2 {
+      font-size: 17.5px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .sidebar-head span {
+      font-size: 11.5px;
+      color: #71717a;
+    }
+
+    .items-scroll-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .item-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #f9f9fa;
+    }
+
+    .item-box-img {
+      width: 66px;
+      height: 66px;
+      background: #f4f4f6;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .item-box-img img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+    }
+
+    .new-tag {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      background: #09090b;
+      color: #fff;
+      font-size: 7.5px;
+      font-weight: 700;
+      padding: 1px 4px;
+      border-radius: 2px;
+    }
+
+    .item-text-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .item-brand-name {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #71717a;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .item-product-name {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #09090b;
+      letter-spacing: -0.01em;
+    }
+
+    .item-price-tag {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #18181b;
+      margin-top: 2px;
+    }
+
+    .btn-item-plus {
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #71717a;
+      cursor: pointer;
+      padding: 6px;
+      transition: color 0.2s;
+    }
+
+    .btn-item-plus:hover {
+      color: #000;
+    }
+
+    /* Sidebar Footer */
+    .sidebar-footer {
+      padding: 24px 32px 34px;
+      border-top: 1px solid #f4f4f5;
+      background: #fff;
+    }
+
+    .price-row-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 14px;
+    }
+
+    .complete-look-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #09090b;
+    }
+
+    .complete-look-desc {
+      font-size: 11px;
+      color: #71717a;
+      margin-top: 2px;
+    }
+
+    .price-digits-block {
+      text-align: right;
+    }
+
+    .strike-price {
+      font-size: 12.5px;
+      color: #a1a1aa;
+      text-decoration: line-through;
+      margin-right: 6px;
+    }
+
+    .bold-final-price {
+      font-size: 22px;
+      font-weight: 800;
+      color: #09090b;
+      letter-spacing: -0.02em;
+    }
+
+    .btn-add-entire-look {
+      width: 100%;
+      height: 50px;
+      background: #09090b;
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-add-entire-look:hover {
+      background: #27272a;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Left 3D Stage -->
+    <main class="stage-main">
+      <header class="top-header">
+        <h1>Try the Look.</h1>
+        <p>Six looks, styled head to toe. Click or drag to rotate 360°.</p>
+      </header>
+
+      <div class="webgl-container" id="webglContainer">
+        <canvas id="webglCanvas"></canvas>
+      </div>
+
+      <footer class="bottom-slider-bar">
+        <div class="timeline-nav">
+          <button class="nav-arrow" id="btnPrev" title="Previous model">&#8592;</button>
+          <div class="timeline-ticks" id="ticksTrack"></div>
+          <button class="nav-arrow" id="btnNext" title="Next model">&#8594;</button>
+        </div>
+
+        <button class="auto-360-btn" id="auto360Toggle">
+          <span id="playIcon">&#10074;&#10074;</span>
+          <span id="playLabel">Pause 360°</span>
+        </button>
+      </footer>
+    </main>
+
+    <!-- Right Sidebar -->
+    <aside class="sidebar-details">
+      <div class="sidebar-head">
+        <h2>In this look</h2>
+        <span id="piecesTag">3 pieces</span>
+      </div>
+
+      <div class="items-scroll-list" id="itemsScrollList"></div>
+
+      <div class="sidebar-footer">
+        <div class="price-row-wrap">
+          <div>
+            <div class="complete-look-title">Complete the look</div>
+            <div class="complete-look-desc">Bundle all 3 and save 15%</div>
+          </div>
+          <div class="price-digits-block">
+            <span class="strike-price" id="strikePrice">$364.00</span>
+            <span class="bold-final-price" id="finalPrice">$192.30</span>
+          </div>
+        </div>
+
+        <button class="btn-add-entire-look" id="addToBagBtn">
+          <span>Add full look to bag</span>
+          <span>&rarr;</span>
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // EXACTLY the 6 official models provided by the user (zero external/guessed models)
+    const LOOKS = [
+      {
+        id: "01",
+        label: "Tokyo Streetwear",
+        texture: "official_models/model_1_white_tee.png", // Model 1: White boxy tee, greenish wide jeans
+        items: [
+          {
+            brand: "STUDIO NINE",
+            title: "Heavyweight Boxy White Tee",
+            price: "$75.00",
+            img: "items/item_tee.png",
+            isNew: true
+          },
+          {
+            brand: "VINTAGE WASH",
+            title: "Acid Green Wide Baggy Jeans",
+            price: "$145.00",
+            img: "items/item_hoodie.png",
+            isNew: false
+          },
+          {
+            brand: "NIKEY | ORBIT",
+            title: "Tatum 6 Orbit Retro Low",
+            price: "$144.00",
+            img: "items/item_shoe.png",
+            isNew: false
+          }
+        ],
+        strike: "$364.00",
+        final: "$192.30"
+      },
+      {
+        id: "02",
+        label: "Olive Earth Knit",
+        texture: "official_models/model_2_green_knit.png", // Model 2: Olive green knit, brown pants
+        items: [
+          {
+            brand: "STUSSY",
+            title: "Waffle Knit Ribbed Olive Sweater",
+            price: "$155.00",
+            img: "items/item_hoodie.png",
+            isNew: true
+          },
+          {
+            brand: "WORKWEAR CO.",
+            title: "Pleated Mocha Brown Slacks",
+            price: "$110.00",
+            img: "items/item_tee.png",
+            isNew: false
+          },
+          {
+            brand: "CLARKS ORIGINALS",
+            title: "Wallabee Boot Suede Maple",
+            price: "$160.00",
+            img: "items/item_shoe.png",
+            isNew: false
+          }
+        ],
+        strike: "$425.00",
+        final: "$248.00"
+      },
+      {
+        id: "03",
+        label: "Streetwear Hero",
+        texture: "official_models/model_3_black_tee.png", // Model 3: Black tee, sunglasses, wide denim
+        items: [
+          {
+            brand: "NIKE LAB",
+            title: "Boxy Heavyweight Black Tee",
+            price: "$95.00",
+            img: "items/item_tee.png",
+            isNew: true
+          },
+          {
+            brand: "CARHARTT WIP",
+            title: "Wide Leg Baggy Bleach Denim",
+            price: "$120.00",
+            img: "items/item_hoodie.png",
+            isNew: false
+          },
+          {
+            brand: "NIKE",
+            title: "Air Force 1 Low Retro White",
+            price: "$110.00",
+            img: "items/item_shoe.png",
+            isNew: false
+          }
+        ],
+        strike: "$325.00",
+        final: "$185.00"
+      },
+      {
+        id: "04",
+        label: "Mocha Minimalist",
+        texture: "official_models/model_4_brown_sweater.png", // Model 4: Chocolate brown sweater, grey jeans
+        items: [
+          {
+            brand: "ACNE STUDIOS",
+            title: "Crewneck Chocolate Brown Knit",
+            price: "$175.00",
+            img: "items/item_hoodie.png",
+            isNew: false
+          },
+          {
+            brand: "LEVIS VINTAGE",
+            title: "Washed Slate Grey Relaxed Fit",
+            price: "$130.00",
+            img: "items/item_tee.png",
+            isNew: true
+          },
+          {
+            brand: "MAISON MARGIELA",
+            title: "Replica Leather Low Black",
+            price: "$280.00",
+            img: "items/item_shoe.png",
+            isNew: false
+          }
+        ],
+        strike: "$585.00",
+        final: "$360.00"
+      },
+      {
+        id: "05",
+        label: "Gallery Opening",
+        texture: "official_models/model_5_grey_crew.png", // Model 5: Charcoal grey crewneck, arms crossed
+        items: [
+          {
+            brand: "ACNE STUDIOS",
+            title: "Crewneck Charcoal Rib Knit",
+            price: "$180.00",
+            img: "items/item_hoodie.png",
+            isNew: false
+          },
+          {
+            brand: "CARHARTT WIP",
+            title: "Relaxed Straight Indigo Denim",
+            price: "$110.00",
+            img: "items/item_tee.png",
+            isNew: true
+          },
+          {
+            brand: "NEW BALANCE",
+            title: "990v5 Made in USA Grey",
+            price: "$185.00",
+            img: "items/item_shoe.png",
+            isNew: false
+          }
+        ],
+        strike: "$475.00",
+        final: "$285.00"
+      },
+      {
+        id: "06",
+        label: "Minimal Pale Sweat",
+        texture: "official_models/model_6_lightgrey_sweat.png", // Model 6: Light grey sweatshirt, loose jeans
+        items: [
+          {
+            brand: "STUDIO NINE",
+            title: "Heather Grey Heavy Crewneck",
+            price: "$120.00",
+            img: "items/item_hoodie.png",
+            isNew: false
+          },
+          {
+            brand: "CARHARTT WIP",
+            title: "Relaxed Straight Classic Light Denim",
+            price: "$115.00",
+            img: "items/item_tee.png",
+            isNew: true
+          },
+          {
+            brand: "NIKE",
+            title: "Air Force 1 Low Retro White",
+            price: "$110.00",
+            img: "items/item_shoe.png",
+            isNew: false
+          }
+        ],
+        strike: "$345.00",
+        final: "$210.00"
+      }
+    ];
+
+    // ==========================================
+    // THREE.JS / WEBGL 3D IMPLEMENTATION
+    // ==========================================
+    const container = document.getElementById('webglContainer');
+    const canvas = document.getElementById('webglCanvas');
+
+    // 1. Scene
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xffffff);
+
+    // 2. Camera: Sized so full body is naturally visible with zero cropping
+    let aspect = container.clientWidth / container.clientHeight;
+    const camera = new THREE.PerspectiveCamera(36, aspect, 0.1, 100);
+    camera.position.set(0, 0.05, 6.2);
+    camera.lookAt(0, -0.15, 0);
+
+    // 3. Renderer with high DPI sharpness
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      antialias: true,
+      alpha: false,
+      powerPreference: "high-performance"
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2.5));
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.toneMapping = THREE.LinearToneMapping;
+
+    // 4. Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.25);
+    scene.add(ambientLight);
+
+    // 5. Soft Floor Horizon Shadow
+    const shadowCanvas = document.createElement('canvas');
+    shadowCanvas.width = 512;
+    shadowCanvas.height = 128;
+    const sCtx = shadowCanvas.getContext('2d');
+    const grad = sCtx.createRadialGradient(256, 64, 0, 256, 64, 250);
+    grad.addColorStop(0, 'rgba(0,0,0,0.20)');
+    grad.addColorStop(0.5, 'rgba(0,0,0,0.05)');
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    sCtx.fillStyle = grad;
+    sCtx.fillRect(0, 0, 512, 128);
+
+    const shadowTex = new THREE.CanvasTexture(shadowCanvas);
+    const shadowGeo = new THREE.PlaneGeometry(6.2, 1.5);
+    const shadowMat = new THREE.MeshBasicMaterial({
+      map: shadowTex,
+      transparent: true,
+      opacity: 0.85,
+      depthWrite: false
+    });
+    const shadowMesh = new THREE.Mesh(shadowGeo, shadowMat);
+    shadowMesh.rotation.x = -Math.PI / 2;
+    shadowMesh.position.y = -1.15;
+    scene.add(shadowMesh);
+
+    // 6. 3D Orbit Group for all 6 official models
+    const orbitGroup = new THREE.Group();
+    scene.add(orbitGroup);
+
+    const totalModels = LOOKS.length;
+    const angleStep = (Math.PI * 2) / totalModels;
+    const orbitRadius = 2.8;
+    const modelMeshes = [];
+
+    // Model Plane Geometry: 1.15m width x 1.95m height (Proper broadened natural proportions)
+    const planeGeo = new THREE.PlaneGeometry(1.15, 1.95);
+    const texLoader = new THREE.TextureLoader();
+
+    LOOKS.forEach((look, i) => {
+      const angle = i * angleStep;
+
+      const tex = texLoader.load(look.texture);
+      tex.minFilter = THREE.LinearMipmapLinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      tex.generateMipmaps = true;
+
+      const mat = new THREE.MeshBasicMaterial({
+        map: tex,
+        transparent: true,
+        alphaTest: 0.05,
+        depthWrite: false,
+        side: THREE.DoubleSide
+      });
+
+      const mesh = new THREE.Mesh(planeGeo, mat);
+      mesh.position.x = Math.sin(angle) * orbitRadius;
+      mesh.position.z = Math.cos(angle) * orbitRadius;
+      mesh.position.y = -0.15;
+
+      mesh.userData = { index: i };
+      orbitGroup.add(mesh);
+      modelMeshes.push(mesh);
+    });
+
+    // Rotation and navigation state
+    let currentIndex = 0;
+    let targetRotationY = 0;
+    let currentRotationY = 0;
+    let autoRotate = true;
+    let autoRotateTimer = null;
+
+    function selectLook(index) {
+      currentIndex = (index + totalModels) % totalModels;
+      targetRotationY = -currentIndex * angleStep;
+
+      LOOKS.forEach((look, i) => {
+        const tick = document.getElementById(`tick-${i}`);
+        if (tick) {
+          tick.classList.toggle('active', i === currentIndex);
+          tick.innerHTML = (i === currentIndex)
+            ? `<span>${look.id}</span> <span>${look.label}</span>`
+            : `<span>${look.id}</span>`;
+        }
+      });
+
+      updateSidebar(currentIndex);
+    }
+
+    // Build timeline ticks
+    const ticksTrack = document.getElementById('ticksTrack');
+    LOOKS.forEach((look, i) => {
+      const tick = document.createElement('button');
+      tick.className = `tick-btn ${i === currentIndex ? 'active' : ''}`;
+      tick.id = `tick-${i}`;
+      tick.innerHTML = i === currentIndex
+        ? `<span>${look.id}</span> <span>${look.label}</span>`
+        : `<span>${look.id}</span>`;
+      tick.addEventListener('click', () => selectLook(i));
+      ticksTrack.appendChild(tick);
+    });
+
+    // Update Sidebar
+    const itemsScrollList = document.getElementById('itemsScrollList');
+    const strikePrice = document.getElementById('strikePrice');
+    const finalPrice = document.getElementById('finalPrice');
+
+    function updateSidebar(index) {
+      const look = LOOKS[index];
+      strikePrice.textContent = look.strike;
+      finalPrice.textContent = look.final;
+
+      itemsScrollList.innerHTML = '';
+      look.items.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'item-card';
+        row.innerHTML = `
+          <div class="item-box-img">
+            ${item.isNew ? '<span class="new-tag">NEW</span>' : ''}
+            <img src="${item.img}" alt="${item.title}">
+          </div>
+          <div class="item-text-info">
+            <span class="item-brand-name">${item.brand}</span>
+            <span class="item-product-name">${item.title}</span>
+            <span class="item-price-tag">${item.price}</span>
+          </div>
+          <button class="btn-item-plus" title="Add item">+</button>
+        `;
+        itemsScrollList.appendChild(row);
+      });
+    }
+
+    updateSidebar(currentIndex);
+
+    // Interactive Dragging
+    let isDragging = false;
+    let prevMouseX = 0;
+    let dragStartRotation = 0;
+
+    container.addEventListener('pointerdown', (e) => {
+      isDragging = true;
+      prevMouseX = e.clientX;
+      dragStartRotation = currentRotationY;
+      stopAutoRotate();
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (!isDragging) return;
+      const deltaX = e.clientX - prevMouseX;
+      targetRotationY = dragStartRotation + deltaX * 0.005;
+      currentRotationY = targetRotationY;
+      orbitGroup.rotation.y = currentRotationY;
+    });
+
+    window.addEventListener('pointerup', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      const snappedIndex = Math.round(-currentRotationY / angleStep);
+      selectLook(snappedIndex);
+      if (autoRotate) startAutoRotate();
+    });
+
+    // Auto Rotate
+    const btnAutoToggle = document.getElementById('auto360Toggle');
+    const playIcon = document.getElementById('playIcon');
+    const playLabel = document.getElementById('playLabel');
+
+    function startAutoRotate() {
+      if (autoRotateTimer) clearInterval(autoRotateTimer);
+      autoRotateTimer = setInterval(() => {
+        selectLook(currentIndex + 1);
+      }, 3500);
+    }
+
+    function stopAutoRotate() {
+      if (autoRotateTimer) {
+        clearInterval(autoRotateTimer);
+        autoRotateTimer = null;
+      }
+    }
+
+    btnAutoToggle.addEventListener('click', () => {
+      autoRotate = !autoRotate;
+      if (autoRotate) {
+        startAutoRotate();
+        playIcon.innerHTML = '&#10074;&#10074;';
+        playLabel.textContent = 'Pause 360°';
+      } else {
+        stopAutoRotate();
+        playIcon.innerHTML = '&#9654;';
+        playLabel.textContent = 'Auto 360°';
+      }
+    });
+
+    document.getElementById('btnPrev').addEventListener('click', () => selectLook(currentIndex - 1));
+    document.getElementById('btnNext').addEventListener('click', () => selectLook(currentIndex + 1));
+
+    // Keyboard support
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') selectLook(currentIndex + 1);
+      if (e.key === 'ArrowLeft') selectLook(currentIndex - 1);
+    });
+
+    // Responsive Resize Handler
+    function handleResize() {
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      if (w === 0 || h === 0) return;
+      camera.aspect = w / h;
+      if (camera.aspect < 1.2) {
+        camera.position.z = 6.2 / camera.aspect * 1.1;
+      } else {
+        camera.position.z = 6.2;
+      }
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    }
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    // Render loop
+    function animate() {
+      requestAnimationFrame(animate);
+
+      // Smooth damping
+      currentRotationY += (targetRotationY - currentRotationY) * 0.08;
+      orbitGroup.rotation.y = currentRotationY;
+
+      // Billboarding: counter-rotate meshes so they face the camera cleanly
+      modelMeshes.forEach(mesh => {
+        mesh.rotation.y = -orbitGroup.rotation.y;
+      });
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+    startAutoRotate();
+  </script>
+</body>
+</html>
