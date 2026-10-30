@@ -856,13 +856,13 @@
   <!-- =========================================
        PAGE 8: DYNAMIC INTERACTIVE MARQUEE & DRAGGABLE GALLERY (FW26 Collection)
        ========================================= -->
-  <section id="marquee-gallery-section" style="width: 100%; min-height: 110vh; background: #ffffff; padding: clamp(60px, 9vh, 100px) 0 40px; box-sizing: border-box; overflow: hidden; position: relative; border-top: 1px solid rgba(0,0,0,0.06);">
+  <section id="marquee-gallery-section" style="width: 100%; min-height: 140vh; background: #ffffff; padding: clamp(50px, 8vh, 80px) 0 clamp(80px, 12vh, 140px); box-sizing: border-box; overflow: hidden; position: relative; border-top: 1px solid rgba(0,0,0,0.06);">
     
     <!-- Top Small Text Headline with Natural Scroll Color Scrub -->
-    <div style="max-width: 1300px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 60px); box-sizing: border-box;">
-      <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #111111; margin-bottom: 20px; display: block;">NEW COLLECTION — FW26</span>
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 60px); box-sizing: border-box;">
+      <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #111111; margin-bottom: 16px; display: block;">NEW COLLECTION — FW26</span>
       
-      <h3 id="marquee-sub-scrub" style="font-family: var(--font-display); font-size: clamp(26px, 4vw, 44px); font-weight: 600; line-height: 1.25; text-transform: uppercase; letter-spacing: -0.01em; margin: 0; user-select: none;">
+      <h3 id="marquee-sub-scrub" style="font-family: var(--font-display); font-size: clamp(20px, 3.2vw, 36px); font-weight: 600; line-height: 1.25; text-transform: uppercase; letter-spacing: -0.01em; margin: 0; user-select: none;">
         <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">ELVIQUE<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);transition:clip-path 0.04s ease-out;">ELVIQUE</span></span>
         <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">IS<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);transition:clip-path 0.04s ease-out;">IS</span></span>
         <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">A<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);transition:clip-path 0.04s ease-out;">A</span></span>
@@ -890,61 +890,76 @@
       </h3>
     </div>
 
-    <!-- Giant Scrolling Marquee: COLLECTION ✦ FW26 ✦ (Moves Right to Left on Scroll) -->
-    <div style="width: 100%; overflow: hidden; margin: clamp(40px, 6vh, 80px) 0 20px; white-space: nowrap; pointer-events: none;">
+    <!-- Giant Scrolling Marquee: COLLECTION ✦ FW26 ✦ (Faster & Continuous Loop) -->
+    <div style="width: 100%; overflow: hidden; margin: clamp(24px, 4vh, 50px) 0 10px; white-space: nowrap; pointer-events: none;">
       <div id="giant-marquee-track" style="display: inline-block; white-space: nowrap; will-change: transform; transform: translateX(0px);">
-        <span style="font-family: var(--font-display); font-size: clamp(80px, 16vw, 240px); font-weight: 700; line-height: 0.9; text-transform: uppercase; letter-spacing: -0.02em; color: #000000; display: inline-block;">
-          COLLECTION ✦ FW26 ✦ COLLECTION ✦ FW26 ✦ COLLECTION ✦ FW26 ✦
+        <span style="font-family: var(--font-display); font-size: clamp(60px, 12.5vw, 175px); font-weight: 700; line-height: 0.9; text-transform: uppercase; letter-spacing: -0.02em; color: #000000; display: inline-block;">
+          COLLECTION ✦ FW26 ✦ COLLECTION ✦ FW26 ✦ COLLECTION ✦ FW26 ✦ COLLECTION ✦ FW26 ✦ COLLECTION ✦ FW26 ✦
         </span>
       </div>
     </div>
 
-    <!-- Interactive Draggable & Scroll-driven Gallery of Clothes (Free-form Drag & Scroll) -->
-    <div id="drag-gallery-container" style="width: 100%; overflow: hidden; cursor: grab; padding: 20px 0 50px; user-select: none; position: relative;">
-      <div id="drag-gallery-track" style="display: flex; gap: 24px; padding: 0 50px; width: max-content; will-change: transform; transform: translate3d(0px, 0px, 0px); transition: transform 0.1s ease-out;">
+    <!-- Interactive Draggable & Continuous Loop Infinite Gallery of Clothes -->
+    <div id="drag-gallery-container" style="width: 100%; overflow: hidden; cursor: grab; padding: 15px 0 60px; user-select: none; position: relative;">
+      <div id="drag-gallery-track" style="display: flex; gap: 20px; width: max-content; will-change: transform; transform: translate3d(0px, 0px, 0px); transition: transform 0.08s ease-out;">
         
-        <!-- Cloth Card 1 -->
-        <div style="width: clamp(200px, 22vw, 320px); height: clamp(280px, 32vw, 440px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 6px 24px rgba(0,0,0,0.06); transition: transform 0.3s ease;">
+        <!-- SET 1 (8 Items) -->
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
           <img src="https://framerusercontent.com/images/iRMSLUf0hPyC6NbM8MR2JHf4.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
-
-        <!-- Cloth Card 2 -->
-        <div style="width: clamp(200px, 22vw, 320px); height: clamp(280px, 32vw, 440px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 6px 24px rgba(0,0,0,0.06); transition: transform 0.3s ease;">
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
           <img src="https://framerusercontent.com/images/gMPD3nCYgYNKUS75YqiRlrkwJg.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
-
-        <!-- Cloth Card 3 -->
-        <div style="width: clamp(200px, 22vw, 320px); height: clamp(280px, 32vw, 440px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 6px 24px rgba(0,0,0,0.06); transition: transform 0.3s ease;">
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
           <img src="https://framerusercontent.com/images/jhUbXXZS0cYvZb8lkxFEioyAiL8.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
-
-        <!-- Cloth Card 4 -->
-        <div style="width: clamp(200px, 22vw, 320px); height: clamp(280px, 32vw, 440px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 6px 24px rgba(0,0,0,0.06); transition: transform 0.3s ease;">
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
           <img src="https://framerusercontent.com/images/XD1NbwSmdtBjvlnlq5209UiIrQ.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
-
-        <!-- Cloth Card 5 -->
-        <div style="width: clamp(200px, 22vw, 320px); height: clamp(280px, 32vw, 440px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 6px 24px rgba(0,0,0,0.06); transition: transform 0.3s ease;">
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
           <img src="https://framerusercontent.com/images/h3ZvfNQopkbi9WYdLK6WOujfq9Q.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
-
-        <!-- Cloth Card 6 -->
-        <div style="width: clamp(200px, 22vw, 320px); height: clamp(280px, 32vw, 440px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 6px 24px rgba(0,0,0,0.06); transition: transform 0.3s ease;">
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
           <img src="https://framerusercontent.com/images/ervRbcCrfeAZcqSAIn6ableX8I.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
-
-        <!-- Cloth Card 7 -->
-        <div style="width: clamp(200px, 22vw, 320px); height: clamp(280px, 32vw, 440px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 6px 24px rgba(0,0,0,0.06); transition: transform 0.3s ease;">
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
           <img src="https://framerusercontent.com/images/6hykV5QkWcpSjQKeqlNjsDktweo.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/7T7TVXcQ4wap5JTdZviaZRvnRE.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
 
-        <!-- Cloth Card 8 -->
-        <div style="width: clamp(200px, 22vw, 320px); height: clamp(280px, 32vw, 440px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 6px 24px rgba(0,0,0,0.06); transition: transform 0.3s ease;">
+        <!-- SET 2 (Duplicate for Seamless Infinite Loop - No Blank Sides) -->
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/iRMSLUf0hPyC6NbM8MR2JHf4.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/gMPD3nCYgYNKUS75YqiRlrkwJg.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/jhUbXXZS0cYvZb8lkxFEioyAiL8.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/XD1NbwSmdtBjvlnlq5209UiIrQ.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/h3ZvfNQopkbi9WYdLK6WOujfq9Q.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/ervRbcCrfeAZcqSAIn6ableX8I.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/6hykV5QkWcpSjQKeqlNjsDktweo.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
           <img src="https://framerusercontent.com/images/7T7TVXcQ4wap5JTdZviaZRvnRE.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
 
       </div>
     </div>
+
+    <!-- Extra Bottom Scroll Runway so user can fully enjoy the entire animation -->
+    <div style="height: clamp(80px, 14vh, 160px); width: 100%;"></div>
 
   </section>
 
@@ -1173,17 +1188,22 @@
         wordFill.style.clipPath = `inset(0 ${(1 - p) * 100}% 0 0)`;
       });
 
-      // 2. Giant headline COLLECTION ✦ FW26 moves Right to Left on Scroll
-      // Automatically moves as user scrolls through this section
+      // 2. Giant headline COLLECTION ✦ FW26 moves Right to Left on Scroll (FASTER SPEED)
       const scrollThrough = Math.max(0, viewportHeight - rect.top);
-      const marqueeShift = scrollThrough * 0.45; // Smooth horizontal velocity
+      const marqueeShift = (scrollThrough * 0.95) % (viewportHeight * 3); // Fast velocity
       if (marqueeTrack) {
         marqueeTrack.style.transform = `translateX(-${marqueeShift}px)`;
       }
 
-      // 3. Clothes row glides naturally to right with scroll when not being dragged
+      // 3. Clothes row glides faster to the right continuously (Infinite Wrap)
       if (!isDragging && dragTrack) {
-        const autoSlideX = (scrollThrough * 0.2) + currentDragX;
+        // Fast scroll multiplier (0.65) so it slides across effortlessly
+        const halfWidth = dragTrack.scrollWidth / 2;
+        let autoSlideX = ((scrollThrough * 0.65) + currentDragX);
+        // Infinite wrap logic so it never hits blank ends
+        if (halfWidth > 0) {
+          autoSlideX = -((Math.abs(autoSlideX)) % halfWidth);
+        }
         dragTrack.style.transform = `translate3d(${autoSlideX}px, ${currentDragY}px, 0px)`;
       }
     }
