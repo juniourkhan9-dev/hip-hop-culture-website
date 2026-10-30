@@ -562,9 +562,18 @@
       transition: all 0.2s ease;
     }
 
-    .btn-replay:hover {
-      background: var(--primary-red);
-      transform: translateY(-2px);
+    /* -----------------------------------------
+       PERFORMANCE OPTIMIZATIONS (120Hz / GPU Compositing)
+       ----------------------------------------- */
+    .card-item,
+    .scrub-word .fill,
+    .m-scrub-word .m-fill,
+    #zoom-image,
+    #giant-marquee-track,
+    #drag-gallery-track {
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      perspective: 1000px;
     }
   </style>
 </head>
@@ -905,28 +914,28 @@
         
         <!-- SET 1 (8 Items) -->
         <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
-          <img src="https://framerusercontent.com/images/iRMSLUf0hPyC6NbM8MR2JHf4.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+          <img src="https://framerusercontent.com/images/iRMSLUf0hPyC6NbM8MR2JHf4.jpg" loading="lazy" decoding="async" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
         <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
-          <img src="https://framerusercontent.com/images/gMPD3nCYgYNKUS75YqiRlrkwJg.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+          <img src="https://framerusercontent.com/images/gMPD3nCYgYNKUS75YqiRlrkwJg.jpg" loading="lazy" decoding="async" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
         <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
-          <img src="https://framerusercontent.com/images/jhUbXXZS0cYvZb8lkxFEioyAiL8.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+          <img src="https://framerusercontent.com/images/jhUbXXZS0cYvZb8lkxFEioyAiL8.jpg" loading="lazy" decoding="async" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
         <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
-          <img src="https://framerusercontent.com/images/XD1NbwSmdtBjvlnlq5209UiIrQ.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+          <img src="https://framerusercontent.com/images/XD1NbwSmdtBjvlnlq5209UiIrQ.jpg" loading="lazy" decoding="async" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
         <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
-          <img src="https://framerusercontent.com/images/h3ZvfNQopkbi9WYdLK6WOujfq9Q.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+          <img src="https://framerusercontent.com/images/h3ZvfNQopkbi9WYdLK6WOujfq9Q.jpg" loading="lazy" decoding="async" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
         <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
-          <img src="https://framerusercontent.com/images/ervRbcCrfeAZcqSAIn6ableX8I.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+          <img src="https://framerusercontent.com/images/ervRbcCrfeAZcqSAIn6ableX8I.jpg" loading="lazy" decoding="async" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
         <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
-          <img src="https://framerusercontent.com/images/6hykV5QkWcpSjQKeqlNjsDktweo.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+          <img src="https://framerusercontent.com/images/6hykV5QkWcpSjQKeqlNjsDktweo.jpg" loading="lazy" decoding="async" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
         <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
-          <img src="https://framerusercontent.com/images/7T7TVXcQ4wap5JTdZviaZRvnRE.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+          <img src="https://framerusercontent.com/images/7T7TVXcQ4wap5JTdZviaZRvnRE.jpg" loading="lazy" decoding="async" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
         </div>
 
         <!-- SET 2 (Duplicate for Seamless Infinite Loop - No Blank Sides) -->
@@ -1082,69 +1091,62 @@
     // SCROLL LISTENER FOR (A) TEXT COLOR SCRUB & (B) ZOOM-IN IMAGE
     // ---------------------------------------------
     const feelSection = document.getElementById('feel-section');
+    const scrubHeadline = document.getElementById('scrub-headline');
     const scrubWords = document.querySelectorAll('.scrub-word .fill');
     const zoomStage = document.getElementById('zoom-stage');
     const zoomImg = document.getElementById('zoom-image');
 
     function handleScroll() {
-      const scrollY = window.scrollY;
       const viewportHeight = window.innerHeight;
 
       // ===========================================
       // (A) TEXT SCRUBBING EFFECT:
-      // Page scrolls completely naturally (ZERO freezing).
-      // Animation starts when headline approaches middle of screen,
-      // and gently fills each word with pure black as page glides down.
       // ===========================================
-      const feelRect = feelSection.getBoundingClientRect();
-      const textRect = document.getElementById('scrub-headline').getBoundingClientRect();
-      
-      // Window range across which the words fill:
-      // Starts when headline top reaches 70% of viewport
-      // Finishes when headline top reaches 15% of viewport
-      const startPoint = viewportHeight * 0.70;
-      const endPoint = viewportHeight * 0.15;
-      
-      let scrubProgress = 0;
-      if (textRect.top <= startPoint) {
-        scrubProgress = (startPoint - textRect.top) / (startPoint - endPoint);
-        scrubProgress = Math.max(0, Math.min(1, scrubProgress));
-      }
-
-      // Smooth distributed per-word color filling
-      const totalWords = scrubWords.length;
-      scrubWords.forEach((wordFill, index) => {
-        const wordStart = index / totalWords;
-        const wordEnd = (index + 1) / totalWords;
-
-        let wordProgress = 0;
-        if (scrubProgress >= wordEnd) {
-          wordProgress = 1;
-        } else if (scrubProgress > wordStart) {
-          wordProgress = (scrubProgress - wordStart) / (wordEnd - wordStart);
+      if (scrubHeadline) {
+        const textRect = scrubHeadline.getBoundingClientRect();
+        const startPoint = viewportHeight * 0.70;
+        const endPoint = viewportHeight * 0.15;
+        
+        let scrubProgress = 0;
+        if (textRect.top <= startPoint) {
+          scrubProgress = (startPoint - textRect.top) / (startPoint - endPoint);
+          scrubProgress = Math.max(0, Math.min(1, scrubProgress));
         }
 
-        const clipRight = (1 - wordProgress) * 100;
-        wordFill.style.clipPath = `inset(0 ${clipRight}% 0 0)`;
-      });
+        const totalWords = scrubWords.length;
+        scrubWords.forEach((wordFill, index) => {
+          const wordStart = index / totalWords;
+          const wordEnd = (index + 1) / totalWords;
+
+          let wordProgress = 0;
+          if (scrubProgress >= wordEnd) {
+            wordProgress = 1;
+          } else if (scrubProgress > wordStart) {
+            wordProgress = (scrubProgress - wordStart) / (wordEnd - wordStart);
+          }
+
+          const clipRight = (1 - wordProgress) * 100;
+          wordFill.style.clipPath = `inset(0 ${clipRight}% 0 0)`;
+        });
+      }
 
       // ===========================================
       // (B) 100% FULLSCREEN IMAGE ZOOM-IN EFFECT
-      // Scales smoothly from 1.0x to 1.35x as user scrolls through zoom-stage-section
       // ===========================================
-      const zoomRect = zoomStage.getBoundingClientRect();
-      const zoomTotalScrollable = zoomStage.offsetHeight - viewportHeight;
-      const scrolledInside = -zoomRect.top;
+      if (zoomStage && zoomImg) {
+        const zoomRect = zoomStage.getBoundingClientRect();
+        const zoomTotalScrollable = zoomStage.offsetHeight - viewportHeight;
+        const scrolledInside = -zoomRect.top;
 
-      if (scrolledInside >= 0 && scrolledInside <= zoomTotalScrollable) {
-        const zoomProgress = scrolledInside / zoomTotalScrollable;
-        // Smooth scale between 1.0 (100% full screen) and 1.35 (zoom in)
-        const currentScale = 1 + (zoomProgress * 0.35);
-        zoomImg.style.transform = `scale(${currentScale.toFixed(4)})`;
-      } else if (scrolledInside < 0) {
-        zoomImg.style.transform = `scale(1)`;
-      } else {
-        zoomImg.style.transform = `scale(1.35)`;
+        if (scrolledInside >= 0 && scrolledInside <= zoomTotalScrollable) {
+          const zoomProgress = scrolledInside / zoomTotalScrollable;
+          const currentScale = 1 + (zoomProgress * 0.35);
+          zoomImg.style.transform = `scale3d(${currentScale.toFixed(4)}, ${currentScale.toFixed(4)}, 1)`;
+        } else if (scrolledInside < 0) {
+          zoomImg.style.transform = `scale3d(1, 1, 1)`;
+        } else {
+          zoomImg.style.transform = `scale3d(1.35, 1.35, 1)`;
+        }
       }
     }
 
@@ -1241,7 +1243,7 @@
       // Increased multiplier to 3.2 for super fast Right-to-Left movement
       const marqueeShift = (scrollThrough * 3.2);
       if (marqueeTrack) {
-        marqueeTrack.style.transform = `translateX(-${marqueeShift}px)`;
+        marqueeTrack.style.transform = `translate3d(-${marqueeShift}px, 0px, 0px)`;
       }
 
       // 3. Clothes row glides in OPPOSITE DIRECTION: LEFT TO RIGHT on Scroll (SUPER FAST SPEED)
@@ -1304,15 +1306,24 @@
       });
     }
 
-    window.addEventListener('scroll', () => {
+    // High-performance requestAnimationFrame Scroll Ticker (Targets 60/90/120/144Hz displays)
+    let isScrollTicking = false;
+    function onScrollTick() {
       handleScroll();
       checkMetricsInView();
       handlePage8Scroll();
+      isScrollTicking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!isScrollTicking) {
+        requestAnimationFrame(onScrollTick);
+        isScrollTicking = true;
+      }
     }, { passive: true });
     
-    handleScroll();
-    checkMetricsInView();
-    handlePage8Scroll();
+    // Initial run
+    requestAnimationFrame(onScrollTick);
   </script>
 </body>
 </html>

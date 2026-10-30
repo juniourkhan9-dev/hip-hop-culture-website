@@ -866,9 +866,28 @@
     window.addEventListener('resize', handleResize);
     handleResize();
 
-    // Render loop
+    // Render loop with Visibility Optimization (Pauses offscreen to maximize FPS during page scroll)
+    let isVisible = true;
+    let animationFrameId = null;
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          isVisible = entry.isIntersecting;
+          if (isVisible && !animationFrameId) {
+            animate();
+          }
+        });
+      }, { threshold: 0.05 });
+      observer.observe(document.body);
+    }
+
     function animate() {
-      requestAnimationFrame(animate);
+      if (!isVisible) {
+        animationFrameId = null;
+        return;
+      }
+      animationFrameId = requestAnimationFrame(animate);
 
       // Smooth damping
       currentRotationY += (targetRotationY - currentRotationY) * 0.08;
