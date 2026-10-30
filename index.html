@@ -747,19 +747,22 @@
   <!-- =========================================
        PAGE 4: TRY THE LOOK 3D 360 EXPERIENCE (Self-Contained File)
        ========================================= -->
-  <section id="try-the-look-embed" style="width: 100%; height: 100vh; position: relative; background: #ffffff; border-top: 1px solid rgba(0,0,0,0.06); overflow: hidden;">
-    <iframe src="try_the_look.html" style="width: 100%; height: 100%; border: none; display: block;" title="Try the Look 360 Experience"></iframe>
+  <section id="try-the-look-embed" style="width: 100%; min-height: 100vh; position: relative; background: #ffffff; border-top: 1px solid rgba(0,0,0,0.06); overflow: hidden;">
+    <iframe src="try_the_look.html" style="width: 100%; height: 100vh; border: none; display: block;" title="Try the Look 360 Experience"></iframe>
   </section>
 
-  <!-- Elegant Spacing / Separator between 3D Look and Hanging Clothes -->
-  <div style="height: clamp(80px, 12vh, 140px); background: #ffffff; width: 100%;"></div>
+  <!-- Solid Clear Breathing Gap so both sections never overlap -->
+  <div style="height: clamp(100px, 15vh, 180px); background: #ffffff; width: 100%;"></div>
 
   <!-- =========================================
-       PAGE 5: HANGING CLOTH SHOWCASE (Self-Contained File)
+       PAGE 5: HANGING CLOTH SHOWCASE (Full Height Dedicated Page)
        ========================================= -->
-  <section id="hanging-cloth-section" style="width: 100%; height: 100vh; position: relative; background: #ffffff; overflow: hidden;">
-    <iframe src="hanging_cloth/index.html" style="width: 100%; height: 100%; border: none; display: block;" title="Hanging Cloth Showcase"></iframe>
+  <section id="hanging-cloth-section" style="width: 100%; min-height: 105vh; position: relative; background: #ffffff; padding-top: 40px; box-sizing: border-box; overflow: hidden;">
+    <iframe src="hanging_cloth/index.html" style="width: 100%; height: 100vh; border: none; display: block;" title="Hanging Cloth Showcase"></iframe>
   </section>
+
+  <!-- Bottom Padding so controls/footer don't obscure bottom bar -->
+  <div style="height: 60px; background: #ffffff; width: 100%;"></div>
 
   <!-- Replay Button -->
   <div class="controls-overlay">
