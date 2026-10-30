@@ -771,19 +771,19 @@
       
       <!-- Stat 1 -->
       <div style="display: flex; flex-direction: column; align-items: center;">
-        <span style="font-family: var(--font-display); font-size: clamp(56px, 8vw, 92px); font-weight: 700; line-height: 1; color: #000000; letter-spacing: -0.02em;">500+</span>
+        <span id="metric-1" style="font-family: var(--font-display); font-size: clamp(56px, 8vw, 92px); font-weight: 700; line-height: 1; color: #000000; letter-spacing: -0.02em;">0+</span>
         <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #111111; margin-top: 14px;">PIECES REPAIRED</span>
       </div>
 
       <!-- Stat 2 -->
       <div style="display: flex; flex-direction: column; align-items: center;">
-        <span style="font-family: var(--font-display); font-size: clamp(56px, 8vw, 92px); font-weight: 700; line-height: 1; color: #000000; letter-spacing: -0.02em;">2,000+</span>
+        <span id="metric-2" style="font-family: var(--font-display); font-size: clamp(56px, 8vw, 92px); font-weight: 700; line-height: 1; color: #000000; letter-spacing: -0.02em;">0+</span>
         <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #111111; margin-top: 14px;">WARDROBES STYLED</span>
       </div>
 
       <!-- Stat 3 -->
       <div style="display: flex; flex-direction: column; align-items: center;">
-        <span style="font-family: var(--font-display); font-size: clamp(56px, 8vw, 92px); font-weight: 700; line-height: 1; color: #000000; letter-spacing: -0.02em;">150K +</span>
+        <span id="metric-3" style="font-family: var(--font-display); font-size: clamp(56px, 8vw, 92px); font-weight: 700; line-height: 1; color: #000000; letter-spacing: -0.02em;">0K +</span>
         <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: #111111; margin-top: 14px;">LOOKS SHARED</span>
       </div>
 
@@ -990,8 +990,63 @@
       }
     }
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    // ---------------------------------------------
+    // (C) ANIMATED NUMBERS COUNTER FOR PAGE 7
+    // Triggers fast counting animation from 0+ to target when scrolled into view
+    // ---------------------------------------------
+    let metricsAnimated = false;
+    const metricsSection = document.getElementById('brands-metrics-section');
+    const m1 = document.getElementById('metric-1');
+    const m2 = document.getElementById('metric-2');
+    const m3 = document.getElementById('metric-3');
+
+    function animateNumber(element, start, end, duration, suffix = "+", isFormatted = false) {
+      const startTime = performance.now();
+      function updateNum(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // Fast ease-out power curve
+        const ease = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(start + (end - start) * ease);
+
+        if (isFormatted) {
+          element.textContent = current.toLocaleString('en-US') + suffix;
+        } else {
+          element.textContent = current + suffix;
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(updateNum);
+        } else {
+          if (isFormatted) {
+            element.textContent = end.toLocaleString('en-US') + suffix;
+          } else {
+            element.textContent = end + suffix;
+          }
+        }
+      }
+      requestAnimationFrame(updateNum);
+    }
+
+    function checkMetricsInView() {
+      if (metricsAnimated || !metricsSection) return;
+      const rect = metricsSection.getBoundingClientRect();
+      if (rect.top <= window.innerHeight * 0.85) {
+        metricsAnimated = true;
+        // Fast dynamic counting animations
+        animateNumber(m1, 0, 500, 1400, "+", false);
+        animateNumber(m2, 0, 2000, 1600, "+", true);
+        animateNumber(m3, 0, 150, 1500, "K +", false);
+      }
+    }
+
+    window.addEventListener('scroll', () => {
+      handleScroll();
+      checkMetricsInView();
+    }, { passive: true });
+    
     handleScroll();
+    checkMetricsInView();
   </script>
 </body>
 </html>
