@@ -503,7 +503,7 @@
       transform: scale(1);
       transform-origin: center center;
       will-change: transform;
-      transition: transform 0.08s ease-out;
+      /* transition removed for jitter-free 120fps sync */
     }
 
     /* Gradient overlay for magazine feel */
@@ -575,7 +575,12 @@
       backface-visibility: hidden;
       perspective: 1000px;
     }
+    body.is-scrolling iframe {
+      pointer-events: none !important;
+    }
   </style>
+  <!-- Lenis Ultra-Smooth Scrolling Engine (Physics-based buttery momentum) -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
 </head>
 <body>
 
@@ -910,7 +915,7 @@
 
     <!-- Interactive Draggable & Continuous Loop Infinite Gallery of Clothes -->
     <div id="drag-gallery-container" style="width: 100%; overflow: hidden; cursor: grab; padding: 15px 0 60px; user-select: none; position: relative;">
-      <div id="drag-gallery-track" style="display: flex; gap: 20px; width: max-content; will-change: transform; transform: translate3d(0px, 0px, 0px); transition: transform 0.08s ease-out;">
+      <div id="drag-gallery-track" style="display: flex; gap: 20px; width: max-content; will-change: transform; transform: translate3d(0px, 0px, 0px); /* transition removed for jitter-free 120fps sync */">
         
         <!-- SET 1 (8 Items) -->
         <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
@@ -1306,8 +1311,34 @@
       });
     }
 
-    // High-performance requestAnimationFrame Scroll Ticker (Targets 60/90/120/144Hz displays)
+    // ---------------------------------------------
+    // LENIS ULTRA-SMOOTH MOMENTUM SCROLL (60Hz / 90Hz / 120Hz / 144Hz)
+    // ---------------------------------------------
+    const lenis = new Lenis({
+      duration: 1.15,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 0.95,
+      touchMultiplier: 1.5,
+      infinite: false
+    });
+
+    lenis.on('scroll', () => {
+      onScrollTick();
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Smooth 120Hz Scroll Ticker + Iframe Interaction Lock to eliminate page freezing/stutter
     let isScrollTicking = false;
+    let scrollTimeout = null;
+
     function onScrollTick() {
       handleScroll();
       checkMetricsInView();
@@ -1316,6 +1347,15 @@
     }
 
     window.addEventListener('scroll', () => {
+      // Disable iframe pointer events while scrolling to prevent mouse capture freeze
+      if (!document.body.classList.contains('is-scrolling')) {
+        document.body.classList.add('is-scrolling');
+      }
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        document.body.classList.remove('is-scrolling');
+      }, 120);
+
       if (!isScrollTicking) {
         requestAnimationFrame(onScrollTick);
         isScrollTicking = true;
