@@ -1,0 +1,645 @@
+[
+  {
+    "id": "korean-01",
+    "category": "korean",
+    "categoryTitle": "Korean Outfits",
+    "badge": "TRENDY LOOKS",
+    "name": "Seoul Oversized Tech Bomber Jacket",
+    "price": "₹4,999",
+    "originalPrice": "₹7,999",
+    "discount": "38% OFF",
+    "rating": 4.9,
+    "reviewCount": 128,
+    "image": "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=1000&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=1000&q=85",
+      "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1000&q=85",
+      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=85"
+    ],
+    "tagline": "STAY TRENDY. STAY AHEAD.",
+    "description": "Crafted from heavy Japanese nylon with water-resistant coating, dropped shoulders, and statement modular chest pockets. Inspired by Hongdae youth subculture.",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "details": [
+      "100% Water-repellent technical matte nylon",
+      "Signature dual zip hardware with matte black finish",
+      "Ribbed cuff and collar detailing with reinforced stitching",
+      "Relaxed boxy silhouette with interior carry strap"
+    ],
+    "reviews": [
+      {
+        "user": "Rohan M.",
+        "rating": 5,
+        "date": "2 days ago",
+        "comment": "Quality is out of this world. Exactly the oversized streetwear fit I was looking for."
+      },
+      {
+        "user": "Kabir S.",
+        "rating": 5,
+        "date": "1 week ago",
+        "comment": "Matches Korean streetwear aesthetic perfectly. Heavyweight fabric and feels premium."
+      }
+    ]
+  },
+  {
+    "id": "korean-02",
+    "category": "korean",
+    "categoryTitle": "Korean Outfits",
+    "badge": "STREETWEAR",
+    "name": "Gangnam Wide Leg Cargo Trousers",
+    "price": "₹3,499",
+    "originalPrice": "₹5,499",
+    "discount": "36% OFF",
+    "rating": 4.8,
+    "reviewCount": 94,
+    "image": "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=1000&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=1000&q=85",
+      "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1000&q=85"
+    ],
+    "tagline": "EFFORTLESS DRAPE & VOLUME.",
+    "description": "Deep pleated Korean wide-leg silhouette with multi-utility tactical flap pockets and bungee hem toggles to customize stacking.",
+    "sizes": [
+      "30",
+      "32",
+      "34",
+      "36"
+    ],
+    "details": [
+      "Heavyweight cotton twill blend with soft drape",
+      "6 utility 3D bellows pockets with matte snap closures",
+      "Elastic back waistband with belt loops",
+      "Adjustable drawstring ankle hem"
+    ],
+    "reviews": [
+      {
+        "user": "Aarav K.",
+        "rating": 5,
+        "date": "3 days ago",
+        "comment": "The stacking over chunky sneakers is insane. Best cargo pants in my wardrobe."
+      }
+    ]
+  },
+  {
+    "id": "korean-03",
+    "category": "korean",
+    "categoryTitle": "Korean Outfits",
+    "badge": "BESTSELLER",
+    "name": "Itaewon Minimalist Boxy Knitted Cardigan",
+    "price": "₹3,899",
+    "originalPrice": "₹5,999",
+    "discount": "35% OFF",
+    "rating": 4.9,
+    "reviewCount": 112,
+    "image": "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=1000&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=1000&q=85",
+      "https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=1000&q=85"
+    ],
+    "tagline": "SOFT TEXTURE. ARCHITECTURAL CUT.",
+    "description": "Chunky textured rib knit cardigan with horn button closures and an ultra-relaxed drop shoulder drape.",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "details": [
+      "Premium wool and organic cotton blend",
+      "Oversized natural horn buttons",
+      "Ribbed cuff and waistband",
+      "Dry clean recommended"
+    ],
+    "reviews": [
+      {
+        "user": "Vivaan P.",
+        "rating": 5,
+        "date": "5 days ago",
+        "comment": "Warm, super soft, and looks straight out of a Seoul K-drama fashion lookbook."
+      }
+    ]
+  },
+  {
+    "id": "korean-04",
+    "category": "korean",
+    "categoryTitle": "Korean Outfits",
+    "badge": "TRENDING",
+    "name": "Neo-Cyber Cropped Utility Windbreaker",
+    "price": "₹4,299",
+    "originalPrice": "₹6,499",
+    "discount": "34% OFF",
+    "rating": 4.7,
+    "reviewCount": 78,
+    "image": "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1000&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1000&q=85"
+    ],
+    "tagline": "CROPPED CUT. HIGH IMPACT.",
+    "description": "Short boxy silhouette with high funnel neck, reflective subtle piping, and heavy metal zipper pullers.",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "details": [
+      "Dual-tone technical ripstop fabric",
+      "High neck with concealable hood",
+      "Internal breathable mesh lining",
+      "Elastic cinched cuffs"
+    ],
+    "reviews": [
+      {
+        "user": "Dhruv N.",
+        "rating": 5,
+        "date": "1 week ago",
+        "comment": "The cropped proportions are so stylish with high-waist pants."
+      }
+    ]
+  },
+  {
+    "id": "casual-01",
+    "category": "casual",
+    "categoryTitle": "Casual Outfits",
+    "badge": "EVERYDAY STYLE",
+    "name": "Brooklyn Heavyweight 280GSM Drop-Tee",
+    "price": "₹1,899",
+    "originalPrice": "₹2,999",
+    "discount": "37% OFF",
+    "rating": 4.9,
+    "reviewCount": 230,
+    "image": "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1000&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1000&q=85",
+      "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1000&q=85"
+    ],
+    "tagline": "KEEP IT SIMPLE. KEEP IT COOL.",
+    "description": "Constructed from 100% combed ringspun cotton in custom 280 GSM weight. Does not cling, maintains a structured boxy drape throughout the day.",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "details": [
+      "280 GSM 100% Ringspun Combed Cotton",
+      "Thick 1.25 inch ribbed anti-sag crewneck collar",
+      "Pre-shrunk fabric to prevent washing shrinkage",
+      "Screen printed minimal typography"
+    ],
+    "reviews": [
+      {
+        "user": "Sameer J.",
+        "rating": 5,
+        "date": "Yesterday",
+        "comment": "The collar does not stretch out even after washes. Worth every rupee."
+      },
+      {
+        "user": "Arjun D.",
+        "rating": 5,
+        "date": "4 days ago",
+        "comment": "Best basic heavyweight tee in India hands down."
+      }
+    ]
+  },
+  {
+    "id": "casual-02",
+    "category": "casual",
+    "categoryTitle": "Casual Outfits",
+    "badge": "ESSENTIALS",
+    "name": "Vintage Bleach Wash Baggy Denim",
+    "price": "₹3,299",
+    "originalPrice": "₹4,999",
+    "discount": "34% OFF",
+    "rating": 4.8,
+    "reviewCount": 165,
+    "image": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=1000&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=1000&q=85"
+    ],
+    "tagline": "VINTAGE WASH. TIMELESS COMFORT.",
+    "description": "13.5 oz non-stretch authentic vintage denim, stone-washed to achieve the perfect icy bleach-out shade.",
+    "sizes": [
+      "30",
+      "32",
+      "34",
+      "36",
+      "38"
+    ],
+    "details": [
+      "100% Cotton 13.5oz Rigid Denim",
+      "Hand-finished distressed detailing on pockets",
+      "Custom debossed metal hardware buttons",
+      "Relaxed loose fit from hip to hem"
+    ],
+    "reviews": [
+      {
+        "user": "Nikhil V.",
+        "rating": 5,
+        "date": "6 days ago",
+        "comment": "Fits like high-end designer denim. Heavy and durable."
+      }
+    ]
+  },
+  {
+    "id": "casual-03",
+    "category": "casual",
+    "categoryTitle": "Casual Outfits",
+    "badge": "URBAN ESSENTIAL",
+    "name": "French Terry Relaxed Pullover Hoodie",
+    "price": "₹2,999",
+    "originalPrice": "₹4,499",
+    "discount": "33% OFF",
+    "rating": 4.9,
+    "reviewCount": 188,
+    "image": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=1000&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?auto=format&fit=crop&w=1000&q=85"
+    ],
+    "tagline": "420 GSM PLUSH COMFORT.",
+    "description": "Heavyweight 420 GSM loopback cotton terry with double-layered hood and blind hem finish.",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "details": [
+      "420 GSM 100% Organic French Terry Cotton",
+      "Double-layered structured hood (stands up without slouching)",
+      "Kangaroo front pouch pocket",
+      "Ribbed side panels for ease of motion"
+    ],
+    "reviews": [
+      {
+        "user": "Tushar G.",
+        "rating": 5,
+        "date": "2 days ago",
+        "comment": "The hood structure is flawless. Very warm and comfortable."
+      }
+    ]
+  },
+  {
+    "id": "casual-04",
+    "category": "casual",
+    "categoryTitle": "Casual Outfits",
+    "badge": "WEEKEND VIBE",
+    "name": "Boxy Waffle-Knit Resort Overshirt",
+    "price": "₹2,599",
+    "originalPrice": "₹3,999",
+    "discount": "35% OFF",
+    "rating": 4.7,
+    "reviewCount": 82,
+    "image": "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=1000&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=1000&q=85"
+    ],
+    "tagline": "BREATHABLE TEXTURE FOR DAILY WEAR.",
+    "description": "Tactile waffle weave cotton shirt with open camp collar and tonal corozo nut buttons.",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "details": [
+      "100% Honeycomb waffle textured cotton",
+      "Camp open resort collar design",
+      "Straight square hem with side splits",
+      "Machine wash cold"
+    ],
+    "reviews": [
+      {
+        "user": "Yash B.",
+        "rating": 5,
+        "date": "1 week ago",
+        "comment": "Can be worn open over a tank or buttoned up. Super airy."
+      }
+    ]
+  },
+  {
+    "id": "wedding-01",
+    "category": "wedding",
+    "categoryTitle": "Wedding Outfits",
+    "badge": "SPECIAL MOMENTS",
+    "name": "Midnight Velvet Peak Lapel 3-Piece Tuxedo",
+    "price": "₹16,999",
+    "originalPrice": "₹24,999",
+    "discount": "32% OFF",
+    "rating": 5.0,
+    "reviewCount": 74,
+    "image": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1000&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1000&q=85",
+      "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1000&q=85"
+    ],
+    "tagline": "DRESS TO IMPRESS.",
+    "description": "Hand-tailored tuxedo crafted with Italian micro-velvet jacket, pure satin lapels, double-breasted vest, and tapered formal trousers.",
+    "sizes": [
+      "38R",
+      "40R",
+      "42R",
+      "44R"
+    ],
+    "details": [
+      "Premium Italian Micro-Velvet & Mulberry Silk Lapels",
+      "Set includes: Jacket, Tailored Waistcoat & Trousers",
+      "Full canvas construction for an impeccable chest drape",
+      "Hand-finished pick stitching along satin lapels"
+    ],
+    "reviews": [
+      {
+        "user": "Aditya V.",
+        "rating": 5,
+        "date": "3 days ago",
+        "comment": "Wore this for my reception party. Received endless compliments on the fit and velvet luster."
+      },
+      {
+        "user": "Karan R.",
+        "rating": 5,
+        "date": "2 weeks ago",
+        "comment": "Tailoring is bespoke grade. Absolutely magnificent."
+      }
+    ]
+  },
+  {
+    "id": "wedding-02",
+    "category": "wedding",
+    "categoryTitle": "Wedding Outfits",
+    "badge": "ATELIER CRAFT",
+    "name": "Monochrome Royal Bandhgala Jodhpuri Suit",
+    "price": "₹14,499",
+    "originalPrice": "₹21,999",
+    "discount": "34% OFF",
+    "rating": 4.9,
+    "reviewCount": 63,
+    "image": "https://images.unsplash.com/photo-1593032465175-481ac7f401a0?auto=format&fit=crop&w=1000&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1593032465175-481ac7f401a0?auto=format&fit=crop&w=1000&q=85"
+    ],
+    "tagline": "REGAL SILHOUETTE. TIMELESS NOBILITY.",
+    "description": "Structured high mandarin collar suit with concealed front placket and custom carved metal lion crest buttons.",
+    "sizes": [
+      "38",
+      "40",
+      "42",
+      "44"
+    ],
+    "details": [
+      "Worsted Wool & Silk Blend Fabric",
+      "Hand-carved gold antiqued buttons",
+      "Structured shoulder pads with clean chest canvas",
+      "Includes tailored formal matching trousers"
+    ],
+    "reviews": [
+      {
+        "user": "Raghav S.",
+        "rating": 5,
+        "date": "1 week ago",
+        "comment": "Gives an instant royal posture. The fabric shine is subtle and rich."
+      }
+    ]
+  },
+  {
+    "id": "wedding-03",
+    "category": "wedding",
+    "categoryTitle": "Wedding Outfits",
+    "badge": "LUXURY SUITING",
+    "name": "Emerald Green Double-Breasted Dinner Suit",
+    "price": "₹13,999",
+    "originalPrice": "₹19,999",
+    "discount": "30% OFF",
+    "rating": 4.9,
+    "reviewCount": 58,
+    "image": "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1000&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=1000&q=85"
+    ],
+    "tagline": "BOLD OPULENCE FOR EVENING SOIRÉES.",
+    "description": "Rich deep emerald green suiting fabric with 6x2 double-breasted configuration and wide peak lapels.",
+    "sizes": [
+      "38R",
+      "40R",
+      "42R",
+      "44R"
+    ],
+    "details": [
+      "Super 130s Merino Wool suiting fabric",
+      "Wide 4-inch peak lapel with Milanese buttonhole",
+      "Curved barchetta chest pocket",
+      "Satin jacquard inner lining"
+    ],
+    "reviews": [
+      {
+        "user": "Siddharth C.",
+        "rating": 5,
+        "date": "5 days ago",
+        "comment": "Color is stunning in evening lighting. Best cocktail outfit."
+      }
+    ]
+  },
+  {
+    "id": "wedding-04",
+    "category": "wedding",
+    "categoryTitle": "Wedding Outfits",
+    "badge": "GROOM'S CHOICE",
+    "name": "Raw Silk Embroidered Achkan with Stole",
+    "price": "₹18,999",
+    "originalPrice": "₹28,000",
+    "discount": "32% OFF",
+    "rating": 5.0,
+    "reviewCount": 89,
+    "image": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1000&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1000&q=85"
+    ],
+    "tagline": "HANDCRAFTED IN PURSUIT OF PERFECTION.",
+    "description": "Ivory raw silk achkan with subtle tonal thread embroidery, accompanied by an organza hand-woven stole with zardozi border.",
+    "sizes": [
+      "38",
+      "40",
+      "42",
+      "44"
+    ],
+    "details": [
+      "Pure Handspun Raw Silk (Matka Silk)",
+      "Intricate self-thread embroidery along collar and cuffs",
+      "Includes matching organza stole & churidar trousers",
+      "Dry clean only"
+    ],
+    "reviews": [
+      {
+        "user": "Devansh T.",
+        "rating": 5,
+        "date": "4 days ago",
+        "comment": "This made my wedding day unforgettable. Pure elegance."
+      }
+    ]
+  },
+  {
+    "id": "traditional-01",
+    "category": "traditional",
+    "categoryTitle": "Traditional Outfits",
+    "badge": "OUR ROOTS",
+    "name": "Imperial Chikankari Ivory Sherwani Set",
+    "price": "₹15,499",
+    "originalPrice": "₹22,999",
+    "discount": "33% OFF",
+    "rating": 5.0,
+    "reviewCount": 142,
+    "image": "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1000&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1000&q=85",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1000&q=85"
+    ],
+    "tagline": "TRADITION WITH STYLE.",
+    "description": "Authentic handcrafted Lucknowi Chikankari sherwani woven on georgette with subtle mirror work accents and matching churidar.",
+    "sizes": [
+      "38",
+      "40",
+      "42",
+      "44",
+      "46"
+    ],
+    "details": [
+      "Handcrafted Lucknowi Chikankari embroidery",
+      "Intricate micro-mirror & pearl highlights",
+      "Set includes: Sherwani, Dupatta & Chanderi Churidar",
+      "Comfortable silk-blend inner lining"
+    ],
+    "reviews": [
+      {
+        "user": "Manish K.",
+        "rating": 5,
+        "date": "Yesterday",
+        "comment": "The handiwork is mesmerizing. So lightweight yet so regal."
+      },
+      {
+        "user": "Harshvardhan R.",
+        "rating": 5,
+        "date": "1 week ago",
+        "comment": "True heritage craftsmanship. Truly worth the price."
+      }
+    ]
+  },
+  {
+    "id": "traditional-02",
+    "category": "traditional",
+    "categoryTitle": "Traditional Outfits",
+    "badge": "ROYAL HERITAGE",
+    "name": "Benarasi Brocade Angrakha Kurta Set",
+    "price": "₹7,999",
+    "originalPrice": "₹11,999",
+    "discount": "33% OFF",
+    "rating": 4.9,
+    "reviewCount": 98,
+    "image": "https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?auto=format&fit=crop&w=1000&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?auto=format&fit=crop&w=1000&q=85"
+    ],
+    "tagline": "WOVEN GOLD THREADS OF VARANASI.",
+    "description": "Diagonal crossover Angrakha silhouette woven with antique gold zari threads, fastened with braided silk latkan cords.",
+    "sizes": [
+      "38",
+      "40",
+      "42",
+      "44"
+    ],
+    "details": [
+      "Authentic Banarasi Katan Silk Brocade",
+      "Traditional Angrakha tie-up styling",
+      "Includes comfortable soft cotton-silk dhoti pants",
+      "Heritage gold weave that does not tarnish"
+    ],
+    "reviews": [
+      {
+        "user": "Prateek N.",
+        "rating": 5,
+        "date": "3 days ago",
+        "comment": "The gold zari looks stunning in daylight. Very comfortable."
+      }
+    ]
+  },
+  {
+    "id": "traditional-03",
+    "category": "traditional",
+    "categoryTitle": "Traditional Outfits",
+    "badge": "FESTIVE EDIT",
+    "name": "Mirror-Work Pastel Peach Kurta Pajama",
+    "price": "₹5,499",
+    "originalPrice": "₹8,499",
+    "discount": "35% OFF",
+    "rating": 4.8,
+    "reviewCount": 110,
+    "image": "https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?auto=format&fit=crop&w=1000&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1597983073493-88cd35cf93b0?auto=format&fit=crop&w=1000&q=85"
+    ],
+    "tagline": "MODERN FESTIVE ELEGANCE.",
+    "description": "Soft pastel peach chanderi silk kurta with hand-embroidered abla (mirror) work spread across the neckline and sleeves.",
+    "sizes": [
+      "S",
+      "M",
+      "L",
+      "XL",
+      "XXL"
+    ],
+    "details": [
+      "Chanderi Silk fabric with natural sheen",
+      "Original hand-affixed mirror embellishments",
+      "Mandarin collar with concealed placket",
+      "Comes with ivory cotton churidar"
+    ],
+    "reviews": [
+      {
+        "user": "Gaurav L.",
+        "rating": 5,
+        "date": "6 days ago",
+        "comment": "Got so many compliments at my cousin's Sangeet ceremony."
+      }
+    ]
+  },
+  {
+    "id": "traditional-04",
+    "category": "traditional",
+    "categoryTitle": "Traditional Outfits",
+    "badge": "CLASSIC EDIT",
+    "name": "Tussar Silk Nehru Jacket & Kurta Ensemble",
+    "price": "₹6,899",
+    "originalPrice": "₹9,999",
+    "discount": "31% OFF",
+    "rating": 4.9,
+    "reviewCount": 87,
+    "image": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=1000&q=85",
+    "gallery": [
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=1000&q=85"
+    ],
+    "tagline": "SOPHISTICATED DRAPE. RICH TEXTURE.",
+    "description": "Earthy textured raw Tussar silk sleeveless Nehru jacket paired with a crisp solid cotton-silk kurta and trousers.",
+    "sizes": [
+      "38",
+      "40",
+      "42",
+      "44"
+    ],
+    "details": [
+      "100% Wild Tussar Silk Jacket",
+      "Handmade thread-knot buttons",
+      "Contrast pocket square included",
+      "Kurta and tailored trouser set included"
+    ],
+    "reviews": [
+      {
+        "user": "Saurabh A.",
+        "rating": 5,
+        "date": "2 weeks ago",
+        "comment": "The raw silk texture feels extremely premium. Sharp cut."
+      }
+    ]
+  }
+]

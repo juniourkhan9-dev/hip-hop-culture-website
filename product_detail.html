@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ELVIQUE — Product Detail</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Oswald:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sedgwick+Ave+Display&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-red: #ff1c1c;
+      --gold-accent: #d4af37;
+      --bg-light: #ffffff;
+      --text-dark: #000000;
+      --font-display: 'Oswald', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-brush: 'Sedgwick Ave Display', cursive;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: #fafafa;
+      color: var(--text-dark);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Top Nav Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      padding: 16px clamp(20px, 4vw, 60px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #000000;
+      text-decoration: none;
+    }
+
+    .nav-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #000000;
+      text-decoration: none;
+      padding: 8px 16px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 999px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-back-link:hover {
+      background: #000000;
+      color: #ffffff;
+      border-color: #000000;
+      transform: translateX(-3px);
+    }
+
+    /* Breadcrumbs */
+    .breadcrumbs-bar {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px clamp(20px, 4vw, 60px) 0;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #71717a;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .breadcrumbs-bar a {
+      color: #71717a;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .breadcrumbs-bar a:hover {
+      color: #000000;
+    }
+
+    .breadcrumbs-bar span.active {
+      color: #000000;
+      font-weight: 600;
+    }
+
+    /* Main Container */
+    .product-main-container {
+      max-width: 1400px;
+      margin: 20px auto 80px;
+      padding: 0 clamp(20px, 4vw, 60px);
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: clamp(30px, 5vw, 70px);
+    }
+
+    @media (max-width: 960px) {
+      .product-main-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left Gallery Side */
+    .product-gallery-side {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .main-image-viewport {
+      width: 100%;
+      height: clamp(460px, 62vh, 680px);
+      border-radius: 20px;
+      overflow: hidden;
+      background: #f0f0f0;
+      position: relative;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .main-image-viewport img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transition: transform 0.4s ease;
+    }
+
+    .main-image-viewport:hover img {
+      transform: scale(1.03);
+    }
+
+    .gallery-badge {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      color: #ffffff;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.2);
+      text-transform: uppercase;
+    }
+
+    .thumbnails-row {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+
+    .thumb-btn {
+      width: 84px;
+      height: 106px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid transparent;
+      cursor: pointer;
+      background: #f0f0f0;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+      opacity: 0.6;
+    }
+
+    .thumb-btn.active, .thumb-btn:hover {
+      border-color: #000000;
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+
+    .thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Right Details Side */
+    .product-info-side {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .product-meta-category {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--primary-red);
+    }
+
+    .product-title-heading {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 3.5vw, 48px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: #000000;
+    }
+
+    .product-tagline-quote {
+      font-family: var(--font-brush);
+      font-size: clamp(20px, 2vw, 24px);
+      color: #444444;
+      line-height: 1.2;
+    }
+
+    /* Rating row */
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stars-box {
+      color: #ffb800;
+      font-size: 16px;
+      letter-spacing: 2px;
+    }
+
+    .rating-score {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: #000000;
+    }
+
+    .review-count-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #71717a;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* Pricing box */
+    .price-container {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding: 16px 0;
+      border-top: 1px solid rgba(0,0,0,0.08);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .current-price {
+      font-family: var(--font-display);
+      font-size: 40px;
+      font-weight: 700;
+      color: #000000;
+      letter-spacing: -0.02em;
+    }
+
+    .original-price {
+      font-family: var(--font-mono);
+      font-size: 18px;
+      color: #a1a1aa;
+      text-decoration: line-through;
+    }
+
+    .discount-badge {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: #ffffff;
+      background: var(--primary-red);
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.06em;
+    }
+
+    /* Description */
+    .product-description-text {
+      font-size: 14.5px;
+      line-height: 1.65;
+      color: #3f3f46;
+    }
+
+    /* Size Selector */
+    .size-select-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .size-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .size-guide-link {
+      color: #71717a;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .size-options-grid {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .size-chip-btn {
+      min-width: 54px;
+      height: 48px;
+      padding: 0 16px;
+      border: 1.5px solid #d4d4d8;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #000000;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .size-chip-btn:hover {
+      border-color: #000000;
+      transform: translateY(-2px);
+    }
+
+    .size-chip-btn.selected {
+      background: #000000;
+      color: #ffffff;
+      border-color: #000000;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    }
+
+    /* Action buttons */
+    .action-buttons-group {
+      display: flex;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .btn-add-to-cart {
+      flex: 1;
+      height: 56px;
+      background: #000000;
+      color: #ffffff;
+      border: none;
+      border-radius: 12px;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+    }
+
+    .btn-add-to-cart:hover {
+      background: var(--primary-red);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(255, 28, 28, 0.35);
+    }
+
+    .btn-wishlist {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      border: 1.5px solid #d4d4d8;
+      background: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-wishlist:hover {
+      border-color: var(--primary-red);
+      color: var(--primary-red);
+      transform: translateY(-2px);
+    }
+
+    /* Product Specs Accordion / Bullets */
+    .specs-box {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 20px;
+      border: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .specs-title {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      color: #000000;
+    }
+
+    .specs-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .specs-list li {
+      font-size: 13.5px;
+      color: #52525b;
+      position: relative;
+      padding-left: 18px;
+      line-height: 1.45;
+    }
+
+    .specs-list li::before {
+      content: "✦";
+      position: absolute;
+      left: 0;
+      color: var(--primary-red);
+      font-size: 11px;
+    }
+
+    /* Customer Reviews Section */
+    .reviews-section {
+      max-width: 1400px;
+      margin: 40px auto 70px;
+      padding: 0 clamp(20px, 4vw, 60px);
+    }
+
+    .reviews-card-container {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: clamp(24px, 4vw, 44px);
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+
+    .reviews-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .reviews-heading {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+
+    .reviews-list-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .review-item-card {
+      background: #fafafa;
+      border-radius: 14px;
+      padding: 20px;
+      border: 1px solid rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .review-user-name {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: #000000;
+    }
+
+    .review-user-comment {
+      font-size: 13.5px;
+      color: #52525b;
+      line-height: 1.5;
+    }
+
+    /* Similar Products Section */
+    .similar-products-section {
+      max-width: 1400px;
+      margin: 40px auto 100px;
+      padding: 0 clamp(20px, 4vw, 60px);
+    }
+
+    .section-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 28px;
+    }
+
+    .similar-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 3.2vw, 42px);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+    }
+
+    .similar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .product-mini-card {
+      background: #ffffff;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    }
+
+    .product-mini-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.12);
+      border-color: rgba(0,0,0,0.15);
+    }
+
+    .mini-card-imgbox {
+      width: 100%;
+      height: 320px;
+      position: relative;
+      background: #f0f0f0;
+      overflow: hidden;
+    }
+
+    .mini-card-imgbox img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .product-mini-card:hover .mini-card-imgbox img {
+      transform: scale(1.05);
+    }
+
+    .mini-card-content {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .mini-category-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: var(--primary-red);
+      text-transform: uppercase;
+    }
+
+    .mini-product-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 600;
+      color: #000000;
+      line-height: 1.2;
+    }
+
+    .mini-price-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .mini-current-price {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      color: #000000;
+    }
+
+    .mini-original-price {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #a1a1aa;
+      text-decoration: line-through;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Header -->
+  <header>
+    <a href="index.html#apparel-categories-section" class="nav-brand">ELVIQUE</a>
+    <a href="index.html#apparel-categories-section" class="nav-back-link">
+      <span>←</span> Back to Collections
+    </a>
+  </header>
+
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs-bar">
+    <a href="index.html">Home</a>
+    <span>/</span>
+    <a href="index.html#apparel-categories-section">Collections</a>
+    <span>/</span>
+    <span id="breadcrumb-category">Korean Outfits</span>
+    <span>/</span>
+    <span class="active" id="breadcrumb-product-name">Loading...</span>
+  </div>
+
+  <!-- Main Product Detail Grid -->
+  <main class="product-main-container">
+    
+    <!-- Left: Gallery -->
+    <div class="product-gallery-side">
+      <div class="main-image-viewport">
+        <span class="gallery-badge" id="product-badge">TRENDY LOOKS</span>
+        <img id="main-product-img" src="" alt="Product Detail">
+      </div>
+      <div class="thumbnails-row" id="thumbnails-row">
+        <!-- Dynamically injected -->
+      </div>
+    </div>
+
+    <!-- Right: Info -->
+    <div class="product-info-side">
+      <span class="product-meta-category" id="product-category-label">KOREAN OUTFITS</span>
+      <h1 class="product-title-heading" id="product-title">Loading Product...</h1>
+      <div class="product-tagline-quote" id="product-tagline">STAY TRENDY. STAY AHEAD.</div>
+
+      <!-- Ratings -->
+      <div class="rating-row">
+        <div class="stars-box">★★★★★</div>
+        <span class="rating-score" id="product-rating">4.9 / 5.0</span>
+        <span class="review-count-label" id="product-reviews-count">(128 Customer Reviews)</span>
+      </div>
+
+      <!-- Price -->
+      <div class="price-container">
+        <span class="current-price" id="product-price">₹4,999</span>
+        <span class="original-price" id="product-original-price">₹7,999</span>
+        <span class="discount-badge" id="product-discount">38% OFF</span>
+      </div>
+
+      <!-- Description -->
+      <p class="product-description-text" id="product-description">
+        Crafted from premium fabrics designed with architectural drape and modern silhouettes.
+      </p>
+
+      <!-- Size Selector -->
+      <div class="size-select-section">
+        <div class="size-header-row">
+          <span>Select Size: <strong id="selected-size-display">M</strong></span>
+          <span class="size-guide-link">Size Chart Guide 📐</span>
+        </div>
+        <div class="size-options-grid" id="sizes-grid">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons-group">
+        <button class="btn-add-to-cart" id="btn-add-cart">
+          <span>Add to Bag</span>
+          <span>✦</span>
+        </button>
+        <button class="btn-wishlist" id="btn-wishlist" title="Save to Wishlist">♥</button>
+      </div>
+
+      <!-- Specs & Details -->
+      <div class="specs-box">
+        <div class="specs-title">Fabric & Craftsmanship Details</div>
+        <ul class="specs-list" id="specs-list">
+          <!-- Dynamically populated -->
+        </ul>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Customer Reviews Section -->
+  <section class="reviews-section">
+    <div class="reviews-card-container">
+      <div class="reviews-header">
+        <h2 class="reviews-heading">Customer Feedback & Reviews</h2>
+        <div style="font-family: var(--font-mono); font-size: 13px; font-weight: 600; color: #16a34a;">
+          ✓ 100% Verified Buyer Purchases
+        </div>
+      </div>
+      <div class="reviews-list-grid" id="reviews-list-grid">
+        <!-- Dynamically populated -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Similar Products Section -->
+  <section class="similar-products-section">
+    <div class="section-header-row">
+      <div>
+        <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--primary-red); display: block; margin-bottom: 6px;">
+          Curated For You
+        </span>
+        <h2 class="similar-title">More Looks You May Like</h2>
+      </div>
+    </div>
+    <div class="similar-grid" id="similar-products-grid">
+      <!-- Dynamically populated -->
+    </div>
+  </section>
+
+  <script>
+    // Fetch and load product details based on URL query param: ?id=korean-01
+    async function initProductPage() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get('id') || 'korean-01';
+
+      try {
+        const res = await fetch('products_data.json');
+        const products = await res.json();
+
+        const currentProduct = products.find(p => p.id === productId) || products[0];
+
+        // Populate Details
+        document.title = `${currentProduct.name} — ELVIQUE`;
+        document.getElementById('breadcrumb-category').textContent = currentProduct.categoryTitle;
+        document.getElementById('breadcrumb-product-name').textContent = currentProduct.name;
+        document.getElementById('product-badge').textContent = currentProduct.badge;
+        document.getElementById('product-category-label').textContent = currentProduct.categoryTitle;
+        document.getElementById('product-title').textContent = currentProduct.name;
+        document.getElementById('product-tagline').textContent = currentProduct.tagline;
+        document.getElementById('product-rating').textContent = `${currentProduct.rating} / 5.0`;
+        document.getElementById('product-reviews-count').textContent = `(${currentProduct.reviewCount} Customer Reviews)`;
+        document.getElementById('product-price').textContent = currentProduct.price;
+        document.getElementById('product-original-price').textContent = currentProduct.originalPrice;
+        document.getElementById('product-discount').textContent = currentProduct.discount;
+        document.getElementById('product-description').textContent = currentProduct.description;
+
+        // Main Image & Gallery
+        const mainImg = document.getElementById('main-product-img');
+        mainImg.src = currentProduct.image;
+
+        const thumbsRow = document.getElementById('thumbnails-row');
+        thumbsRow.innerHTML = '';
+        currentProduct.gallery.forEach((gImg, idx) => {
+          const btn = document.createElement('button');
+          btn.className = `thumb-btn ${idx === 0 ? 'active' : ''}`;
+          btn.innerHTML = `<img src="${gImg}" alt="Thumb ${idx + 1}">`;
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.thumb-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            mainImg.src = gImg;
+          });
+          thumbsRow.appendChild(btn);
+        });
+
+        // Sizes
+        const sizesGrid = document.getElementById('sizes-grid');
+        const sizeDisplay = document.getElementById('selected-size-display');
+        sizesGrid.innerHTML = '';
+        currentProduct.sizes.forEach((sz, idx) => {
+          const szBtn = document.createElement('button');
+          szBtn.className = `size-chip-btn ${idx === 1 ? 'selected' : (idx === 0 && currentProduct.sizes.length === 1 ? 'selected' : '')}`;
+          szBtn.textContent = sz;
+          szBtn.addEventListener('click', () => {
+            document.querySelectorAll('.size-chip-btn').forEach(b => b.classList.remove('selected'));
+            szBtn.classList.add('selected');
+            sizeDisplay.textContent = sz;
+          });
+          sizesGrid.appendChild(szBtn);
+        });
+        if (currentProduct.sizes[1]) sizeDisplay.textContent = currentProduct.sizes[1];
+
+        // Specs
+        const specsList = document.getElementById('specs-list');
+        specsList.innerHTML = '';
+        currentProduct.details.forEach(det => {
+          const li = document.createElement('li');
+          li.textContent = det;
+          specsList.appendChild(li);
+        });
+
+        // Reviews
+        const reviewsGrid = document.getElementById('reviews-list-grid');
+        reviewsGrid.innerHTML = '';
+        currentProduct.reviews.forEach(rev => {
+          const rCard = document.createElement('div');
+          rCard.className = 'review-item-card';
+          rCard.innerHTML = `
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="review-user-name">${rev.user}</span>
+              <span style="font-family: var(--font-mono); font-size: 11px; color: #a1a1aa;">${rev.date}</span>
+            </div>
+            <div style="color: #ffb800; font-size: 13px;">${'★'.repeat(rev.rating)}</div>
+            <p class="review-user-comment">"${rev.comment}"</p>
+          `;
+          reviewsGrid.appendChild(rCard);
+        });
+
+        // Add to Cart Button interactive click
+        const addCartBtn = document.getElementById('btn-add-cart');
+        addCartBtn.addEventListener('click', () => {
+          addCartBtn.innerHTML = `<span>✓ Added ${sizeDisplay.textContent} to Bag!</span>`;
+          addCartBtn.style.background = '#16a34a';
+          setTimeout(() => {
+            addCartBtn.innerHTML = `<span>Add to Bag</span><span>✦</span>`;
+            addCartBtn.style.background = '#000000';
+          }, 2000);
+        });
+
+        // Similar Products (Products in same category or adjacent)
+        const similarGrid = document.getElementById('similar-products-grid');
+        similarGrid.innerHTML = '';
+        const related = products.filter(p => p.id !== currentProduct.id).slice(0, 4);
+        related.forEach(rel => {
+          const card = document.createElement('a');
+          card.className = 'product-mini-card';
+          card.href = `product_detail.html?id=${rel.id}`;
+          card.innerHTML = `
+            <div class="mini-card-imgbox">
+              <img src="${rel.image}" alt="${rel.name}">
+            </div>
+            <div class="mini-card-content">
+              <span class="mini-category-tag">${rel.categoryTitle}</span>
+              <h3 class="mini-product-title">${rel.name}</h3>
+              <div class="mini-price-row">
+                <span class="mini-current-price">${rel.price}</span>
+                <span class="mini-original-price">${rel.originalPrice}</span>
+              </div>
+            </div>
+          `;
+          similarGrid.appendChild(card);
+        });
+
+      } catch (err) {
+        console.error('Error loading product details:', err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initProductPage);
+  </script>
+</body>
+</html>

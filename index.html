@@ -8,7 +8,7 @@
   <!-- Exact Typography from Elvique: Oswald (Headings/Display) + JetBrains Mono (Technical Labels/Nav) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Oswald:wght@500;600;700&family=Sedgwick+Ave+Display&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
 
   <style>
     /* =========================================
@@ -578,6 +578,408 @@
     body.is-scrolling iframe {
       pointer-events: none !important;
     }
+
+    /* =========================================
+       APPAREL COLLECTIONS SHOWCASE (4 Korean Style Cards)
+       ========================================= */
+    .apparel-collections-section {
+      width: 100%;
+      min-height: 100vh;
+      background: #ffffff;
+      padding: clamp(60px, 8vh, 100px) clamp(20px, 4vw, 60px);
+      box-sizing: border-box;
+      position: relative;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+    }
+
+    .collections-header {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto clamp(40px, 6vh, 60px);
+      position: relative;
+    }
+
+    .collections-top-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #71717a;
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .collections-top-badge::before,
+    .collections-top-badge::after {
+      content: "";
+      display: inline-block;
+      width: 40px;
+      height: 1px;
+      background: #d4d4d8;
+    }
+
+    .collections-main-title {
+      font-family: 'Sedgwick Ave Display', 'Oswald', sans-serif;
+      font-size: clamp(38px, 6.5vw, 76px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: #000000;
+      line-height: 1.05;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .collections-main-title .star-accent {
+      font-family: var(--font-display);
+      font-size: 0.6em;
+      color: #000000;
+      vertical-align: middle;
+    }
+
+    .collections-subtitle {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #27272a;
+      margin-top: 14px;
+    }
+
+    /* 4 Distinct Cards Row */
+    .apparel-cards-grid {
+      max-width: 1420px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(16px, 2.2vw, 32px);
+      align-items: stretch;
+    }
+
+    @media (max-width: 1080px) {
+      .apparel-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .apparel-cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .apparel-card {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      min-height: clamp(480px, 58vh, 620px);
+      background: #111111;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
+      transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(20px, 2.5vw, 28px);
+      box-sizing: border-box;
+      transform: translateY(0);
+      will-change: transform, box-shadow;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .apparel-card:hover {
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.3);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Slanted perspective cards mimicking reference art */
+    .apparel-card:nth-child(1) { transform: perspective(1000px) rotateY(3deg); }
+    .apparel-card:nth-child(2) { transform: perspective(1000px) rotateY(1deg); }
+    .apparel-card:nth-child(3) { transform: perspective(1000px) rotateY(-1deg); }
+    .apparel-card:nth-child(4) { transform: perspective(1000px) rotateY(-3deg); }
+
+    .apparel-card:hover {
+      transform: perspective(1000px) rotateY(0deg) translateY(-14px) scale(1.03) !important;
+    }
+
+    .apparel-card-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1;
+    }
+
+    .apparel-card:hover .apparel-card-bg {
+      transform: scale(1.08);
+    }
+
+    .apparel-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 35%, rgba(0,0,0,0.85) 80%, rgba(0,0,0,0.95) 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .apparel-card-top {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .apparel-card-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.85);
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(8px);
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .apparel-card-bottom {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .apparel-brush-title {
+      font-family: 'Sedgwick Ave Display', sans-serif;
+      font-size: clamp(32px, 3.8vw, 46px);
+      line-height: 0.95;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-shadow: 0 4px 18px rgba(0,0,0,0.7);
+      margin: 0;
+    }
+
+    .apparel-brush-title.gold-accent {
+      color: #f7d280;
+    }
+
+    .apparel-card-tagline {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.4;
+    }
+
+    .apparel-action-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #000000;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 6px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      align-self: flex-start;
+    }
+
+    .apparel-card:hover .apparel-action-circle {
+      background: var(--primary-red);
+      color: #ffffff;
+      transform: translateX(6px) scale(1.08);
+      box-shadow: 0 6px 22px rgba(255, 28, 28, 0.4);
+    }
+
+    /* Modal Popup to browse 4 products for each category */
+    .category-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(14px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .category-modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .category-modal-window {
+      background: #ffffff;
+      width: 100%;
+      max-width: 1180px;
+      max-height: 90vh;
+      border-radius: 24px;
+      overflow-y: auto;
+      padding: clamp(24px, 4vw, 44px);
+      position: relative;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+      transform: translateY(20px);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .category-modal-backdrop.open .category-modal-window {
+      transform: translateY(0);
+    }
+
+    .category-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .category-modal-title {
+      font-family: var(--font-display);
+      font-size: clamp(26px, 3.2vw, 38px);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      color: #000000;
+    }
+
+    .category-modal-close-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,0,0,0.15);
+      background: #fafafa;
+      font-size: 20px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .category-modal-close-btn:hover {
+      background: #000000;
+      color: #ffffff;
+      transform: scale(1.05);
+    }
+
+    .category-modal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+    }
+
+    .category-product-card {
+      background: #fafafa;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.06);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s ease;
+    }
+
+    .category-product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      border-color: #000000;
+    }
+
+    .cat-card-imgbox {
+      width: 100%;
+      height: 290px;
+      position: relative;
+      background: #e4e4e7;
+      overflow: hidden;
+    }
+
+    .cat-card-imgbox img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+
+    .category-product-card:hover .cat-card-imgbox img {
+      transform: scale(1.06);
+    }
+
+    .cat-card-info {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .cat-card-name {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 600;
+      color: #000000;
+      line-height: 1.25;
+    }
+
+    .cat-card-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .cat-card-cur-price {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      color: #000000;
+    }
+
+    .cat-card-view-btn {
+      margin-top: 10px;
+      background: #000000;
+      color: #ffffff;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: center;
+      transition: background 0.2s;
+    }
+
+    .category-product-card:hover .cat-card-view-btn {
+      background: var(--primary-red);
+    }
+
   </style>
   <!-- Lenis Ultra-Smooth Scrolling Engine (Physics-based buttery momentum) -->
   <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
@@ -774,6 +1176,111 @@
   <section id="hanging-cloth-section" style="width: 100%; height: 100vh; position: relative; background: #ffffff; overflow: hidden;">
     <iframe src="hanging_cloth/index.html" scrolling="no" style="width: 100%; height: 100%; border: none; display: block; overflow: hidden;" title="Hanging Cloth Showcase"></iframe>
   </section>
+
+  <!-- =========================================
+       PAGE 5.5: APPAREL LOOK CATEGORIES (4 Korean Style Interactive Cards)
+       ========================================= -->
+  <section id="apparel-categories-section" class="apparel-collections-section">
+    
+    <!-- Section Header (Exact Match to Reference Style) -->
+    <div class="collections-header">
+      <div class="collections-top-badge">SHOP BY CATEGORY</div>
+      <h2 class="collections-main-title">
+        <span>EXPLORE OUR</span>
+        <span style="font-style: italic;">COLLECTIONS</span>
+        <span class="star-accent">✦</span>
+      </h2>
+      <div class="collections-subtitle">FIND YOUR PERFECT STYLE</div>
+    </div>
+
+    <!-- 4 High Impact Animated 3D Style Boxes -->
+    <div class="apparel-cards-grid">
+
+      <!-- Box 1: Korean Outfits -->
+      <div class="apparel-card" onclick="openCategoryProducts('korean', 'Korean Outfits')">
+        <img class="apparel-card-bg" src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=1000&q=85" alt="Korean Outfits">
+        <div class="apparel-card-overlay"></div>
+        <div class="apparel-card-top">
+          <span class="apparel-card-badge">TRENDY LOOKS</span>
+        </div>
+        <div class="apparel-card-bottom">
+          <h3 class="apparel-brush-title">KOREAN<br>OUTFITS</h3>
+          <div class="apparel-card-tagline">STAY TRENDY.<br>STAY AHEAD.</div>
+          <div class="apparel-action-circle">→</div>
+        </div>
+      </div>
+
+      <!-- Box 2: Casual Outfits -->
+      <div class="apparel-card" onclick="openCategoryProducts('casual', 'Casual Outfits')">
+        <img class="apparel-card-bg" src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1000&q=85" alt="Casual Outfits">
+        <div class="apparel-card-overlay"></div>
+        <div class="apparel-card-top">
+          <span class="apparel-card-badge">EVERYDAY STYLE</span>
+        </div>
+        <div class="apparel-card-bottom">
+          <h3 class="apparel-brush-title gold-accent">CASUAL<br>OUTFITS</h3>
+          <div class="apparel-card-tagline">KEEP IT SIMPLE.<br>KEEP IT COOL.</div>
+          <div class="apparel-action-circle">→</div>
+        </div>
+      </div>
+
+      <!-- Box 3: Wedding Outfits -->
+      <div class="apparel-card" onclick="openCategoryProducts('wedding', 'Wedding Outfits')">
+        <img class="apparel-card-bg" src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1000&q=85" alt="Wedding Outfits">
+        <div class="apparel-card-overlay"></div>
+        <div class="apparel-card-top">
+          <span class="apparel-card-badge">SPECIAL MOMENTS</span>
+        </div>
+        <div class="apparel-card-bottom">
+          <h3 class="apparel-brush-title gold-accent">WEDDING<br>OUTFITS</h3>
+          <div class="apparel-card-tagline">DRESS TO<br>IMPRESS.</div>
+          <div class="apparel-action-circle">→</div>
+        </div>
+      </div>
+
+      <!-- Box 4: Traditional Outfits -->
+      <div class="apparel-card" onclick="openCategoryProducts('traditional', 'Traditional Outfits')">
+        <img class="apparel-card-bg" src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1000&q=85" alt="Traditional Outfits">
+        <div class="apparel-card-overlay"></div>
+        <div class="apparel-card-top">
+          <span class="apparel-card-badge">OUR ROOTS</span>
+        </div>
+        <div class="apparel-card-bottom">
+          <h3 class="apparel-brush-title gold-accent">TRADITIONAL<br>OUTFITS</h3>
+          <div class="apparel-card-tagline">TRADITION<br>WITH STYLE.</div>
+          <div class="apparel-action-circle">→</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Center Fashion Indicator -->
+    <div style="text-align: center; margin-top: clamp(40px, 6vh, 60px);">
+      <div style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: #71717a; display: inline-flex; flex-direction: column; align-items: center; gap: 8px;">
+        <span>F A S H I O N</span>
+        <span style="display: inline-block; width: 14px; height: 22px; border: 1.5px solid #a1a1aa; border-radius: 999px; position: relative;">
+          <span style="display: block; width: 2px; height: 5px; background: #000; margin: 4px auto 0; border-radius: 999px;"></span>
+        </span>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Interactive Category Products Modal -->
+  <div id="categoryModal" class="category-modal-backdrop">
+    <div class="category-modal-window">
+      <div class="category-modal-header">
+        <div>
+          <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--primary-red); display: block; margin-bottom: 4px;">Collection Range</span>
+          <h3 id="categoryModalTitle" class="category-modal-title">Category Outfits</h3>
+        </div>
+        <button class="category-modal-close-btn" onclick="closeCategoryModal()">✕</button>
+      </div>
+      <div class="category-modal-grid" id="categoryProductsGrid">
+        <!-- Dynamically filled with min 4 products -->
+      </div>
+    </div>
+  </div>
 
   <!-- =========================================
        PAGE 6: METRICS & PARTNER BRANDS (Brands We Work With)
@@ -1154,6 +1661,75 @@
         }
       }
     }
+
+
+    // ---------------------------------------------
+    // CATEGORY PRODUCTS MODAL INTERACTION
+    // ---------------------------------------------
+    let cachedProducts = null;
+
+    async function loadProductsData() {
+      if (!cachedProducts) {
+        try {
+          const res = await fetch('products_data.json');
+          cachedProducts = await res.json();
+        } catch (e) {
+          console.error('Error fetching products:', e);
+          cachedProducts = [];
+        }
+      }
+      return cachedProducts;
+    }
+
+    async function openCategoryProducts(categoryKey, title) {
+      const modal = document.getElementById('categoryModal');
+      const titleEl = document.getElementById('categoryModalTitle');
+      const grid = document.getElementById('categoryProductsGrid');
+      
+      titleEl.textContent = title;
+      grid.innerHTML = '<div style="padding: 40px; text-align: center; font-family: var(--font-mono);">Loading looks...</div>';
+      modal.classList.add('open');
+
+      const allProds = await loadProductsData();
+      const filtered = allProds.filter(p => p.category === categoryKey);
+
+      grid.innerHTML = '';
+      filtered.forEach(p => {
+        const item = document.createElement('a');
+        item.className = 'category-product-card';
+        item.href = `product_detail.html?id=${p.id}`;
+        item.innerHTML = `
+          <div class="cat-card-imgbox">
+            <img src="${p.image}" alt="${p.name}">
+          </div>
+          <div class="cat-card-info">
+            <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--primary-red); text-transform: uppercase;">${p.badge}</span>
+            <h4 class="cat-card-name">${p.name}</h4>
+            <div class="cat-card-price-row">
+              <span class="cat-card-cur-price">${p.price}</span>
+              <span style="font-family: var(--font-mono); font-size: 12px; color: #a1a1aa; text-decoration: line-through;">${p.originalPrice}</span>
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #16a34a;">${p.discount}</span>
+            </div>
+            <div class="cat-card-view-btn">View Product Details →</div>
+          </div>
+        `;
+        grid.appendChild(item);
+      });
+    }
+
+    function closeCategoryModal() {
+      const modal = document.getElementById('categoryModal');
+      if (modal) modal.classList.remove('open');
+    }
+
+    window.addEventListener('click', (e) => {
+      const modal = document.getElementById('categoryModal');
+      if (e.target === modal) closeCategoryModal();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeCategoryModal();
+    });
 
     // ---------------------------------------------
     // (C) ANIMATED NUMBERS COUNTER FOR PAGE 7
