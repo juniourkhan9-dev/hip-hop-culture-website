@@ -654,78 +654,94 @@
       margin-top: 14px;
     }
 
-    /* Overlapping 4-Card Stage with popping heads */
+    /* Exact Reference 4-Card Stage (Cinematic, Tilted, Non-Overlapping Panels) */
     .apparel-cards-stage {
-      max-width: 1300px;
+      max-width: 1400px;
       margin: 0 auto;
       display: flex;
       justify-content: center;
-      align-items: flex-end;
+      align-items: stretch;
       position: relative;
-      padding: 40px 10px 20px;
-      gap: 12px;
+      padding: 30px 15px 20px;
+      gap: clamp(14px, 2vw, 24px);
     }
 
     .apparel-overlap-card {
       position: relative;
       flex: 1;
-      max-width: 300px;
-      cursor: pointer;
+      max-width: 320px;
       border-radius: 20px;
-      overflow: visible;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
-      filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.16));
-      will-change: transform, filter;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, box-shadow;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      background: #0d0d0d;
     }
 
-    /* Clean balanced perspective angles matching preview art */
+    /* Subtle Cinematic Tilted Perspective (Matching Image 2 Reference) */
     .apparel-overlap-card:nth-child(1) {
-      z-index: 1;
-      transform: perspective(1200px) rotateY(4deg) translateY(0);
+      transform: perspective(1200px) rotateY(3.5deg) rotateZ(-0.5deg);
     }
     .apparel-overlap-card:nth-child(2) {
-      z-index: 2;
-      transform: perspective(1200px) rotateY(1.5deg) translateY(-6px);
+      transform: perspective(1200px) rotateY(1deg) rotateZ(0.2deg);
     }
     .apparel-overlap-card:nth-child(3) {
-      z-index: 3;
-      transform: perspective(1200px) rotateY(-1.5deg) translateY(-10px);
+      transform: perspective(1200px) rotateY(-1deg) rotateZ(-0.2deg);
     }
     .apparel-overlap-card:nth-child(4) {
-      z-index: 4;
-      transform: perspective(1200px) rotateY(-4deg) translateY(-4px);
+      transform: perspective(1200px) rotateY(-3.5deg) rotateZ(0.5deg);
     }
 
-    /* ONLY hovered card pops up in crystal-clean focus with zero edge-clipping */
+    /* Smooth Hover Lift without any collision or overlap */
     .apparel-overlap-card:hover {
-      z-index: 30 !important;
-      transform: perspective(1200px) rotateY(0deg) translateY(-22px) scale(1.06) !important;
-      filter: drop-shadow(0 26px 48px rgba(0, 0, 0, 0.32)) !important;
+      transform: perspective(1200px) rotateY(0deg) rotateZ(0deg) translateY(-14px) scale(1.03) !important;
+      box-shadow: 0 28px 56px rgba(0, 0, 0, 0.32);
+      border-color: rgba(0, 0, 0, 0.25);
+      z-index: 10;
     }
 
     .apparel-overlap-img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
       display: block;
       pointer-events: none;
       user-select: none;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    @media (max-width: 900px) {
+    .apparel-overlap-card:hover .apparel-overlap-img {
+      transform: scale(1.04);
+    }
+
+    @media (max-width: 1024px) {
       .apparel-cards-stage {
         flex-wrap: wrap;
+        gap: 24px;
+      }
+      .apparel-overlap-card {
+        flex: 1 1 calc(50% - 24px);
+        max-width: 48%;
+        transform: none !important;
+      }
+      .apparel-overlap-card:hover {
+        transform: translateY(-8px) scale(1.02) !important;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .apparel-cards-stage {
+        flex-direction: column;
+        align-items: center;
         gap: 20px;
       }
       .apparel-overlap-card {
-        margin: 0;
-        max-width: 45%;
+        width: 100%;
+        max-width: 340px;
         transform: none !important;
-      }
-    }
-
-    @media (max-width: 550px) {
-      .apparel-overlap-card {
-        max-width: 90%;
       }
     }
 
@@ -1231,27 +1247,27 @@
       <div class="collections-subtitle">FIND YOUR PERFECT STYLE</div>
     </div>
 
-    <!-- 4 Overlapping Cards with Popping Heads (Exact Match to Preview Cutout Art) -->
+    <!-- 4 Individual Cinematic Category Cards (Exact Match to Image 2 Reference) -->
     <div class="apparel-cards-stage">
 
       <!-- Box 1: Korean Outfits -->
       <div class="apparel-overlap-card" onclick="openCategoryProducts('korean', 'Korean Outfits')" title="Explore Korean Outfits">
-        <img class="apparel-overlap-img" src="categories_assets/korean_clean.png" alt="Korean Outfits">
+        <img class="apparel-overlap-img" src="categories_assets/card_korean_exact.png" alt="Korean Outfits - Stay Trendy Stay Ahead">
       </div>
 
       <!-- Box 2: Casual Outfits -->
       <div class="apparel-overlap-card" onclick="openCategoryProducts('casual', 'Casual Outfits')" title="Explore Casual Outfits">
-        <img class="apparel-overlap-img" src="categories_assets/casual_clean.png" alt="Casual Outfits">
+        <img class="apparel-overlap-img" src="categories_assets/card_casual_exact.png" alt="Casual Outfits - Keep It Simple Keep It Cool">
       </div>
 
       <!-- Box 3: Wedding Outfits -->
       <div class="apparel-overlap-card" onclick="openCategoryProducts('wedding', 'Wedding Outfits')" title="Explore Wedding Outfits">
-        <img class="apparel-overlap-img" src="categories_assets/wedding_clean.png" alt="Wedding Outfits">
+        <img class="apparel-overlap-img" src="categories_assets/card_wedding_exact.png" alt="Wedding Outfits - Dress To Impress">
       </div>
 
       <!-- Box 4: Traditional Outfits -->
       <div class="apparel-overlap-card" onclick="openCategoryProducts('traditional', 'Traditional Outfits')" title="Explore Traditional Outfits">
-        <img class="apparel-overlap-img" src="categories_assets/traditional_clean.png" alt="Traditional Outfits">
+        <img class="apparel-overlap-img" src="categories_assets/card_traditional_exact.png" alt="Traditional Outfits - Tradition With Style">
       </div>
 
     </div>
