@@ -678,37 +678,44 @@
 
     .apparel-card {
       position: relative;
-      border-radius: 24px;
+      border-radius: 22px;
       overflow: hidden;
-      min-height: clamp(480px, 58vh, 620px);
-      background: #111111;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.16);
-      transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      aspect-ratio: 275 / 420;
+      min-height: 440px;
+      background: #000000;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.22);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: clamp(20px, 2.5vw, 28px);
       box-sizing: border-box;
       transform: translateY(0);
       will-change: transform, box-shadow;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(0, 0, 0, 0.12);
     }
 
+    /* Subtle 3D tilt as per reference design */
+    .apparel-card:nth-child(1) { transform: perspective(1200px) rotateY(5deg) rotateX(1deg); }
+    .apparel-card:nth-child(2) { transform: perspective(1200px) rotateY(2deg); }
+    .apparel-card:nth-child(3) { transform: perspective(1200px) rotateY(-2deg); }
+    .apparel-card:nth-child(4) { transform: perspective(1200px) rotateY(-5deg) rotateX(1deg); }
+
     .apparel-card:hover {
-      transform: translateY(-12px) scale(1.02);
-      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.3);
-      border-color: rgba(255, 255, 255, 0.3);
+      transform: perspective(1200px) rotateY(0deg) rotateX(0deg) translateY(-16px) scale(1.04) !important;
+      box-shadow: 0 32px 70px rgba(0, 0, 0, 0.35);
+      border-color: rgba(0, 0, 0, 0.3);
+      z-index: 10;
     }
 
-    /* Slanted perspective cards mimicking reference art */
-    .apparel-card:nth-child(1) { transform: perspective(1000px) rotateY(3deg); }
-    .apparel-card:nth-child(2) { transform: perspective(1000px) rotateY(1deg); }
-    .apparel-card:nth-child(3) { transform: perspective(1000px) rotateY(-1deg); }
-    .apparel-card:nth-child(4) { transform: perspective(1000px) rotateY(-3deg); }
+    .apparel-card-poster-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-    .apparel-card:hover {
-      transform: perspective(1000px) rotateY(0deg) translateY(-14px) scale(1.03) !important;
+    .apparel-card:hover .apparel-card-poster-img {
+      transform: scale(1.04);
     }
 
     .apparel-card-bg {
@@ -1213,63 +1220,27 @@
       <div class="collections-subtitle">FIND YOUR PERFECT STYLE</div>
     </div>
 
-    <!-- 4 High Impact Animated 3D Style Boxes -->
+    <!-- 4 High Impact Animated 3D Style Boxes (Exact Match to Reference Poster Cards) -->
     <div class="apparel-cards-grid">
 
       <!-- Box 1: Korean Outfits -->
-      <div class="apparel-card" onclick="openCategoryProducts('korean', 'Korean Outfits')">
-        <img class="apparel-card-bg" src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=1000&q=85" alt="Korean Outfits">
-        <div class="apparel-card-overlay"></div>
-        <div class="apparel-card-top">
-          <span class="apparel-card-badge">TRENDY LOOKS</span>
-        </div>
-        <div class="apparel-card-bottom">
-          <h3 class="apparel-brush-title">KOREAN<br>OUTFITS</h3>
-          <div class="apparel-card-tagline">STAY TRENDY.<br>STAY AHEAD.</div>
-          <div class="apparel-action-circle">→</div>
-        </div>
+      <div class="apparel-card" onclick="openCategoryProducts('korean', 'Korean Outfits')" title="Explore Korean Outfits">
+        <img class="apparel-card-poster-img" src="categories_assets/korean_poster.jpg" alt="Korean Outfits - Stay Trendy Stay Ahead">
       </div>
 
       <!-- Box 2: Casual Outfits -->
-      <div class="apparel-card" onclick="openCategoryProducts('casual', 'Casual Outfits')">
-        <img class="apparel-card-bg" src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1000&q=85" alt="Casual Outfits">
-        <div class="apparel-card-overlay"></div>
-        <div class="apparel-card-top">
-          <span class="apparel-card-badge">EVERYDAY STYLE</span>
-        </div>
-        <div class="apparel-card-bottom">
-          <h3 class="apparel-brush-title gold-accent">CASUAL<br>OUTFITS</h3>
-          <div class="apparel-card-tagline">KEEP IT SIMPLE.<br>KEEP IT COOL.</div>
-          <div class="apparel-action-circle">→</div>
-        </div>
+      <div class="apparel-card" onclick="openCategoryProducts('casual', 'Casual Outfits')" title="Explore Casual Outfits">
+        <img class="apparel-card-poster-img" src="categories_assets/casual_poster.jpg" alt="Casual Outfits - Keep It Simple Keep It Cool">
       </div>
 
       <!-- Box 3: Wedding Outfits -->
-      <div class="apparel-card" onclick="openCategoryProducts('wedding', 'Wedding Outfits')">
-        <img class="apparel-card-bg" src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1000&q=85" alt="Wedding Outfits">
-        <div class="apparel-card-overlay"></div>
-        <div class="apparel-card-top">
-          <span class="apparel-card-badge">SPECIAL MOMENTS</span>
-        </div>
-        <div class="apparel-card-bottom">
-          <h3 class="apparel-brush-title gold-accent">WEDDING<br>OUTFITS</h3>
-          <div class="apparel-card-tagline">DRESS TO<br>IMPRESS.</div>
-          <div class="apparel-action-circle">→</div>
-        </div>
+      <div class="apparel-card" onclick="openCategoryProducts('wedding', 'Wedding Outfits')" title="Explore Wedding Outfits">
+        <img class="apparel-card-poster-img" src="categories_assets/wedding_poster.jpg" alt="Wedding Outfits - Dress To Impress">
       </div>
 
       <!-- Box 4: Traditional Outfits -->
-      <div class="apparel-card" onclick="openCategoryProducts('traditional', 'Traditional Outfits')">
-        <img class="apparel-card-bg" src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1000&q=85" alt="Traditional Outfits">
-        <div class="apparel-card-overlay"></div>
-        <div class="apparel-card-top">
-          <span class="apparel-card-badge">OUR ROOTS</span>
-        </div>
-        <div class="apparel-card-bottom">
-          <h3 class="apparel-brush-title gold-accent">TRADITIONAL<br>OUTFITS</h3>
-          <div class="apparel-card-tagline">TRADITION<br>WITH STYLE.</div>
-          <div class="apparel-action-circle">→</div>
-        </div>
+      <div class="apparel-card" onclick="openCategoryProducts('traditional', 'Traditional Outfits')" title="Explore Traditional Outfits">
+        <img class="apparel-card-poster-img" src="categories_assets/traditional_poster.jpg" alt="Traditional Outfits - Tradition With Style">
       </div>
 
     </div>
