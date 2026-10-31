@@ -656,49 +656,51 @@
 
     /* Overlapping 4-Card Stage with popping heads */
     .apparel-cards-stage {
-      max-width: 1320px;
+      max-width: 1300px;
       margin: 0 auto;
       display: flex;
       justify-content: center;
       align-items: flex-end;
       position: relative;
       padding: 40px 10px 20px;
+      gap: 12px;
     }
 
     .apparel-overlap-card {
       position: relative;
       flex: 1;
-      max-width: 320px;
+      max-width: 300px;
       cursor: pointer;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      margin: 0 -22px; /* Authentic card-over-card overlap */
-      filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.22));
+      border-radius: 20px;
+      overflow: visible;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+      filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.16));
       will-change: transform, filter;
     }
 
-    /* Stacking order and natural slanted perspective as per preview image */
+    /* Clean balanced perspective angles matching preview art */
     .apparel-overlap-card:nth-child(1) {
       z-index: 1;
-      transform: perspective(1200px) rotateY(6deg) translateY(0);
+      transform: perspective(1200px) rotateY(4deg) translateY(0);
     }
     .apparel-overlap-card:nth-child(2) {
       z-index: 2;
-      transform: perspective(1200px) rotateY(2deg) translateY(-8px);
+      transform: perspective(1200px) rotateY(1.5deg) translateY(-6px);
     }
     .apparel-overlap-card:nth-child(3) {
       z-index: 3;
-      transform: perspective(1200px) rotateY(-2deg) translateY(-14px);
+      transform: perspective(1200px) rotateY(-1.5deg) translateY(-10px);
     }
     .apparel-overlap-card:nth-child(4) {
       z-index: 4;
-      transform: perspective(1200px) rotateY(-6deg) translateY(-4px);
+      transform: perspective(1200px) rotateY(-4deg) translateY(-4px);
     }
 
-    /* Hover elevation - pops to front smoothly */
+    /* ONLY hovered card pops up in crystal-clean focus with zero edge-clipping */
     .apparel-overlap-card:hover {
-      z-index: 20 !important;
-      transform: perspective(1200px) rotateY(0deg) translateY(-24px) scale(1.05) !important;
-      filter: drop-shadow(0 28px 45px rgba(0, 0, 0, 0.36)) !important;
+      z-index: 30 !important;
+      transform: perspective(1200px) rotateY(0deg) translateY(-22px) scale(1.06) !important;
+      filter: drop-shadow(0 26px 48px rgba(0, 0, 0, 0.32)) !important;
     }
 
     .apparel-overlap-img {
@@ -1234,22 +1236,22 @@
 
       <!-- Box 1: Korean Outfits -->
       <div class="apparel-overlap-card" onclick="openCategoryProducts('korean', 'Korean Outfits')" title="Explore Korean Outfits">
-        <img class="apparel-overlap-img" src="categories_assets/korean_cutout.png" alt="Korean Outfits">
+        <img class="apparel-overlap-img" src="categories_assets/korean_clean.png" alt="Korean Outfits">
       </div>
 
       <!-- Box 2: Casual Outfits -->
       <div class="apparel-overlap-card" onclick="openCategoryProducts('casual', 'Casual Outfits')" title="Explore Casual Outfits">
-        <img class="apparel-overlap-img" src="categories_assets/casual_cutout.png" alt="Casual Outfits">
+        <img class="apparel-overlap-img" src="categories_assets/casual_clean.png" alt="Casual Outfits">
       </div>
 
       <!-- Box 3: Wedding Outfits -->
       <div class="apparel-overlap-card" onclick="openCategoryProducts('wedding', 'Wedding Outfits')" title="Explore Wedding Outfits">
-        <img class="apparel-overlap-img" src="categories_assets/wedding_cutout.png" alt="Wedding Outfits">
+        <img class="apparel-overlap-img" src="categories_assets/wedding_clean.png" alt="Wedding Outfits">
       </div>
 
       <!-- Box 4: Traditional Outfits -->
       <div class="apparel-overlap-card" onclick="openCategoryProducts('traditional', 'Traditional Outfits')" title="Explore Traditional Outfits">
-        <img class="apparel-overlap-img" src="categories_assets/traditional_cutout.png" alt="Traditional Outfits">
+        <img class="apparel-overlap-img" src="categories_assets/traditional_clean.png" alt="Traditional Outfits">
       </div>
 
     </div>
