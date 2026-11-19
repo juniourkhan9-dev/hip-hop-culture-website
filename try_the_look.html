@@ -370,6 +370,77 @@
       background: #27272a;
       transform: translateY(-1px);
     }
+  
+    /* DARK THEME OVERRIDES */
+    body.dark-mode,
+    body.dark-mode .stage-main,
+    body.dark-mode .bottom-slider-bar,
+    body.dark-mode .sidebar-details {
+      background: #0a0a0c !important;
+      color: #ffffff !important;
+    }
+    body.dark-mode .top-header h1 {
+      color: #ffffff !important;
+    }
+    body.dark-mode .top-header p {
+      color: #71717a !important;
+    }
+    body.dark-mode .nav-arrow {
+      color: #ffffff !important;
+    }
+    body.dark-mode .tick-btn {
+      color: #a1a1aa !important;
+    }
+    body.dark-mode .tick-btn.active {
+      color: #ff1c1c !important;
+    }
+    body.dark-mode .tick-btn.active::after {
+      background: #ff1c1c !important;
+    }
+    body.dark-mode .auto-360-btn {
+      background: #0a0a0c !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      color: #ffffff !important;
+    }
+    body.dark-mode .auto-360-btn:hover {
+      background: #14151b !important;
+      border-color: #ffffff !important;
+    }
+    body.dark-mode .sidebar-details {
+      border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    body.dark-mode .sidebar-head {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    body.dark-mode .item-card {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    body.dark-mode .item-box-img {
+      background: #181920 !important;
+    }
+    body.dark-mode .new-tag {
+      background: #14151b !important;
+      color: #ffffff !important;
+    }
+    body.dark-mode .item-product-name,
+    body.dark-mode .item-price-tag {
+      color: #ffffff !important;
+    }
+    body.dark-mode .sidebar-footer {
+      background: #0f1015 !important;
+      border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    body.dark-mode .complete-look-title {
+      color: #ffffff !important;
+    }
+    body.dark-mode .bold-final-price {
+      color: #ff1c1c !important;
+    }
+    body.dark-mode .btn-add-entire-look {
+      background: #ff1c1c !important;
+      color: #ffffff !important;
+    }
+
   </style>
 </head>
 <body>
@@ -903,6 +974,40 @@
 
     animate();
     startAutoRotate();
+
+    // Interactive Theme Swapper for Three.js WebGL Scene & DOM
+    function applySceneTheme(theme) {
+      if (theme === 'dark') {
+        document.body.classList.add('dark-mode');
+        if (typeof scene !== 'undefined') {
+          scene.background = new THREE.Color(0x0a0a0c);
+        }
+        if (typeof renderer !== 'undefined') {
+          renderer.setClearColor(0x0a0a0c, 1);
+        }
+      } else {
+        document.body.classList.remove('dark-mode');
+        if (typeof scene !== 'undefined') {
+          scene.background = new THREE.Color(0xffffff);
+        }
+        if (typeof renderer !== 'undefined') {
+          renderer.setClearColor(0xffffff, 1);
+        }
+      }
+    }
+
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.theme) {
+        applySceneTheme(e.data.theme);
+      }
+    });
+
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialTheme = urlParams.get('theme') || localStorage.getItem('elvique_theme') || 'light';
+      applySceneTheme(initialTheme);
+    } catch(e) {}
+
   </script>
 </body>
 </html>

@@ -541,6 +541,91 @@
     .link-view-shop:hover {
       opacity: 0.6;
     }
+  
+    /* DARK THEME STYLES */
+    body.dark-mode {
+      background-color: #0a0a0c !important;
+      color: #ffffff !important;
+    }
+    body.dark-mode .title-primary {
+      color: #ffffff !important;
+    }
+    body.dark-mode .title-secondary {
+      color: #a1a1aa !important;
+    }
+    body.dark-mode .rod-bar {
+      background: linear-gradient(180deg, #444444 0%, #2a2a2a 50%, #111111 100%) !important;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.2) !important;
+    }
+    body.dark-mode .hover-note {
+      color: #a1a1aa !important;
+    }
+    body.dark-mode .hover-note span.pill {
+      background: #ff1c1c !important;
+      color: #ffffff !important;
+    }
+    body.dark-mode .product-footer-bar {
+      background: #0f1015 !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    }
+    body.dark-mode .footer-left h3 {
+      color: #ffffff !important;
+    }
+    body.dark-mode .footer-left p {
+      color: #a1a1aa !important;
+    }
+    body.dark-mode .footer-price {
+      color: #ffffff !important;
+    }
+    body.dark-mode .btn-action {
+      background: #ff1c1c !important;
+      color: #ffffff !important;
+    }
+    body.dark-mode .product-modal-card {
+      background: #0f1015 !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    }
+    body.dark-mode .modal-close-btn {
+      color: #ffffff !important;
+    }
+    body.dark-mode .modal-product-name,
+    body.dark-mode .modal-price-tag {
+      color: #ffffff !important;
+    }
+    body.dark-mode .modal-index-counter,
+    body.dark-mode .size-label-title {
+      color: #a1a1aa !important;
+    }
+    body.dark-mode .view-tab {
+      color: #a1a1aa !important;
+    }
+    body.dark-mode .view-tab.active {
+      color: #ffffff !important;
+      border-bottom: 2px solid #ff1c1c !important;
+    }
+    body.dark-mode .size-pill-circle {
+      background: #14151b !important;
+      color: #ffffff !important;
+      border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    }
+    body.dark-mode .size-pill-circle.selected {
+      background: #ff1c1c !important;
+      border-color: #ff1c1c !important;
+    }
+    body.dark-mode .modal-add-to-cart-btn {
+      background: #ff1c1c !important;
+      color: #ffffff !important;
+    }
+    body.dark-mode .modal-footer-row {
+      border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+      color: #ffffff !important;
+    }
+    body.dark-mode .footer-cat-name,
+    body.dark-mode .link-view-shop {
+      color: #ffffff !important;
+    }
+
   </style>
   <script src="./assets/full_wardrobe_data.js"></script>
 </head>
@@ -885,6 +970,29 @@
     });
 
     resetAllItems();
+  
+    // Listen for Theme Switch from parent index.html
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.theme) {
+        setTheme(e.data.theme);
+      }
+    });
+
+    function setTheme(theme) {
+      if (theme === 'dark') {
+        document.body.classList.add('dark-mode');
+      } else {
+        document.body.classList.remove('dark-mode');
+      }
+    }
+
+    // Check localStorage or URL param on load
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialTheme = urlParams.get('theme') || localStorage.getItem('elvique_theme') || 'light';
+      setTheme(initialTheme);
+    } catch(e) {}
+
   </script>
 </body>
 </html>
