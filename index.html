@@ -1473,7 +1473,7 @@
       <a href="#">Lookbook</a>
       <a href="#">Journal</a>
       <a href="#">About</a>
-      <a href="#">Showrooms</a>
+      <a href="#virtual-showroom-gateway">Showrooms</a>
       <a href="#">Contact</a>
     </nav>
     <div class="header-right">
@@ -1741,10 +1741,10 @@
       </div>
 
       <!-- Item 7: Bleached Sky Wash Denim -->
-      <div class="funky-card" onclick="openFunkyDetail('Bleached Sky Wash Wide Skate Denim', '₹3,599', 'showroom_assets/denim_row/denim_pair_1.png', 'Classic skate baggy silhouette with vintage hand-sanded whiskering, loose hem drape, and reinforced stress points.')">
+      <div class="funky-card" onclick="openFunkyDetail('Bleached Sky Wash Wide Skate Denim', '₹3,599', 'showroom_assets/user_hiphop_cutouts/hiphop_bleached_denim.png', 'Classic skate baggy silhouette with vintage hand-sanded whiskering, loose hem drape, and reinforced stress points.')">
         <span class="funky-card-tag">07 / VINTAGE</span>
         <div class="funky-card-imgbox">
-          <img src="showroom_assets/denim_row/denim_pair_1.png" alt="Bleached Skate Denim">
+          <img src="showroom_assets/user_hiphop_cutouts/hiphop_bleached_denim.png" alt="Bleached Skate Denim">
         </div>
         <div class="funky-sub-tag">BAGGY SKATE FIT</div>
         <h3 class="funky-card-title">Bleached Skate Denim</h3>
@@ -1755,10 +1755,10 @@
       </div>
 
       <!-- Item 8: Dark Shadow Raw Rinse Denim -->
-      <div class="funky-card" onclick="openFunkyDetail('Dark Shadow Raw Rinse Street Denim', '₹3,799', 'showroom_assets/denim_row/denim_pair_5.png', 'Heavyweight dark wash rinse denim with metallic copper stitching and raw aesthetic finish.')">
+      <div class="funky-card" onclick="openFunkyDetail('Dark Shadow Raw Rinse Street Denim', '₹3,799', 'showroom_assets/user_hiphop_cutouts/hiphop_dark_denim.png', 'Heavyweight dark wash rinse denim with metallic copper stitching and raw aesthetic finish.')">
         <span class="funky-card-tag">08 / RAW RINSE</span>
         <div class="funky-card-imgbox">
-          <img src="showroom_assets/denim_row/denim_pair_5.png" alt="Dark Shadow Denim">
+          <img src="showroom_assets/user_hiphop_cutouts/hiphop_dark_denim.png" alt="Dark Shadow Denim">
         </div>
         <div class="funky-sub-tag">DEEP SHADOW RINSE</div>
         <h3 class="funky-card-title">Dark Shadow Denim</h3>
@@ -2073,6 +2073,53 @@
 
     <!-- Extra Bottom Scroll Runway so user can fully enjoy the entire animation -->
     <div style="height: clamp(80px, 14vh, 160px); width: 100%;"></div>
+
+  </section>
+
+  <!-- =========================================
+       PAGE 9: 3D VIRTUAL SHOWROOM TOUR DISCOVERY (Seoul Flagship Walkthrough)
+       ========================================= -->
+  <section id="virtual-showroom-gateway" style="width: 100%; min-height: 80vh; background: #0c0c0e; color: #ffffff; padding: clamp(80px, 12vh, 140px) clamp(20px, 4vw, 60px); box-sizing: border-box; position: relative; overflow: hidden; border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center;">
+    
+    <!-- Background Ambient Glow & Dark Boutique Atmosphere -->
+    <div style="position: absolute; inset: 0; background: radial-gradient(circle at 50% 40%, rgba(255, 28, 28, 0.12) 0%, rgba(0,0,0,0.85) 65%, #0c0c0e 100%); pointer-events: none;"></div>
+    
+    <div style="position: relative; z-index: 2; max-width: 900px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+      
+      <!-- Top Tag -->
+      <div style="display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.16); padding: 6px 16px; border-radius: 999px;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: #ff1c1c; box-shadow: 0 0 10px #ff1c1c;"></span>
+        <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #ffffff;">IMMERSIVE 3D EXPERIENCE</span>
+      </div>
+
+      <!-- Main Heading -->
+      <h2 style="font-family: var(--font-display); font-size: clamp(38px, 6.2vw, 76px); font-weight: 700; line-height: 1.05; letter-spacing: -0.01em; text-transform: uppercase; color: #ffffff; margin: 0;">
+        STEP INSIDE THE<br>
+        <span style="color: #ff1c1c;">SEOUL FLAGSHIP</span> STORE
+      </h2>
+
+      <!-- Description Subtitle -->
+      <p style="font-family: var(--font-mono); font-size: clamp(12px, 1.4vw, 15px); color: #a1a1aa; max-width: 620px; line-height: 1.6; margin: 0;">
+        Take a scroll-driven 3D walkthrough inside our architectural boutique. Explore exclusive streetwear racks, inspect individual looks in 360&deg;, and discover the FW26 collection.
+      </p>
+
+      <!-- Launch Tour Button -->
+      <div style="margin-top: 14px;">
+        <a href="showroom.html" style="background: #0f1015; color: #ffffff; padding: 18px 36px; border-radius: 999px; font-family: var(--font-mono); font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.2);">
+          <span>Enter 3D Showroom</span>
+          <span style="font-size: 16px; font-weight: 900;">→</span>
+        </a>
+      </div>
+
+      <!-- Features Pill Row -->
+      <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 24px; font-family: var(--font-mono); font-size: 11px; color: #71717a; letter-spacing: 0.1em; text-transform: uppercase;">
+        <span>✦ 360&deg; Orbit View</span>
+        <span>✦ Scroll Walkthrough</span>
+        <span>✦ Interactive Racks</span>
+        <span>✦ Real-Time 120 FPS</span>
+      </div>
+
+    </div>
 
   </section>
 
