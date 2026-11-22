@@ -1,0 +1,2048 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ELVIQUE — Seoul FW26</title>
+  
+  <!-- Exact Typography from Elvique: Oswald (Headings/Display) + JetBrains Mono (Technical Labels/Nav) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Oswald:wght@500;600;700&family=Sedgwick+Ave+Display&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================
+       CSS VARIABLES & RESET
+       ========================================= */
+    :root {
+      --primary-red: #ff1c1c;
+      --bg-light: #0b0c10;
+      --text-dark: #f3f4f6;
+      --font-display: 'Oswald', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease-framer: cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: #0b0c10;
+      color: var(--text-dark);
+      font-family: var(--font-mono);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* =========================================
+       1. PRELOADER SCREEN (Exact Match)
+       ========================================= */
+    #preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #000000;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(20px, 3.2vw, 42px);
+      transition: transform 1s var(--ease-framer);
+      will-change: transform;
+      pointer-events: all;
+    }
+
+    .preloader-top {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .preloader-center {
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+
+    .preloader-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(52px, 12vw, 190px);
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      animation: pl-rise 1s var(--ease-framer) both;
+      transform-origin: bottom left;
+    }
+
+    @keyframes pl-rise {
+      from {
+        transform: translateY(115%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0%);
+        opacity: 1;
+      }
+    }
+
+    .preloader-bottom {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .preloader-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+    }
+
+    .preloader-counter {
+      font-variant-numeric: tabular-nums;
+      color: var(--primary-red);
+      font-weight: 600;
+    }
+
+    .preloader-track {
+      width: 100%;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.18);
+      position: relative;
+    }
+
+    .preloader-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--primary-red);
+    }
+
+    #preloader.loaded {
+      transform: translateY(-100%);
+      pointer-events: none;
+    }
+
+    /* =========================================
+       2. HEADER NAVIGATION
+       ========================================= */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 20px;
+      padding: 18px clamp(20px, 3.2vw, 42px);
+      background: rgba(10, 10, 12, 0.94) !important;
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.7s ease, transform 0.7s var(--ease-framer);
+    }
+
+    header.enter-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .brand-logo {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 24px;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    nav {
+      display: flex;
+      gap: 26px;
+    }
+
+    nav a {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: var(--primary-red);
+    }
+
+    .header-right {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .bag-link {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .shop-btn {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      height: 36px;
+      padding: 0 18px;
+      border-radius: 999px;
+      border: 1px solid var(--primary-red);
+      background: var(--primary-red);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .shop-btn:hover {
+      background: #000000;
+      border-color: #ffffff;
+    }
+
+    /* =========================================
+       3. HERO LOOKS SECTION
+       ========================================= */
+    .hero-container {
+      padding-top: 85px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cards-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: clamp(10px, 1.4vw, 22px);
+      padding: 30px clamp(20px, 3.2vw, 42px) 20px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .card-item {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      text-decoration: none;
+      color: inherit;
+      opacity: 0;
+      transform: translateY(80px);
+      transition: opacity 0.9s var(--ease-framer), transform 0.9s var(--ease-framer);
+    }
+
+    .card-item.enter-active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-item:nth-child(1).enter-active { transition-delay: 0.05s; }
+    .card-item:nth-child(2).enter-active { transition-delay: 0.15s; }
+    .card-item:nth-child(3).enter-active { transition-delay: 0.25s; }
+    .card-item:nth-child(4).enter-active { transition-delay: 0.35s; }
+    .card-item:nth-child(5).enter-active { transition-delay: 0.45s; }
+    .card-item:nth-child(6).enter-active { transition-delay: 0.55s; }
+    .card-item:nth-child(7).enter-active { transition-delay: 0.65s; }
+
+    .top-meta-label {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ffffff;
+      margin-bottom: 8px;
+      align-self: center;
+    }
+
+    .card-img-box {
+      overflow: hidden;
+      background: #eaeaea;
+      position: relative;
+      width: 100%;
+    }
+
+    .card-img-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.7s var(--ease-framer);
+    }
+
+    .card-item:hover .card-img-box img {
+      transform: scale(1.06);
+    }
+
+    .view-look-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(20, 21, 27, 0.95);
+      color: #ffffff;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      pointer-events: none;
+    }
+
+    .card-item:hover .view-look-badge {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-1 { width: clamp(140px, 15vw, 240px); height: clamp(200px, 25vw, 360px); }
+    .card-2 { width: clamp(110px, 11vw, 175px); height: clamp(150px, 18vw, 250px); }
+    .card-3 { width: clamp(115px, 12vw, 185px); height: clamp(210px, 26vw, 380px); }
+    .card-4 { width: clamp(160px, 18vw, 290px); height: clamp(280px, 34vw, 500px); }
+    .card-5 { width: clamp(130px, 14vw, 220px); height: clamp(210px, 26vw, 380px); }
+    .card-6 { width: clamp(110px, 11vw, 175px); height: clamp(190px, 23vw, 330px); }
+    .card-7 { width: clamp(110px, 11vw, 175px); height: clamp(180px, 22vw, 310px); }
+
+    .card-bottom-label {
+      margin-top: 8px;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-align: right;
+      width: 100%;
+    }
+
+    .meta-footer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px clamp(20px, 3.2vw, 42px) 30px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.8s ease 0.6s;
+    }
+
+    .meta-footer-row.enter-active {
+      opacity: 1;
+    }
+
+    /* =========================================
+       4. PAGE 2: TEXT COLOR SCRUB ON SCROLL
+       ========================================= */
+    /* =========================================
+       4. PAGE 2: NATURAL SCROLLING TEXT (NO FREEZING)
+       ========================================= */
+    .section-feel-track {
+      width: 100%;
+      background: #0a0a0c !important;
+      padding: clamp(70px, 12vh, 140px) clamp(20px, 4vw, 60px) 0;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .section-feel-content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .feel-tag-row {
+      width: 100%;
+      max-width: 1400px;
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: clamp(24px, 4vh, 48px);
+    }
+
+    .feel-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ff1c1c !important;
+    }
+
+    /* Giant Scrub Headline */
+    .scrub-headline {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 7.8vw, 115px);
+      line-height: 1.05;
+      font-weight: 600;
+      text-transform: uppercase;
+      text-align: center;
+      letter-spacing: -0.01em;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* Each word: light grey inactive, black fill */
+    .scrub-word {
+      position: relative;
+      display: inline-block;
+      margin: 0 0.16em;
+      color: rgba(255, 255, 255, 0.18); /* Dark mode base */
+      user-select: none;
+    }
+
+    .scrub-word .fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: #ffffff; /* Solid White reveal */
+      white-space: nowrap;
+      clip-path: inset(0 100% 0 0);
+      
+    }
+
+    /* Arc container under text: perfectly overlaps and clips bottom image */
+    .feel-arc-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      margin-top: clamp(20px, 4vh, 40px);
+      margin-bottom: -40px; /* Reduces gap so next image sits right under the arc */
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .feel-arc {
+      width: 120%;
+      height: 300px;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      border-radius: 50%;
+      position: absolute;
+      top: 20px;
+      background: transparent !important;
+    }
+
+    /* =========================================
+       REPLAY FLOATING BUTTON
+       ========================================= */
+    .controls-overlay {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 2000;
+    }
+
+    .btn-replay {
+      background: #000000;
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.25);
+      transition: all 0.2s ease;
+    }
+
+    /* -----------------------------------------
+       PERFORMANCE OPTIMIZATIONS (120Hz / GPU Compositing)
+       ----------------------------------------- */
+    .card-item,
+    .scrub-word .fill,
+    .m-scrub-word .m-fill,
+    #giant-marquee-track,
+    #drag-gallery-track {
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      perspective: 1000px;
+    }
+    body.is-scrolling iframe {
+      pointer-events: none !important;
+    }
+
+    /* =========================================
+       APPAREL COLLECTIONS SHOWCASE (4 Korean Style Cards)
+       ========================================= */
+    .apparel-collections-section {
+      width: 100%;
+      min-height: 100vh;
+      background: #0f1015;
+      padding: clamp(60px, 8vh, 100px) clamp(20px, 4vw, 60px);
+      box-sizing: border-box;
+      position: relative;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+    }
+
+    .collections-header {
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto clamp(40px, 6vh, 60px);
+      position: relative;
+    }
+
+    .collections-top-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #71717a;
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .collections-top-badge::before,
+    .collections-top-badge::after {
+      content: "";
+      display: inline-block;
+      width: 40px;
+      height: 1px;
+      background: #d4d4d8;
+    }
+
+    .collections-main-title {
+      font-family: 'Sedgwick Ave Display', 'Oswald', sans-serif;
+      font-size: clamp(38px, 6.5vw, 76px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      color: #ffffff;
+      line-height: 1.05;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .collections-main-title .star-accent {
+      font-family: var(--font-display);
+      font-size: 0.6em;
+      color: #ffffff;
+      vertical-align: middle;
+    }
+
+    .collections-subtitle {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 14px;
+    }
+
+    /* Exact Reference 4-Card Stage (Cinematic, Tilted, Non-Overlapping Panels) */
+    .apparel-cards-stage {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      position: relative;
+      padding: 30px 15px 20px;
+      gap: clamp(14px, 2vw, 24px);
+    }
+
+    .apparel-overlap-card {
+      position: relative;
+      flex: 1;
+      max-width: 320px;
+      border-radius: 0px;
+      overflow: visible;
+      cursor: pointer;
+      box-shadow: none;
+      filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.18));
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, filter;
+      border: none !important; /* Zero borders */
+      background: transparent !important;
+    }
+
+    /* Subtle Cinematic Tilted Perspective (Matching Image 2 Reference) */
+    .apparel-overlap-card:nth-child(1) {
+      transform: perspective(1200px) rotateY(3.5deg) rotateZ(-0.5deg);
+    }
+    .apparel-overlap-card:nth-child(2) {
+      transform: perspective(1200px) rotateY(1deg) rotateZ(0.2deg);
+    }
+    .apparel-overlap-card:nth-child(3) {
+      transform: perspective(1200px) rotateY(-1deg) rotateZ(-0.2deg);
+    }
+    .apparel-overlap-card:nth-child(4) {
+      transform: perspective(1200px) rotateY(-3.5deg) rotateZ(0.5deg);
+    }
+
+    /* Smooth Hover Lift without any collision or overlap */
+    .apparel-overlap-card:hover {
+      transform: perspective(1200px) rotateY(0deg) rotateZ(0deg) translateY(-16px) scale(1.04) !important;
+      filter: drop-shadow(0 26px 45px rgba(0, 0, 0, 0.30)) !important;
+      border: none !important;
+      z-index: 10;
+    }
+
+    .apparel-overlap-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      pointer-events: none;
+      user-select: none;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .apparel-overlap-card:hover .apparel-overlap-img {
+      transform: scale(1.04);
+    }
+
+    @media (max-width: 1024px) {
+      .apparel-cards-stage {
+        flex-wrap: wrap;
+        gap: 24px;
+      }
+      .apparel-overlap-card {
+        flex: 1 1 calc(50% - 24px);
+        max-width: 48%;
+        transform: none !important;
+      }
+      .apparel-overlap-card:hover {
+        transform: translateY(-8px) scale(1.02) !important;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .apparel-cards-stage {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+      .apparel-overlap-card {
+        width: 100%;
+        max-width: 340px;
+        transform: none !important;
+      }
+    }
+
+    .apparel-card-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1;
+    }
+
+    .apparel-card:hover .apparel-card-bg {
+      transform: scale(1.08);
+    }
+
+    .apparel-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 35%, rgba(0,0,0,0.85) 80%, rgba(0,0,0,0.95) 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .apparel-card-top {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .apparel-card-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.85);
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(8px);
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .apparel-card-bottom {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .apparel-brush-title {
+      font-family: 'Sedgwick Ave Display', sans-serif;
+      font-size: clamp(32px, 3.8vw, 46px);
+      line-height: 0.95;
+      text-transform: uppercase;
+      color: #ffffff;
+      text-shadow: 0 4px 18px rgba(0,0,0,0.7);
+      margin: 0;
+    }
+
+    .apparel-brush-title.gold-accent {
+      color: #f7d280;
+    }
+
+    .apparel-card-tagline {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.4;
+    }
+
+    .apparel-action-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #0f1015;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 6px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+      align-self: flex-start;
+    }
+
+    .apparel-card:hover .apparel-action-circle {
+      background: var(--primary-red);
+      color: #ffffff;
+      transform: translateX(6px) scale(1.08);
+      box-shadow: 0 6px 22px rgba(255, 28, 28, 0.4);
+    }
+
+    /* Modal Popup to browse 4 products for each category */
+    .category-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(14px);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .category-modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .category-modal-window {
+      background: #0f1015;
+      width: 95%;
+      max-width: 1100px;
+      max-height: 88vh;
+      border-radius: 20px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      padding: 20px 24px 24px;
+      position: relative;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+      transform: scale(0.96);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .category-modal-backdrop.open .category-modal-window {
+      transform: scale(1);
+    }
+
+    .category-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .category-modal-title {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 2.6vw, 30px);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      color: #ffffff;
+      line-height: 1.1;
+    }
+
+    .category-modal-close-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: #14151b;
+      font-size: 16px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .category-modal-close-btn:hover {
+      background: #000000;
+      color: #ffffff;
+      transform: scale(1.08);
+    }
+
+    .category-modal-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .category-modal-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .category-modal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .category-product-card {
+      background: #14151b;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s ease;
+    }
+
+    .category-product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+      border-color: #ffffff;
+    }
+
+    .cat-card-imgbox {
+      width: 100%;
+      height: 175px;
+      position: relative;
+      background: #1c1d25;
+      overflow: hidden;
+    }
+
+    .cat-card-imgbox img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transition: transform 0.35s ease;
+    }
+
+    .category-product-card:hover .cat-card-imgbox img {
+      transform: scale(1.05);
+    }
+
+    .cat-card-info {
+      padding: 10px 12px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .cat-card-name {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 600;
+      color: #ffffff;
+      line-height: 1.2;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      height: 34px;
+    }
+
+    .cat-card-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .cat-card-cur-price {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .cat-card-view-btn {
+      margin-top: 6px;
+      background: #000000;
+      color: #ffffff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: center;
+      transition: background 0.2s;
+    }
+
+    .category-product-card:hover .cat-card-view-btn {
+      background: var(--primary-red);
+    }
+
+  </style>
+  <!-- Lenis Ultra-Smooth Scrolling Engine (Physics-based buttery momentum) -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+</head>
+<body>
+
+  <!-- =========================================
+       1. PRELOADER
+       ========================================= -->
+  <div id="preloader">
+    <div class="preloader-top">
+      SEOUL — FW26
+    </div>
+
+    <div class="preloader-center">
+      <h1 class="preloader-title">HIP HOP CULTURE</h1>
+    </div>
+
+    <div class="preloader-bottom">
+      <div class="preloader-status">
+        <span>Loading the collection</span>
+        <span id="counter" class="preloader-counter">000</span>
+      </div>
+      <div class="preloader-track">
+        <div id="progress-bar" class="preloader-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================
+       2. HEADER NAVIGATION
+       ========================================= -->
+  <header id="site-header">
+    <a href="#" class="brand-logo">ELVIQUE</a>
+    <nav>
+      <a href="#">Shop</a>
+      <a href="#">Lookbook</a>
+      <a href="#">Journal</a>
+      <a href="#">About</a>
+      <a href="#">Showrooms</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="header-right">
+      <a href="#" class="bag-link">Bag (0)</a>
+      <a href="#" class="shop-btn">Shop now</a>
+    </div>
+  </header>
+
+  <!-- =========================================
+       3. PAGE 1: HERO LOOKS ROW
+       ========================================= -->
+  <main class="hero-container">
+    <div class="cards-row">
+      
+      <!-- Card 1: Cozy -->
+      <a href="#" class="card-item">
+        <div class="card-img-box card-1">
+          <span class="view-look-badge">VIEW LOOK</span>
+          <img src="https://framerusercontent.com/images/iRMSLUf0hPyC6NbM8MR2JHf4.jpg?width=1600&height=1600" alt="Cozy Look">
+        </div>
+        <span class="card-bottom-label">COZY</span>
+      </a>
+
+      <!-- Card 2: Quiet -->
+      <a href="#" class="card-item">
+        <div class="card-img-box card-2">
+          <span class="view-look-badge">VIEW LOOK</span>
+          <img src="https://framerusercontent.com/images/eiDvMcXz3igs8S52zjagE6ah9Fw.jpg?width=1600&height=2400" alt="Quiet Look">
+        </div>
+        <span class="card-bottom-label">QUIET</span>
+      </a>
+
+      <!-- Card 3: Layered -->
+      <a href="#" class="card-item">
+        <div class="card-img-box card-3">
+          <span class="view-look-badge">VIEW LOOK</span>
+          <img src="https://framerusercontent.com/images/XD1NbwSmdtBjvlnlq5209UiIrQ.jpg?width=1600&height=2400" alt="Layered Look">
+        </div>
+        <span class="card-bottom-label">LAYERED</span>
+      </a>
+
+      <!-- Card 4: Seoul (Center) -->
+      <a href="#" class="card-item">
+        <span class="top-meta-label">SEOUL</span>
+        <div class="card-img-box card-4">
+          <span class="view-look-badge">VIEW LOOK</span>
+          <img src="https://framerusercontent.com/images/h3ZvfNQopkbi9WYdLK6WOujfq9Q.jpg?width=1600&height=2240" alt="Seoul Look">
+        </div>
+        <span class="card-bottom-label" style="opacity: 0;">.</span>
+      </a>
+
+      <!-- Card 5: Camel -->
+      <a href="#" class="card-item">
+        <div class="card-img-box card-5">
+          <span class="view-look-badge">VIEW LOOK</span>
+          <img src="https://framerusercontent.com/images/ervRbcCrfeAZcqSAIn6ableX8I.jpg?width=1600&height=2400" alt="Camel Look">
+        </div>
+        <span class="card-bottom-label">CAMEL</span>
+      </a>
+
+      <!-- Card 6: Winter -->
+      <a href="#" class="card-item">
+        <div class="card-img-box card-6">
+          <span class="view-look-badge">VIEW LOOK</span>
+          <img src="https://framerusercontent.com/images/6hykV5QkWcpSjQKeqlNjsDktweo.jpg?width=1600&height=2400" alt="Winter Look">
+        </div>
+        <span class="card-bottom-label">WINTER</span>
+      </a>
+
+      <!-- Card 7: Form -->
+      <a href="#" class="card-item">
+        <div class="card-img-box card-7">
+          <span class="view-look-badge">VIEW LOOK</span>
+          <img src="https://framerusercontent.com/images/7T7TVXcQ4wap5JTdZviaZRvnRE.jpg?width=1600&height=2844" alt="Form Look">
+        </div>
+        <span class="card-bottom-label">FORM</span>
+      </a>
+
+    </div>
+
+    <!-- Meta bottom row -->
+    <div id="meta-row" class="meta-footer-row">
+      <div class="scroll-indicator">
+        <span class="scroll-arrow">↓</span> Scroll
+      </div>
+      <div class="looks-count">
+        (07) Looks — FW26
+      </div>
+    </div>
+  </main>
+
+  <!-- =========================================
+       4. PAGE 2: NATURAL SCROLLING TEXT (NO FREEZING)
+       ========================================= -->
+  <section class="section-feel-track" id="feel-section">
+    <div class="section-feel-content">
+      <div class="feel-tag-row">
+        <span class="feel-tag">(02) — MATERIAL</span>
+      </div>
+
+      <!-- The Scrubbing Headline -->
+      <h2 class="scrub-headline" id="scrub-headline">
+        <span class="scrub-word">WARMTH<span class="fill">WARMTH</span></span>
+        <span class="scrub-word">AND<span class="fill">AND</span></span>
+        <span class="scrub-word">AFFECTION<span class="fill">AFFECTION</span></span>
+        <span class="scrub-word">BECAUSE<span class="fill">BECAUSE</span></span>
+        <span class="scrub-word">OF<span class="fill">OF</span></span>
+        <br>
+        <span class="scrub-word">YOUR<span class="fill">YOUR</span></span>
+        <span class="scrub-word">QUIET<span class="fill">QUIET</span></span>
+        <span class="scrub-word">LAYERS.<span class="fill">LAYERS.</span></span>
+      </h2>
+
+      <div class="feel-arc-wrapper">
+        <div class="feel-arc"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================
+       PAGE 4: TRY THE LOOK 3D 360 EXPERIENCE (Self-Contained File)
+       ========================================= -->
+  <section id="try-the-look-embed" style="width: 100%; height: 100vh; position: relative; background: #0b0c10; border-top: 1px solid rgba(255,255,255,0.08); overflow: hidden;">
+    <iframe src="try_the_look.html?v=1794810251" scrolling="no" style="width: 100%; height: 100%; border: none; display: block; overflow: hidden;" title="Try the Look 360 Experience"></iframe>
+  </section>
+
+  <!-- Solid Clear Breathing Gap so both sections never overlap -->
+  <div style="height: clamp(100px, 15vh, 180px); background: #0b0c10; width: 100%;"></div>
+
+  <!-- =========================================
+       PAGE 5: HANGING CLOTH SHOWCASE (Full Height Dedicated Page)
+       ========================================= -->
+  <section id="hanging-cloth-section" style="width: 100%; height: 100vh; position: relative; background: #0b0c10; overflow: hidden;">
+    <iframe src="hanging_cloth/index.html?v=1794810251" scrolling="no" style="width: 100%; height: 100%; border: none; display: block; overflow: hidden;" title="Hanging Cloth Showcase"></iframe>
+  </section>
+
+  <!-- =========================================
+       PAGE 5.5: APPAREL LOOK CATEGORIES (4 Korean Style Interactive Cards)
+       ========================================= -->
+    <section id="apparel-categories-section" class="funky-collection-section" style="width: 100%; min-height: 100vh; background: #0c0d12; color: #ffffff; padding: clamp(60px, 8vh, 100px) clamp(20px, 5vw, 60px); position: relative; overflow: hidden; box-sizing: border-box;">
+    
+    <!-- Background Ambient Glows -->
+    <div style="position: absolute; top: -100px; left: 15%; width: 450px; height: 450px; background: radial-gradient(circle, rgba(239, 68, 68, 0.12) 0%, transparent 70%); pointer-events: none; filter: blur(50px);"></div>
+    <div style="position: absolute; bottom: 50px; right: 10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%); pointer-events: none; filter: blur(60px);"></div>
+
+    <!-- Section Header -->
+    <div style="text-align: center; margin-bottom: clamp(40px, 6vh, 65px); position: relative; z-index: 2;">
+      <div style="display: inline-block; padding: 6px 18px; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 999px; font-family: var(--font-mono, monospace); font-size: 11px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; color: #ff4d4d; margin-bottom: 16px;">
+        EXCLUSIVE DROP · 2026 ARCHIVE
+      </div>
+      <h2 style="font-family: var(--font-serif, 'Playfair Display', serif); font-size: clamp(34px, 5vw, 62px); font-weight: 900; letter-spacing: -0.02em; margin: 0 0 12px 0; line-height: 1.1; text-transform: uppercase;">
+        FUNKY <span style="font-style: italic; background: linear-gradient(135deg, #ffffff 0%, #ff6b6b 50%, #feca57 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">STREETWEAR</span> COLLECTION <span style="color: #ff4757; font-style: normal;">✦</span>
+      </h2>
+      <p style="font-family: var(--font-mono, monospace); font-size: clamp(12px, 1.2vw, 14px); color: rgba(255, 255, 255, 0.55); letter-spacing: 0.18em; text-transform: uppercase; margin: 0 auto; max-width: 600px;">
+        Eight Signature Oversized Silhouettes · Tactical Fit · Street-Ready Aesthetic
+      </p>
+    </div>
+
+    <!-- 8 Funky Clothes Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: clamp(20px, 2.5vw, 32px); max-width: 1400px; margin: 0 auto; position: relative; z-index: 2;">
+
+      <!-- Item 1: Brooklyn Tee -->
+      <div class="funky-card" onclick="openFunkyDetail('Brooklyn New York Oversized Drop Tee', '₹1,899', 'showroom_assets/user_hiphop_cutouts/hiphop_cream_tee.png', 'Heavyweight 280 GSM combed organic cotton with arched collegiate typography and dropped shoulder drape.')" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; cursor: pointer; transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); position: relative; overflow: hidden;">
+        <span style="position: absolute; top: 16px; left: 16px; padding: 4px 10px; background: rgba(255,255,255,0.08); border-radius: 6px; font-family: monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; color: #fff;">01 / TEES</span>
+        <div style="width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; margin: 20px 0 16px;">
+          <img src="showroom_assets/user_hiphop_cutouts/hiphop_cream_tee.png" alt="Brooklyn Tee" style="max-width: 90%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.6)); transition: transform 0.4s ease;">
+        </div>
+        <div style="margin-top: auto;">
+          <div style="font-family: monospace; font-size: 11px; color: #ff6b6b; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700;">OVERSIZED FIT</div>
+          <h3 style="font-size: 18px; font-weight: 800; margin: 6px 0; color: #fff; letter-spacing: 0.02em;">Brooklyn NY Drop Tee</h3>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);">
+            <span style="font-size: 20px; font-weight: 900; color: #ffffff;">₹1,899</span>
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: #0f1015; color: #ffffff; font-size: 14px; font-weight: bold;">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 2: Born To Win Hoodie -->
+      <div class="funky-card" onclick="openFunkyDetail('Born To Win Studio Heavyweight Hoodie', '₹2,899', 'showroom_assets/user_hiphop_cutouts/hiphop_black_hoodie.png', '500 GSM pitch black French terry cotton with double-layered hood and signature crown typography.')" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; cursor: pointer; transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); position: relative; overflow: hidden;">
+        <span style="position: absolute; top: 16px; left: 16px; padding: 4px 10px; background: rgba(239,68,68,0.15); border-radius: 6px; font-family: monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; color: #ff6b6b;">02 / HOODIES</span>
+        <div style="width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; margin: 20px 0 16px;">
+          <img src="showroom_assets/user_hiphop_cutouts/hiphop_black_hoodie.png" alt="Born To Win Hoodie" style="max-width: 90%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.6)); transition: transform 0.4s ease;">
+        </div>
+        <div style="margin-top: auto;">
+          <div style="font-family: monospace; font-size: 11px; color: #ff6b6b; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700;">HEAVYWEIGHT 500GSM</div>
+          <h3 style="font-size: 18px; font-weight: 800; margin: 6px 0; color: #fff; letter-spacing: 0.02em;">Born To Win Hoodie</h3>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);">
+            <span style="font-size: 20px; font-weight: 900; color: #ffffff;">₹2,899</span>
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: #0f1015; color: #ffffff; font-size: 14px; font-weight: bold;">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 3: Baggy Cargo Jeans -->
+      <div class="funky-card" onclick="openFunkyDetail('Distressed Ice Baggy Cargo Denim', '₹3,499', 'showroom_assets/user_hiphop_cutouts/hiphop_blue_jeans.png', '14oz rigid light vintage wash denim featuring spacious tactical flap cargo pockets.')" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; cursor: pointer; transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); position: relative; overflow: hidden;">
+        <span style="position: absolute; top: 16px; left: 16px; padding: 4px 10px; background: rgba(59,130,246,0.15); border-radius: 6px; font-family: monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; color: #60a5fa;">03 / DENIM</span>
+        <div style="width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; margin: 20px 0 16px;">
+          <img src="showroom_assets/user_hiphop_cutouts/hiphop_blue_jeans.png" alt="Baggy Cargo Jeans" style="max-width: 90%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.6)); transition: transform 0.4s ease;">
+        </div>
+        <div style="margin-top: auto;">
+          <div style="font-family: monospace; font-size: 11px; color: #60a5fa; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700;">WIDE-LEG CARGO</div>
+          <h3 style="font-size: 18px; font-weight: 800; margin: 6px 0; color: #fff; letter-spacing: 0.02em;">Distressed Ice Denim</h3>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);">
+            <span style="font-size: 20px; font-weight: 900; color: #ffffff;">₹3,499</span>
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: #0f1015; color: #ffffff; font-size: 14px; font-weight: bold;">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 4: Plaid Overshirt -->
+      <div class="funky-card" onclick="openFunkyDetail('Buffalo Plaid Streetwear Flannel', '₹2,499', 'showroom_assets/user_hiphop_cutouts/hiphop_plaid_shirt.png', 'Classic monochrome black & white checkered flannel with dropped shoulder silhouette.')" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; cursor: pointer; transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); position: relative; overflow: hidden;">
+        <span style="position: absolute; top: 16px; left: 16px; padding: 4px 10px; background: rgba(255,255,255,0.08); border-radius: 6px; font-family: monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; color: #fff;">04 / FLANNEL</span>
+        <div style="width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; margin: 20px 0 16px;">
+          <img src="showroom_assets/user_hiphop_cutouts/hiphop_plaid_shirt.png" alt="Plaid Overshirt" style="max-width: 90%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.6)); transition: transform 0.4s ease;">
+        </div>
+        <div style="margin-top: auto;">
+          <div style="font-family: monospace; font-size: 11px; color: #ff6b6b; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700;">STREET CHECK</div>
+          <h3 style="font-size: 18px; font-weight: 800; margin: 6px 0; color: #fff; letter-spacing: 0.02em;">Buffalo Plaid Flannel</h3>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);">
+            <span style="font-size: 20px; font-weight: 900; color: #ffffff;">₹2,499</span>
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: #0f1015; color: #ffffff; font-size: 14px; font-weight: bold;">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 5: Onyx Cargo Pants -->
+      <div class="funky-card" onclick="openFunkyDetail('Tactical Utility Onyx Cargo Pants', '₹3,299', 'showroom_assets/user_hiphop_cutouts/hiphop_black_cargos.png', 'Wide baggy tactical cargo trousers with six deep utility pockets and adjustable ankle cinches.')" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; cursor: pointer; transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); position: relative; overflow: hidden;">
+        <span style="position: absolute; top: 16px; left: 16px; padding: 4px 10px; background: rgba(255,255,255,0.08); border-radius: 6px; font-family: monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; color: #fff;">05 / CARGOS</span>
+        <div style="width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; margin: 20px 0 16px;">
+          <img src="showroom_assets/user_hiphop_cutouts/hiphop_black_cargos.png" alt="Onyx Cargo Pants" style="max-width: 90%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.6)); transition: transform 0.4s ease;">
+        </div>
+        <div style="margin-top: auto;">
+          <div style="font-family: monospace; font-size: 11px; color: #ff6b6b; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700;">TACTICAL 6-POCKET</div>
+          <h3 style="font-size: 18px; font-weight: 800; margin: 6px 0; color: #fff; letter-spacing: 0.02em;">Onyx Black Cargos</h3>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);">
+            <span style="font-size: 20px; font-weight: 900; color: #ffffff;">₹3,299</span>
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: #0f1015; color: #ffffff; font-size: 14px; font-weight: bold;">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 6: Varsity Bomber Jacket -->
+      <div class="funky-card" onclick="openFunkyDetail('Letterman B Leather Sleeve Varsity Bomber', '₹4,999', 'showroom_assets/user_hiphop_cutouts/hiphop_varsity_jacket.png', 'Black and cream contrast wool bomber jacket with genuine leather sleeves and chenille chest embroidery.')" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; cursor: pointer; transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); position: relative; overflow: hidden;">
+        <span style="position: absolute; top: 16px; left: 16px; padding: 4px 10px; background: rgba(239,68,68,0.15); border-radius: 6px; font-family: monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; color: #ff6b6b;">06 / BOMBERS</span>
+        <div style="width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; margin: 20px 0 16px;">
+          <img src="showroom_assets/user_hiphop_cutouts/hiphop_varsity_jacket.png" alt="Varsity Bomber" style="max-width: 90%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.6)); transition: transform 0.4s ease;">
+        </div>
+        <div style="margin-top: auto;">
+          <div style="font-family: monospace; font-size: 11px; color: #ff6b6b; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700;">LEATHER & WOOL</div>
+          <h3 style="font-size: 18px; font-weight: 800; margin: 6px 0; color: #fff; letter-spacing: 0.02em;">Varsity Letterman Jacket</h3>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);">
+            <span style="font-size: 20px; font-weight: 900; color: #ffffff;">₹4,999</span>
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: #0f1015; color: #ffffff; font-size: 14px; font-weight: bold;">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 7: Vintage Wash Relaxed Denim -->
+      <div class="funky-card" onclick="openFunkyDetail('Mid Blue Classic Straight Leg Denim', '₹3,499', 'showroom_assets/denim_row/denim_pair_2.png', 'Timeless medium indigo wash denim with natural thigh whiskering and straight leg streetwear drape.')" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; cursor: pointer; transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); position: relative; overflow: hidden;">
+        <span style="position: absolute; top: 16px; left: 16px; padding: 4px 10px; background: rgba(59,130,246,0.15); border-radius: 6px; font-family: monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; color: #60a5fa;">07 / STRAIGHT FIT</span>
+        <div style="width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; margin: 20px 0 16px;">
+          <img src="showroom_assets/denim_row/denim_pair_2.png" alt="Straight Denim" style="max-width: 90%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.6)); transition: transform 0.4s ease;">
+        </div>
+        <div style="margin-top: auto;">
+          <div style="font-family: monospace; font-size: 11px; color: #60a5fa; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700;">MEDIUM INDIGO</div>
+          <h3 style="font-size: 18px; font-weight: 800; margin: 6px 0; color: #fff; letter-spacing: 0.02em;">Classic Straight Denim</h3>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);">
+            <span style="font-size: 20px; font-weight: 900; color: #ffffff;">₹3,499</span>
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: #0f1015; color: #ffffff; font-size: 14px; font-weight: bold;">→</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Item 8: Shadow Raw Rinse Denim -->
+      <div class="funky-card" onclick="openFunkyDetail('Dark Shadow Raw Rinse Street Denim', '₹3,799', 'showroom_assets/denim_row/denim_pair_5.png', 'Heavyweight dark wash rinse denim with metallic copper stitching and raw aesthetic finish.')" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 24px; display: flex; flex-direction: column; cursor: pointer; transition: all 0.35s cubic-bezier(0.25, 1, 0.5, 1); position: relative; overflow: hidden;">
+        <span style="position: absolute; top: 16px; left: 16px; padding: 4px 10px; background: rgba(255,255,255,0.08); border-radius: 6px; font-family: monospace; font-size: 10px; font-weight: 700; letter-spacing: 0.15em; color: #fff;">08 / RAW RINSE</span>
+        <div style="width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; margin: 20px 0 16px;">
+          <img src="showroom_assets/denim_row/denim_pair_5.png" alt="Raw Rinse Denim" style="max-width: 90%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.6)); transition: transform 0.4s ease;">
+        </div>
+        <div style="margin-top: auto;">
+          <div style="font-family: monospace; font-size: 11px; color: #ff6b6b; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 700;">DEEP SHADOW RINSE</div>
+          <h3 style="font-size: 18px; font-weight: 800; margin: 6px 0; color: #fff; letter-spacing: 0.02em;">Dark Shadow Denim</h3>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);">
+            <span style="font-size: 20px; font-weight: 900; color: #ffffff;">₹3,799</span>
+            <span style="display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: #0f1015; color: #ffffff; font-size: 14px; font-weight: bold;">→</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Quick View Modal for Funky Clothes -->
+    <div id="funkyModal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px;">
+      <div style="background: #14151b; border: 1px solid rgba(255,255,255,0.15); border-radius: 24px; max-width: 500px; width: 100%; padding: 32px; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.8); text-align: center;">
+        <button onclick="closeFunkyModal()" style="position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); border: none; color: #fff; font-size: 16px; cursor: pointer;">✕</button>
+        <div style="width: 100%; height: 260px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px;">
+          <img id="funkyModalImg" src="" alt="Funky Garment" style="max-width: 80%; max-height: 100%; object-fit: contain;">
+        </div>
+        <div style="font-family: monospace; font-size: 11px; color: #ff6b6b; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700; margin-bottom: 6px;">LIMITED EDITION STREETWEAR</div>
+        <h3 id="funkyModalTitle" style="font-size: 24px; font-weight: 800; margin: 0 0 10px; color: #fff;">Product Title</h3>
+        <p id="funkyModalDesc" style="font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.6; margin: 0 0 20px; font-weight: 300;">Description</p>
+        <div style="font-size: 26px; font-weight: 900; color: #fff; margin-bottom: 24px;" id="funkyModalPrice">₹0</div>
+        <button onclick="alert('Added to Bag! Checkout feature active.')" style="width: 100%; padding: 16px; background: #ff4757; color: #fff; border: none; border-radius: 12px; font-weight: 800; font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: background 0.2s;">ADD TO CART</button>
+      </div>
+    </div>
+
+    <script>
+      function openFunkyDetail(title, price, img, desc) {
+        document.getElementById('funkyModalTitle').textContent = title;
+        document.getElementById('funkyModalPrice').textContent = price;
+        document.getElementById('funkyModalImg').src = img;
+        document.getElementById('funkyModalDesc').textContent = desc;
+        const m = document.getElementById('funkyModal');
+        m.style.display = 'flex';
+      }
+      function closeFunkyModal() {
+        document.getElementById('funkyModal').style.display = 'none';
+      }
+    </script>
+
+    <style>
+      .funky-card:hover {
+        transform: translateY(-8px);
+        background: rgba(255, 255, 255, 0.06) !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(239, 68, 68, 0.15);
+      }
+      .funky-card:hover img {
+        transform: scale(1.06);
+      }
+    </style>
+
+  </section>
+
+  <!-- Interactive Category Products Modal -->
+  <div id="categoryModal" class="category-modal-backdrop">
+    <div class="category-modal-window">
+      <div class="category-modal-header">
+        <div>
+          <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--primary-red); display: block; margin-bottom: 4px;">Collection Range</span>
+          <h3 id="categoryModalTitle" class="category-modal-title">Category Outfits</h3>
+        </div>
+        <button class="category-modal-close-btn" onclick="closeCategoryModal()">✕</button>
+      </div>
+      <div class="category-modal-grid" id="categoryProductsGrid">
+        <!-- Dynamically filled with min 4 products -->
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================
+       PAGE 6: METRICS & PARTNER BRANDS (Brands We Work With)
+       ========================================= -->
+  <section id="brands-metrics-section" style="width: 100%; min-height: 90vh; background: #0e0f14; color: #ffffff; padding: clamp(60px, 10vh, 120px) clamp(20px, 4vw, 80px); box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.08);">
+    
+    <!-- Top 3 Metrics Stats Row -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px; text-align: center; max-width: 1300px; margin: 0 auto; width: 100%;">
+      
+      <!-- Stat 1 -->
+      <div style="display: flex; flex-direction: column; align-items: center;">
+        <span id="metric-1" style="font-family: var(--font-display); font-size: clamp(56px, 8vw, 92px); font-weight: 700; line-height: 1; color: #ffffff; letter-spacing: -0.02em;">0+</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85); margin-top: 14px;">PIECES REPAIRED</span>
+      </div>
+
+      <!-- Stat 2 -->
+      <div style="display: flex; flex-direction: column; align-items: center;">
+        <span id="metric-2" style="font-family: var(--font-display); font-size: clamp(56px, 8vw, 92px); font-weight: 700; line-height: 1; color: #ffffff; letter-spacing: -0.02em;">0+</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85); margin-top: 14px;">WARDROBES STYLED</span>
+      </div>
+
+      <!-- Stat 3 -->
+      <div style="display: flex; flex-direction: column; align-items: center;">
+        <span id="metric-3" style="font-family: var(--font-display); font-size: clamp(56px, 8vw, 92px); font-weight: 700; line-height: 1; color: #ffffff; letter-spacing: -0.02em;">0K +</span>
+        <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85); margin-top: 14px;">LOOKS SHARED</span>
+      </div>
+
+    </div>
+
+    <!-- Center Section Tag -->
+    <div style="text-align: center; margin: clamp(60px, 9vh, 100px) 0 clamp(40px, 6vh, 60px);">
+      <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: #222222;">BRANDS WE WORK WITH</span>
+    </div>
+
+    <!-- Bottom 5 Partner Brand Logos Row -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; align-items: flex-end; max-width: 1400px; margin: 0 auto; width: 100%;">
+      
+      <!-- Brand 1: ZARA -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 24px;">
+        <div style="height: 52px; display: flex; align-items: center; justify-content: center;">
+          <span style="font-family: 'Times New Roman', Times, serif; font-size: 42px; font-weight: 700; letter-spacing: 0.08em; color: #ffffff;">ZARA</span>
+        </div>
+        <span style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85); text-align: center;">WOMENSWEAR STOCKIST</span>
+      </div>
+
+      <!-- Brand 2: UNIQLO -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 24px;">
+        <div style="height: 52px; display: flex; align-items: center; justify-content: center;">
+          <div style="border: 2.5px solid #000000; padding: 2px 7px; display: flex; flex-direction: column; line-height: 1.05; font-family: 'Arial Black', Impact, sans-serif; font-size: 15px; font-weight: 900; letter-spacing: 0.08em; text-align: center;">
+            <span>UNI</span>
+            <span>QLO</span>
+          </div>
+        </div>
+        <span style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85); text-align: center;">ESSENTIALS PARTNER</span>
+      </div>
+
+      <!-- Brand 3: DIOR -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 24px;">
+        <div style="height: 52px; display: flex; align-items: center; justify-content: center;">
+          <span style="font-family: 'Didot', 'Bodoni MT', 'Cinzel', serif; font-size: 32px; font-weight: 600; letter-spacing: 0.18em; color: #ffffff;">DIOR</span>
+        </div>
+        <span style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85); text-align: center;">ATELIER CRAFT PARTNER</span>
+      </div>
+
+      <!-- Brand 4: Geometric / Wings Monogram -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 24px;">
+        <div style="height: 52px; display: flex; align-items: center; justify-content: center;">
+          <svg width="48" height="42" viewBox="0 0 54 42" fill="none">
+            <path d="M0 6H54L48 14H6L0 6Z" fill="#000000"/>
+            <path d="M8 18H46L41 25H13L8 18Z" fill="#000000"/>
+            <path d="M15 29H39L35 36H19L15 29Z" fill="#000000"/>
+            <rect x="25" y="6" width="4" height="30" fill="#000000"/>
+          </svg>
+        </div>
+        <span style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85); text-align: center;">SILK & LEATHER PARTNER</span>
+      </div>
+
+      <!-- Brand 5: FF Modern Monogram -->
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 24px;">
+        <div style="height: 52px; display: flex; align-items: center; justify-content: center;">
+          <svg width="44" height="44" viewBox="0 0 50 50" fill="none">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M8 4C5.79086 4 4 5.79086 4 8V42C4 44.2091 5.79086 46 8 46H16V30H28C30.2091 30 32 28.2091 32 26V22C32 19.7909 30.2091 18 28 18H16V12H34C36.2091 12 38 10.2091 38 8V8C38 5.79086 36.2091 4 34 4H8ZM16 22V26H26V22H16Z" fill="#000000"/>
+            <path d="M22 36H42V42H22V36Z" fill="#000000"/>
+            <path d="M38 28H44V34H38V28Z" fill="#000000"/>
+          </svg>
+        </div>
+        <span style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85); text-align: center;">GLOBAL RETAIL PARTNER</span>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- =========================================
+       PAGE 8: DYNAMIC INTERACTIVE MARQUEE & DRAGGABLE GALLERY (FW26 Collection)
+       ========================================= -->
+  <section id="marquee-gallery-section" style="width: 100%; min-height: 140vh; background: #0b0c10; color: #ffffff; padding: clamp(50px, 8vh, 80px) 0 clamp(80px, 12vh, 140px); box-sizing: border-box; overflow: hidden; position: relative; border-top: 1px solid rgba(255,255,255,0.08);">
+    
+    <!-- Top Small Text Headline with Natural Scroll Color Scrub (Left Shifted & Compact Width) -->
+    <div style="max-width: 900px; margin: 0; padding-left: clamp(20px, 4vw, 60px); padding-right: 20px; box-sizing: border-box; text-align: left;">
+      <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85); margin-bottom: 14px; display: block;">NEW COLLECTION — FW26</span>
+      
+      <h3 id="marquee-sub-scrub" style="font-family: var(--font-display); font-size: clamp(17px, 2.3vw, 27px); font-weight: 600; line-height: 1.25; text-transform: uppercase; letter-spacing: -0.01em; margin: 0; user-select: none; text-align: left;">
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">ELVIQUE<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">ELVIQUE</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">IS<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">IS</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">A<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">A</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">SEOUL<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">SEOUL</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">LABEL<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">LABEL</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">MAKING<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">MAKING</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">QUIET<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">QUIET</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">LAYERS<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">LAYERS</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">FOR<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">FOR</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">LOUD<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">LOUD</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">CITIES<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">CITIES</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">—<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">—</span></span>
+        <br>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">TAILORED,<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">TAILORED,</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">TACTILE<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">TACTILE</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">AND<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">AND</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">MADE<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">MADE</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">TO<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">TO</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">BE<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">BE</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">WORN<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">WORN</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">FOR<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">FOR</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">YEARS,<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">YEARS,</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">NOT<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">NOT</span></span>
+        <span class="m-scrub-word" style="position:relative;display:inline-block;margin:0 0.12em;color:rgba(48,56,65,0.18);">SEASONS.<span class="m-fill" style="position:absolute;top:0;left:0;color:#000;white-space:nowrap;clip-path:inset(0 100% 0 0);">SEASONS.</span></span>
+      </h3>
+    </div>
+
+    <!-- Giant Scrolling Marquee: COLLECTION ✦ FW26 ✦ (Moves Right to Left) -->
+    <div style="width: 100%; overflow: hidden; margin-top: 14vh; margin-bottom: 22vh; white-space: nowrap; pointer-events: none;">
+      <div id="giant-marquee-track" style="display: inline-block; white-space: nowrap; will-change: transform; transform: translateX(0px);">
+        <span style="font-family: var(--font-display); font-size: clamp(60px, 12.5vw, 175px); font-weight: 700; line-height: 0.9; text-transform: uppercase; letter-spacing: -0.02em; color: #ffffff; display: inline-block;">
+          QUIET LAYERS ✦ NEW COLLECTION ✦ FW26 ✦ QUIET LAYERS ✦ NEW COLLECTION ✦ FW26 ✦ QUIET LAYERS ✦ NEW COLLECTION ✦ FW26 ✦ QUIET LAYERS ✦ NEW COLLECTION ✦ FW26 ✦
+        </span>
+      </div>
+    </div>
+
+    <!-- Interactive Draggable & Continuous Loop Infinite Gallery of Clothes -->
+    <div id="drag-gallery-container" style="width: 100%; overflow: hidden; cursor: grab; padding: 15px 0 60px; user-select: none; position: relative;">
+      <div id="drag-gallery-track" style="display: flex; gap: 20px; width: max-content; will-change: transform; transform: translate3d(0px, 0px, 0px); /* transition removed for jitter-free 120fps sync */">
+        
+        <!-- SET 1 (8 Items) -->
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/iRMSLUf0hPyC6NbM8MR2JHf4.jpg" loading="lazy" decoding="async" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/gMPD3nCYgYNKUS75YqiRlrkwJg.jpg" loading="lazy" decoding="async" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/jhUbXXZS0cYvZb8lkxFEioyAiL8.jpg" loading="lazy" decoding="async" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/XD1NbwSmdtBjvlnlq5209UiIrQ.jpg" loading="lazy" decoding="async" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/h3ZvfNQopkbi9WYdLK6WOujfq9Q.jpg" loading="lazy" decoding="async" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/ervRbcCrfeAZcqSAIn6ableX8I.jpg" loading="lazy" decoding="async" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/6hykV5QkWcpSjQKeqlNjsDktweo.jpg" loading="lazy" decoding="async" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/7T7TVXcQ4wap5JTdZviaZRvnRE.jpg" loading="lazy" decoding="async" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+
+        <!-- SET 2 (Duplicate for Seamless Infinite Loop - No Blank Sides) -->
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/iRMSLUf0hPyC6NbM8MR2JHf4.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/gMPD3nCYgYNKUS75YqiRlrkwJg.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/jhUbXXZS0cYvZb8lkxFEioyAiL8.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/XD1NbwSmdtBjvlnlq5209UiIrQ.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/h3ZvfNQopkbi9WYdLK6WOujfq9Q.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/ervRbcCrfeAZcqSAIn6ableX8I.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/6hykV5QkWcpSjQKeqlNjsDktweo.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <!-- SET 3 (Triplicate for Truly Infinite Seamless Loop) -->
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/iRMSLUf0hPyC6NbM8MR2JHf4.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/gMPD3nCYgYNKUS75YqiRlrkwJg.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/jhUbXXZS0cYvZb8lkxFEioyAiL8.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/XD1NbwSmdtBjvlnlq5209UiIrQ.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/h3ZvfNQopkbi9WYdLK6WOujfq9Q.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/ervRbcCrfeAZcqSAIn6ableX8I.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/6hykV5QkWcpSjQKeqlNjsDktweo.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/7T7TVXcQ4wap5JTdZviaZRvnRE.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+
+        <!-- SET 4 (Extra Buffer for Zero Blank Spaces) -->
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/iRMSLUf0hPyC6NbM8MR2JHf4.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/gMPD3nCYgYNKUS75YqiRlrkwJg.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/jhUbXXZS0cYvZb8lkxFEioyAiL8.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/XD1NbwSmdtBjvlnlq5209UiIrQ.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/h3ZvfNQopkbi9WYdLK6WOujfq9Q.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/ervRbcCrfeAZcqSAIn6ableX8I.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/6hykV5QkWcpSjQKeqlNjsDktweo.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+        <div style="width: clamp(160px, 17vw, 240px); height: clamp(220px, 25vw, 340px); background: #f3f3f3; overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 18px rgba(0,0,0,0.06);">
+          <img src="https://framerusercontent.com/images/7T7TVXcQ4wap5JTdZviaZRvnRE.jpg" draggable="false" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Extra Bottom Scroll Runway so user can fully enjoy the entire animation -->
+    <div style="height: clamp(80px, 14vh, 160px); width: 100%;"></div>
+
+  </section>
+
+  <!-- =========================================
+       PAGE 9: 3D VIRTUAL SHOWROOM TOUR DISCOVERY (Seoul Flagship Walkthrough)
+       ========================================= -->
+  <section id="virtual-showroom-gateway" style="width: 100%; min-height: 80vh; background: #0c0c0e; color: #ffffff; padding: clamp(80px, 12vh, 140px) clamp(20px, 4vw, 60px); box-sizing: border-box; position: relative; overflow: hidden; border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center;">
+    
+    <!-- Background Ambient Glow & Dark Boutique Atmosphere -->
+    <div style="position: absolute; inset: 0; background: radial-gradient(circle at 50% 40%, rgba(255, 28, 28, 0.12) 0%, rgba(0,0,0,0.85) 65%, #0c0c0e 100%); pointer-events: none;"></div>
+    
+    <div style="position: relative; z-index: 2; max-width: 900px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+      
+      <!-- Top Tag -->
+      <div style="display: inline-flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.16); padding: 6px 16px; border-radius: 999px;">
+        <span style="width: 8px; height: 8px; border-radius: 50%; background: #ff1c1c; box-shadow: 0 0 10px #ff1c1c;"></span>
+        <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #ffffff;">IMMERSIVE 3D EXPERIENCE</span>
+      </div>
+
+      <!-- Main Heading -->
+      <h2 style="font-family: var(--font-display); font-size: clamp(38px, 6.2vw, 76px); font-weight: 700; line-height: 1.05; letter-spacing: -0.01em; text-transform: uppercase; color: #ffffff; margin: 0;">
+        STEP INSIDE THE<br>
+        <span style="color: #ff1c1c;">SEOUL FLAGSHIP</span> STORE
+      </h2>
+
+      <!-- Description Subtitle -->
+      <p style="font-family: var(--font-mono); font-size: clamp(12px, 1.4vw, 15px); color: #a1a1aa; max-width: 620px; line-height: 1.6; margin: 0;">
+        Take a scroll-driven 3D walkthrough inside our architectural boutique. Explore exclusive streetwear racks, inspect individual looks in 360&deg;, and discover the FW26 collection.
+      </p>
+
+      <!-- Launch Tour Button -->
+      <div style="margin-top: 14px;">
+        <a href="showroom.html" style="background: #0f1015; color: #ffffff; padding: 18px 36px; border-radius: 999px; font-family: var(--font-mono); font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);">
+          <span>Enter 3D Showroom</span>
+          <span style="font-size: 16px; font-weight: 900;">→</span>
+        </a>
+      </div>
+
+      <!-- Features Pill Row -->
+      <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-top: 24px; font-family: var(--font-mono); font-size: 11px; color: #71717a; letter-spacing: 0.1em; text-transform: uppercase;">
+        <span>✦ 360&deg; Orbit View</span>
+        <span>✦ Scroll Walkthrough</span>
+        <span>✦ Interactive Racks</span>
+        <span>✦ Real-Time 120 FPS</span>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- Replay Button -->
+  <div class="controls-overlay">
+    <button class="btn-replay" onclick="startSequence()">
+      ↻ Replay Intro
+    </button>
+  </div>
+
+  <!-- =========================================
+       6. JAVASCRIPT CONTROLLERS
+       ========================================= -->
+  <script>
+    // ---------------------------------------------
+    // INTRO LOADING SEQUENCE
+    // ---------------------------------------------
+    function startSequence() {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      const preloader = document.getElementById('preloader');
+      const counterEl = document.getElementById('counter');
+      const progressBar = document.getElementById('progress-bar');
+      const plTitle = document.querySelector('.preloader-title');
+      const header = document.getElementById('site-header');
+      const cards = document.querySelectorAll('.card-item');
+      const metaRow = document.getElementById('meta-row');
+
+      preloader.classList.remove('loaded');
+      header.classList.remove('enter-active');
+      metaRow.classList.remove('enter-active');
+      cards.forEach(card => card.classList.remove('enter-active'));
+
+      plTitle.style.animation = 'none';
+      void plTitle.offsetWidth;
+      plTitle.style.animation = 'pl-rise 1s cubic-bezier(0.76, 0, 0.24, 1) both';
+
+      const duration = 1600;
+      const startTime = performance.now();
+
+      function tick(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = progress < 0.5 ? 2 * progress * progress : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+        const currentVal = Math.floor(ease * 100);
+
+        counterEl.textContent = currentVal.toString().padStart(3, '0');
+        progressBar.style.width = (progress * 100) + '%';
+
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          counterEl.textContent = '100';
+          progressBar.style.width = '100%';
+
+          setTimeout(() => {
+            preloader.classList.add('loaded');
+            setTimeout(() => {
+              header.classList.add('enter-active');
+              cards.forEach(card => card.classList.add('enter-active'));
+              metaRow.classList.add('enter-active');
+            }, 300);
+          }, 200);
+        }
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    window.addEventListener('DOMContentLoaded', startSequence);
+
+    // ---------------------------------------------
+    // SCROLL LISTENER FOR TEXT COLOR SCRUB
+    // ---------------------------------------------
+    const feelSection = document.getElementById('feel-section');
+    const scrubHeadline = document.getElementById('scrub-headline');
+    const scrubWords = document.querySelectorAll('.scrub-word .fill');
+
+    function handleScroll() {
+      const viewportHeight = window.innerHeight;
+
+      // ===========================================
+      // TEXT SCRUBBING EFFECT:
+      // ===========================================
+      if (scrubHeadline) {
+        const textRect = scrubHeadline.getBoundingClientRect();
+        const startPoint = viewportHeight * 0.70;
+        const endPoint = viewportHeight * 0.15;
+        
+        let scrubProgress = 0;
+        if (textRect.top <= startPoint) {
+          scrubProgress = (startPoint - textRect.top) / (startPoint - endPoint);
+          scrubProgress = Math.max(0, Math.min(1, scrubProgress));
+        }
+
+        const totalWords = scrubWords.length;
+        scrubWords.forEach((wordFill, index) => {
+          const wordStart = index / totalWords;
+          const wordEnd = (index + 1) / totalWords;
+
+          let wordProgress = 0;
+          if (scrubProgress >= wordEnd) {
+            wordProgress = 1;
+          } else if (scrubProgress > wordStart) {
+            wordProgress = (scrubProgress - wordStart) / (wordEnd - wordStart);
+          }
+
+          const clipRight = (1 - wordProgress) * 100;
+          wordFill.style.clipPath = `inset(0 ${clipRight}% 0 0)`;
+        });
+      }
+    }
+
+
+    // ---------------------------------------------
+    // CATEGORY PRODUCTS MODAL INTERACTION
+    // ---------------------------------------------
+    let cachedProducts = null;
+
+    async function loadProductsData() {
+      if (!cachedProducts) {
+        try {
+          const res = await fetch('products_data.json');
+          cachedProducts = await res.json();
+        } catch (e) {
+          console.error('Error fetching products:', e);
+          cachedProducts = [];
+        }
+      }
+      return cachedProducts;
+    }
+
+    async function openCategoryProducts(categoryKey, title) {
+      const modal = document.getElementById('categoryModal');
+      const titleEl = document.getElementById('categoryModalTitle');
+      const grid = document.getElementById('categoryProductsGrid');
+      
+      titleEl.textContent = title;
+      grid.innerHTML = '<div style="padding: 40px; text-align: center; font-family: var(--font-mono);">Loading looks...</div>';
+      modal.classList.add('open');
+
+      const allProds = await loadProductsData();
+      const filtered = allProds.filter(p => p.category === categoryKey);
+
+      grid.innerHTML = '';
+      filtered.forEach(p => {
+        const item = document.createElement('a');
+        item.className = 'category-product-card';
+        item.href = `product_detail.html?id=${p.id}`;
+        item.innerHTML = `
+          <div class="cat-card-imgbox">
+            <img src="${p.image}" alt="${p.name}">
+          </div>
+          <div class="cat-card-info">
+            <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--primary-red); text-transform: uppercase;">${p.badge}</span>
+            <h4 class="cat-card-name">${p.name}</h4>
+            <div class="cat-card-price-row">
+              <span class="cat-card-cur-price">${p.price}</span>
+              <span style="font-family: var(--font-mono); font-size: 12px; color: #a1a1aa; text-decoration: line-through;">${p.originalPrice}</span>
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: #16a34a;">${p.discount}</span>
+            </div>
+            <div class="cat-card-view-btn">View Product Details →</div>
+          </div>
+        `;
+        grid.appendChild(item);
+      });
+    }
+
+    function closeCategoryModal() {
+      const modal = document.getElementById('categoryModal');
+      if (modal) modal.classList.remove('open');
+    }
+
+    window.addEventListener('click', (e) => {
+      const modal = document.getElementById('categoryModal');
+      if (e.target === modal) closeCategoryModal();
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeCategoryModal();
+    });
+
+    // ---------------------------------------------
+    // (C) ANIMATED NUMBERS COUNTER FOR PAGE 7
+    // Triggers fast counting animation from 0+ to target when scrolled into view
+    // ---------------------------------------------
+    let metricsAnimated = false;
+    const metricsSection = document.getElementById('brands-metrics-section');
+    const m1 = document.getElementById('metric-1');
+    const m2 = document.getElementById('metric-2');
+    const m3 = document.getElementById('metric-3');
+
+    function animateNumber(element, start, end, duration, suffix = "+", isFormatted = false) {
+      const startTime = performance.now();
+      function updateNum(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // Fast ease-out power curve
+        const ease = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(start + (end - start) * ease);
+
+        if (isFormatted) {
+          element.textContent = current.toLocaleString('en-US') + suffix;
+        } else {
+          element.textContent = current + suffix;
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(updateNum);
+        } else {
+          if (isFormatted) {
+            element.textContent = end.toLocaleString('en-US') + suffix;
+          } else {
+            element.textContent = end + suffix;
+          }
+        }
+      }
+      requestAnimationFrame(updateNum);
+    }
+
+    function checkMetricsInView() {
+      if (metricsAnimated || !metricsSection) return;
+      const rect = metricsSection.getBoundingClientRect();
+      if (rect.top <= window.innerHeight * 0.85) {
+        metricsAnimated = true;
+        // Fast dynamic counting animations
+        animateNumber(m1, 0, 500, 1400, "+", false);
+        animateNumber(m2, 0, 2000, 1600, "+", true);
+        animateNumber(m3, 0, 150, 1500, "K +", false);
+      }
+    }
+
+    // ---------------------------------------------
+    // (D) PAGE 8: TEXT SCRUBBING + SCROLLING MARQUEE + DRAGGABLE CLOTHES GALLERY
+    // ---------------------------------------------
+    const marqueeSection = document.getElementById('marquee-gallery-section');
+    const mScrubWords = document.querySelectorAll('.m-scrub-word .m-fill');
+    const marqueeTrack = document.getElementById('giant-marquee-track');
+    const dragTrack = document.getElementById('drag-gallery-track');
+    const dragContainer = document.getElementById('drag-gallery-container');
+
+    let currentDragX = 0;
+    let currentDragY = 0;
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let cachedDragTrackWidth = 0;
+    window.addEventListener("resize", () => { cachedDragTrackWidth = 0; }, { passive: true });
+
+    function handlePage8Scroll() {
+      if (!marqueeSection) return;
+      const rect = marqueeSection.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      // 1. Text color scrub on small heading
+      const startPoint = viewportHeight * 0.75;
+      const endPoint = viewportHeight * 0.20;
+      let progress = 0;
+      if (rect.top <= startPoint) {
+        progress = Math.max(0, Math.min(1, (startPoint - rect.top) / (startPoint - endPoint)));
+      }
+
+      const totalWords = mScrubWords.length;
+      mScrubWords.forEach((wordFill, index) => {
+        const wordStart = index / totalWords;
+        const wordEnd = (index + 1) / totalWords;
+        let p = 0;
+        if (progress >= wordEnd) p = 1;
+        else if (progress > wordStart) p = (progress - wordStart) / (wordEnd - wordStart);
+        wordFill.style.clipPath = `inset(0 ${(1 - p) * 100}% 0 0)`;
+      });
+
+      // 2. Giant headline moves RIGHT TO LEFT on Scroll (SUPER FAST SPEED)
+      const scrollThrough = Math.max(0, viewportHeight - rect.top);
+      // Increased multiplier to 3.2 for super fast Right-to-Left movement
+      const marqueeShift = (scrollThrough * 3.2);
+      if (marqueeTrack) {
+        marqueeTrack.style.transform = `translate3d(-${marqueeShift}px, 0px, 0px)`;
+      }
+
+      // 3. Clothes row glides in OPPOSITE DIRECTION: LEFT TO RIGHT on Scroll (SUPER FAST SPEED)
+      if (!isDragging && dragTrack) {
+        if (!cachedDragTrackWidth) {
+          cachedDragTrackWidth = (dragTrack.scrollWidth || 4000) / 4;
+        }
+        let autoSlideX = (scrollThrough * 2.0) + currentDragX;
+        if (cachedDragTrackWidth > 0) {
+          autoSlideX = (autoSlideX % cachedDragTrackWidth) - cachedDragTrackWidth;
+        }
+        dragTrack.style.transform = `translate3d(${autoSlideX.toFixed(2)}px, ${currentDragY.toFixed(2)}px, 0px)`;
+      }
+    }
+
+    // 4. Free-form 2D Dragging (Left-Right AND Up-Down Interactive Drag)
+    if (dragContainer && dragTrack) {
+      dragContainer.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        dragContainer.style.cursor = 'grabbing';
+        startX = e.clientX - currentDragX;
+        startY = e.clientY - currentDragY;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        currentDragX = e.clientX - startX;
+        // Allows both vertical and horizontal interactive rotation/movement
+        currentDragY = Math.max(-120, Math.min(120, e.clientY - startY));
+        dragTrack.style.transition = 'none';
+        dragTrack.style.transform = `translate3d(${currentDragX}px, ${currentDragY}px, 0px)`;
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        dragContainer.style.cursor = 'grab';
+        dragTrack.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+        // Gently snap vertical tilt back to center while maintaining horizontal drag
+        currentDragY = currentDragY * 0.3;
+        dragTrack.style.transform = `translate3d(${currentDragX}px, ${currentDragY}px, 0px)`;
+      });
+
+      // Touch events for mobile/tablet free drag
+      dragContainer.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        startX = e.touches[0].clientX - currentDragX;
+        startY = e.touches[0].clientY - currentDragY;
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        currentDragX = e.touches[0].clientX - startX;
+        currentDragY = Math.max(-80, Math.min(80, e.touches[0].clientY - startY));
+        dragTrack.style.transform = `translate3d(${currentDragX}px, ${currentDragY}px, 0px)`;
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => {
+        isDragging = false;
+      });
+    }
+
+    // ---------------------------------------------
+    // LENIS ULTRA-SMOOTH MOMENTUM SCROLL (60Hz / 90Hz / 120Hz / 144Hz)
+    // ---------------------------------------------
+    const lenis = new Lenis({
+      duration: 1.0,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.2,
+      infinite: false
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    // Single Unified 120Hz / 60Hz Scroll Ticker driven by Lenis
+    let scrollTimeout = null;
+
+    function onScrollTick() {
+      handleScroll();
+      checkMetricsInView();
+      handlePage8Scroll();
+    }
+
+    lenis.on('scroll', () => {
+      if (!document.body.classList.contains('is-scrolling')) {
+        document.body.classList.add('is-scrolling');
+      }
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        document.body.classList.remove('is-scrolling');
+      }, 150);
+
+      onScrollTick();
+    });
+
+    // Fallback native scroll listener for edge cases
+    window.addEventListener('scroll', () => {
+      if (!document.body.classList.contains('is-scrolling')) {
+        document.body.classList.add('is-scrolling');
+      }
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        document.body.classList.remove('is-scrolling');
+      }, 150);
+    }, { passive: true });
+    
+    // Initial run
+    requestAnimationFrame(onScrollTick);
+  </script>
+</body>
+</html>
