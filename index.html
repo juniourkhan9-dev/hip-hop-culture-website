@@ -498,16 +498,16 @@
        PERFORMANCE OPTIMIZATIONS (120Hz / GPU Compositing)
        ----------------------------------------- */
     .card-item,
-    .scrub-word .fill,
-    .m-scrub-word .m-fill,
     #giant-marquee-track,
     #drag-gallery-track {
       transform: translateZ(0);
       backface-visibility: hidden;
-      perspective: 1000px;
     }
-    body.is-scrolling iframe {
-      pointer-events: none !important;
+    .scrub-word .fill,
+    .m-scrub-word .m-fill {
+      will-change: clip-path;
+      transform: translateZ(0);
+      backface-visibility: hidden;
     }
 
     /* =========================================
@@ -1435,7 +1435,7 @@
       <a href="#" class="card-item">
         <div class="card-img-box card-1">
           <span class="view-look-badge">VIEW LOOK</span>
-          <img loading="lazy" decoding="async" src="https://framerusercontent.com/images/iRMSLUf0hPyC6NbM8MR2JHf4.jpg?width=1600&height=1600" alt="Cozy Look">
+          <img loading="eager" fetchpriority="high" decoding="async" src="https://framerusercontent.com/images/iRMSLUf0hPyC6NbM8MR2JHf4.jpg?width=1600&height=1600" alt="Cozy Look">
         </div>
         <span class="card-bottom-label">COZY</span>
       </a>
@@ -1444,7 +1444,7 @@
       <a href="#" class="card-item">
         <div class="card-img-box card-2">
           <span class="view-look-badge">VIEW LOOK</span>
-          <img loading="lazy" decoding="async" src="https://framerusercontent.com/images/eiDvMcXz3igs8S52zjagE6ah9Fw.jpg?width=1600&height=2400" alt="Quiet Look">
+          <img loading="eager" fetchpriority="high" decoding="async" src="https://framerusercontent.com/images/eiDvMcXz3igs8S52zjagE6ah9Fw.jpg?width=1600&height=2400" alt="Quiet Look">
         </div>
         <span class="card-bottom-label">QUIET</span>
       </a>
@@ -1453,7 +1453,7 @@
       <a href="#" class="card-item">
         <div class="card-img-box card-3">
           <span class="view-look-badge">VIEW LOOK</span>
-          <img loading="lazy" decoding="async" src="https://framerusercontent.com/images/XD1NbwSmdtBjvlnlq5209UiIrQ.jpg?width=1600&height=2400" alt="Layered Look">
+          <img loading="eager" fetchpriority="high" decoding="async" src="https://framerusercontent.com/images/XD1NbwSmdtBjvlnlq5209UiIrQ.jpg?width=1600&height=2400" alt="Layered Look">
         </div>
         <span class="card-bottom-label">LAYERED</span>
       </a>
@@ -1463,7 +1463,7 @@
         <span class="top-meta-label">SEOUL</span>
         <div class="card-img-box card-4">
           <span class="view-look-badge">VIEW LOOK</span>
-          <img loading="lazy" decoding="async" src="https://framerusercontent.com/images/h3ZvfNQopkbi9WYdLK6WOujfq9Q.jpg?width=1600&height=2240" alt="Seoul Look">
+          <img loading="eager" fetchpriority="high" decoding="async" src="https://framerusercontent.com/images/h3ZvfNQopkbi9WYdLK6WOujfq9Q.jpg?width=1600&height=2240" alt="Seoul Look">
         </div>
         <span class="card-bottom-label" style="opacity: 0;">.</span>
       </a>
@@ -1472,7 +1472,7 @@
       <a href="#" class="card-item">
         <div class="card-img-box card-5">
           <span class="view-look-badge">VIEW LOOK</span>
-          <img loading="lazy" decoding="async" src="https://framerusercontent.com/images/ervRbcCrfeAZcqSAIn6ableX8I.jpg?width=1600&height=2400" alt="Camel Look">
+          <img loading="eager" fetchpriority="high" decoding="async" src="https://framerusercontent.com/images/ervRbcCrfeAZcqSAIn6ableX8I.jpg?width=1600&height=2400" alt="Camel Look">
         </div>
         <span class="card-bottom-label">CAMEL</span>
       </a>
@@ -1481,7 +1481,7 @@
       <a href="#" class="card-item">
         <div class="card-img-box card-6">
           <span class="view-look-badge">VIEW LOOK</span>
-          <img loading="lazy" decoding="async" src="https://framerusercontent.com/images/6hykV5QkWcpSjQKeqlNjsDktweo.jpg?width=1600&height=2400" alt="Winter Look">
+          <img loading="eager" fetchpriority="high" decoding="async" src="https://framerusercontent.com/images/6hykV5QkWcpSjQKeqlNjsDktweo.jpg?width=1600&height=2400" alt="Winter Look">
         </div>
         <span class="card-bottom-label">WINTER</span>
       </a>
@@ -1490,7 +1490,7 @@
       <a href="#" class="card-item">
         <div class="card-img-box card-7">
           <span class="view-look-badge">VIEW LOOK</span>
-          <img loading="lazy" decoding="async" src="https://framerusercontent.com/images/7T7TVXcQ4wap5JTdZviaZRvnRE.jpg?width=1600&height=2844" alt="Form Look">
+          <img loading="eager" fetchpriority="high" decoding="async" src="https://framerusercontent.com/images/7T7TVXcQ4wap5JTdZviaZRvnRE.jpg?width=1600&height=2844" alt="Form Look">
         </div>
         <span class="card-bottom-label">FORM</span>
       </a>
@@ -2194,6 +2194,7 @@
     const feelSection = document.getElementById('feel-section');
     const scrubHeadline = document.getElementById('scrub-headline');
     const scrubWords = document.querySelectorAll('.scrub-word .fill');
+    const lastWordClip = new Float32Array(scrubWords.length).fill(-1);
 
     function handleScroll() {
       const viewportHeight = window.innerHeight;
@@ -2226,8 +2227,11 @@
             wordProgress = (scrubProgress - wordStart) / (wordEnd - wordStart);
           }
 
-          const clipRight = (1 - wordProgress) * 100;
-          wordFill.style.clipPath = `inset(0 ${clipRight}% 0 0)`;
+          const clipRight = Math.round((1 - wordProgress) * 100);
+          if (lastWordClip[index] !== clipRight) {
+            lastWordClip[index] = clipRight;
+            wordFill.style.clipPath = `inset(0 ${clipRight}% 0 0)`;
+          }
         });
       }
     }
@@ -2487,16 +2491,16 @@
     }
 
     // ---------------------------------------------
-    // LENIS ULTRA-SMOOTH MOMENTUM SCROLL (60Hz / 90Hz / 120Hz / 144Hz)
+    // LENIS BUTTER-SMOOTH LUXURY GLIDE (Gradual & smooth even on fast scroll)
     // ---------------------------------------------
     const lenis = new Lenis({
-      duration: 0.65,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 1.35,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -8 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.0,
+      wheelMultiplier: 0.75,
+      touchMultiplier: 1.1,
       infinite: false
     });
 
