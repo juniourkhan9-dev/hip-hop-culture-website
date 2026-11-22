@@ -141,9 +141,11 @@
       justify-content: center;
       align-items: flex-start;
       cursor: pointer;
-      /* Super smooth natural transition when shifting sides */
-      transition: transform 0.48s cubic-bezier(0.25, 1, 0.5, 1), z-index 0.3s;
+      /* Silky smooth GPU compositor slide transition */
+      transition: transform 0.54s cubic-bezier(0.22, 1, 0.36, 1), z-index 0.3s;
       z-index: 5;
+      will-change: transform;
+      overflow: visible !important;
     }
 
     .cloth-item.is-active {
@@ -158,6 +160,11 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
+      /* Pivot precisely at the hanger hook contact point on the rod */
+      transform-origin: 50% 12px;
+      will-change: transform;
+      transform-style: preserve-3d;
+      overflow: visible;
     }
 
     /* Side Face (Default View) */
@@ -166,10 +173,11 @@
       top: 0;
       left: 50%;
       transform: translateX(-50%) scale(1);
-      transition: opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1), transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
       opacity: 1;
       pointer-events: none;
       z-index: 2;
+      transform-origin: 50% 12px;
     }
 
     /* Front Face (Revealed on Hover directly facing front, upright and straight) */
@@ -178,10 +186,11 @@
       top: 0;
       left: 50%;
       transform: translateX(-50%) scale(0.92);
-      transition: opacity 0.38s cubic-bezier(0.25, 1, 0.5, 1), transform 0.48s cubic-bezier(0.25, 1, 0.5, 1), filter 0.35s ease;
+      transition: opacity 0.42s cubic-bezier(0.16, 1, 0.3, 1), transform 0.58s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
       opacity: 0;
       pointer-events: none;
       z-index: 3;
+      transform-origin: 50% 12px;
     }
 
     /* ON HOVER (is-active): */
@@ -225,7 +234,8 @@
       background: radial-gradient(ellipse, rgba(0,0,0,0.2) 0%, transparent 70%);
       border-radius: 50%;
       pointer-events: none;
-      transition: width 0.45s ease, height 0.45s ease, background 0.45s ease;
+      transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), height 0.5s cubic-bezier(0.16, 1, 0.3, 1), background 0.5s ease;
+      will-change: transform, width, height;
     }
 
     .cloth-item.is-active .floor-ambient-shadow {
@@ -808,6 +818,13 @@
 
     let currentSelectedIdx = 2; // Default atheism grey hoodie
     const itemElements = [];
+    const physicsItems = garmentsList.map(() => ({
+      el: null,
+      flipperEl: null,
+      shadowEl: null,
+      angle: 0,
+      angVel: 0
+    }));
 
     // Create the 10 garments
     garmentsList.forEach((garment, idx) => {
@@ -842,6 +859,11 @@
       track.appendChild(itemEl);
       itemElements.push(itemEl);
 
+      // Link to physics tracking
+      physicsItems[idx].el = itemEl;
+      physicsItems[idx].flipperEl = itemEl.querySelector('.garment-flipper');
+      physicsItems[idx].shadowEl = itemEl.querySelector('.floor-ambient-shadow');
+
       // HOVER INTERACTION:
       itemEl.addEventListener('mouseenter', () => {
         currentSelectedIdx = idx;
@@ -865,38 +887,142 @@
       openProductModal(currentSelectedIdx);
     });
 
+    /* ========================================================
+       ULTRA-SMOOTH STREETWEAR GARMENT RACK PHYSICS ENGINE
+       - Hardware-accelerated sliding along rail with progressive clearance
+       - Natural pendulum sway with harmonic damping for heavy fabric
+       - Dynamic momentum kicks on shift & gentle settle back
+       ======================================================== */
+
+    // Enhanced progressive shift distances (left & right clothes move more)
+    const SHIFTS = [0, 88, 68, 50, 34, 22, 13, 7, 3, 1];
+
+    // Angular kick impulses (deg/s) for dynamic cloth swing
+    const SWAY_KICKS = [0, 82, 58, 38, 24, 14, 8, 4, 2, 0];
+
+    const STIFFNESS = 62; // natural cloth pendulum restoring spring
+    const DAMPING = 7.0;   // fabric air resistance & internal damping
+
+    let isPhysicsRunning = false;
+    let rafId = null;
+    let lastTimestamp = 0;
+
+    function updatePhysics(timestamp) {
+      if (!lastTimestamp) lastTimestamp = timestamp;
+      const rawDelta = (timestamp - lastTimestamp) / 1000;
+      lastTimestamp = timestamp;
+
+      const dt = Math.min(0.033, Math.max(0.004, rawDelta));
+      let isMoving = false;
+
+      for (let i = 0; i < physicsItems.length; i++) {
+        const item = physicsItems[i];
+
+        // Harmonic spring physics restoring to vertical (0 deg)
+        const springForce = -STIFFNESS * item.angle;
+        const dampingForce = -DAMPING * item.angVel;
+
+        item.angVel += (springForce + dampingForce) * dt;
+        item.angle += item.angVel * dt;
+
+        // Soft clamp
+        if (item.angle > 10.5) { item.angle = 10.5; item.angVel *= -0.2; }
+        if (item.angle < -10.5) { item.angle = -10.5; item.angVel *= -0.2; }
+
+        // Render rotation from hanger hook
+        const angleDeg = item.angle;
+        const rotY = angleDeg * 0.35;
+        item.flipperEl.style.transform = `rotateZ(${angleDeg.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
+
+        // Floor shadow follows bottom hem
+        if (item.shadowEl) {
+          const shift = (-angleDeg * 2.2).toFixed(1);
+          item.shadowEl.style.transform = `translateX(calc(-50% + ${shift}px))`;
+        }
+
+        if (Math.abs(item.angle) > 0.05 || Math.abs(item.angVel) > 0.1) {
+          isMoving = true;
+        } else {
+          item.angle = 0;
+          item.angVel = 0;
+          item.flipperEl.style.transform = 'rotateZ(0deg) rotateY(0deg)';
+          if (item.shadowEl) item.shadowEl.style.transform = 'translateX(-50%)';
+        }
+      }
+
+      if (isMoving) {
+        rafId = requestAnimationFrame(updatePhysics);
+      } else {
+        isPhysicsRunning = false;
+        lastTimestamp = 0;
+      }
+    }
+
+    function startPhysics() {
+      if (!isPhysicsRunning) {
+        isPhysicsRunning = true;
+        lastTimestamp = 0;
+        rafId = requestAnimationFrame(updatePhysics);
+      }
+    }
+
     function applyHoverState(activeIdx) {
       const activeGarment = garmentsList[activeIdx];
       infoTitle.textContent = activeGarment.title;
       infoDesc.textContent = activeGarment.desc;
       infoPrice.textContent = activeGarment.price;
 
-      const leftShiftDist = 55;
-      const rightShiftDist = 55;
-
-      itemElements.forEach((el, i) => {
+      physicsItems.forEach((item, i) => {
         if (i === activeIdx) {
-          el.classList.add('is-active');
-          el.style.transform = 'translateX(0px)';
+          item.el.classList.add('is-active');
+          item.el.style.transitionDelay = '0s';
+          item.el.style.transform = 'translateX(0px)';
+          // Subtle settling micro-kick for the active front-facing garment
+          item.angVel += (item.angle > 0 ? -14 : 14);
         } else if (i < activeIdx) {
-          el.classList.remove('is-active');
-          const distFactor = Math.max(0.6, 1 - (activeIdx - i - 1) * 0.15);
-          const shift = - (leftShiftDist * distFactor);
-          el.style.transform = `translateX(${shift}px)`;
+          // Left items shift LEFT
+          item.el.classList.remove('is-active');
+          const dist = activeIdx - i;
+          const shift = -(SHIFTS[dist] || 0);
+          const stagger = Math.min((dist - 1) * 0.016, 0.07);
+          item.el.style.transitionDelay = `${stagger}s`;
+          item.el.style.transform = `translateX(${shift}px)`;
+
+          // Bottom swings RIGHT due to inertia
+          const kick = (SWAY_KICKS[dist] || 0);
+          item.angVel += kick;
         } else {
-          el.classList.remove('is-active');
-          const distFactor = Math.max(0.6, 1 - (i - activeIdx - 1) * 0.15);
-          const shift = (rightShiftDist * distFactor);
-          el.style.transform = `translateX(${shift}px)`;
+          // Right items shift RIGHT
+          item.el.classList.remove('is-active');
+          const dist = i - activeIdx;
+          const shift = (SHIFTS[dist] || 0);
+          const stagger = Math.min((dist - 1) * 0.016, 0.07);
+          item.el.style.transitionDelay = `${stagger}s`;
+          item.el.style.transform = `translateX(${shift}px)`;
+
+          // Bottom swings LEFT due to inertia
+          const kick = (SWAY_KICKS[dist] || 0);
+          item.angVel -= kick;
         }
       });
+
+      startPhysics();
     }
 
     function resetAllItems() {
-      itemElements.forEach(el => {
-        el.classList.remove('is-active');
-        el.style.transform = 'translateX(0px)';
+      physicsItems.forEach((item, i) => {
+        item.el.classList.remove('is-active');
+        item.el.style.transitionDelay = '0s';
+        item.el.style.transform = 'translateX(0px)';
+
+        // Gentle return sway as clothes glide back into place
+        if (i < currentSelectedIdx) {
+          item.angVel -= 32; // returning right -> swings left
+        } else if (i > currentSelectedIdx) {
+          item.angVel += 32; // returning left -> swings right
+        }
       });
+      startPhysics();
     }
 
     // Modal Opening Function

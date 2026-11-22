@@ -466,74 +466,6 @@
     }
 
     /* =========================================
-       5. PAGE 3: IMAGE WITH MINIMAL GAP & SCROLL ZOOM
-       ========================================= */
-    .zoom-stage-section {
-      width: 100%;
-      height: 150vh; /* Smooth natural runway */
-      position: relative;
-      background: #ffffff;
-      margin-top: 0;
-    }
-
-    .zoom-sticky-container {
-      position: sticky;
-      top: 0;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .zoom-image-wrapper {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .zoom-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 30%;
-      display: block;
-      transform: scale(1);
-      transform-origin: center center;
-      will-change: transform;
-      /* transition removed for jitter-free 120fps sync */
-    }
-
-    /* Gradient overlay for magazine feel */
-    .zoom-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, transparent 40%, rgba(0,0,0,0.4) 100%);
-      pointer-events: none;
-    }
-
-    .zoom-caption {
-      position: absolute;
-      bottom: 40px;
-      left: clamp(20px, 3.2vw, 42px);
-      color: #ffffff;
-      font-family: var(--font-mono);
-      font-size: 13px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      z-index: 10;
-      display: flex;
-      gap: 20px;
-    }
-
-    .zoom-caption span:first-child {
-      color: var(--primary-red);
-      font-weight: 600;
-    }
-
-    /* =========================================
        REPLAY FLOATING BUTTON
        ========================================= */
     .controls-overlay {
@@ -568,7 +500,6 @@
     .card-item,
     .scrub-word .fill,
     .m-scrub-word .m-fill,
-    #zoom-image,
     #giant-marquee-track,
     #drag-gallery-track {
       transform: translateZ(0);
@@ -1129,11 +1060,6 @@
       border: 1px solid rgba(255, 255, 255, 0.12) !important;
     }
 
-    /* Zoom Stage in dark mode */
-    body.dark-mode .zoom-stage-section {
-      background: #0a0a0c !important;
-    }
-
     /* Embed iframes containers in dark mode */
     body.dark-mode #try-the-look-embed,
     body.dark-mode #hanging-cloth-section {
@@ -1598,27 +1524,6 @@
   </section>
 
   <!-- =========================================
-       5. PAGE 3: FULL SCREEN ZOOM-IN IMAGE ON SCROLL
-       ========================================= -->
-  <section class="zoom-stage-section" id="zoom-stage">
-    <div class="zoom-sticky-container">
-      <div class="zoom-image-wrapper">
-        <img 
-          id="zoom-image"
-          class="zoom-img" 
-          src="https://framerusercontent.com/images/bkZf7NvTiePpA3vPt06c0tD0Yco.png?width=1600&height=2400" 
-          alt="Elvique Editorial Portrait"
-        >
-        <div class="zoom-overlay"></div>
-        <div class="zoom-caption">
-          <span>(03) EDITORIAL</span>
-          <span>AUTUMN / WINTER 2026</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- =========================================
        PAGE 4: TRY THE LOOK 3D 360 EXPERIENCE (Self-Contained File)
        ========================================= -->
   <section id="try-the-look-embed" style="width: 100%; height: 100vh; position: relative; background: #ffffff; border-top: 1px solid rgba(0,0,0,0.06); overflow: hidden;">
@@ -1632,7 +1537,7 @@
        PAGE 5: HANGING CLOTH SHOWCASE (Full Height Dedicated Page)
        ========================================= -->
   <section id="hanging-cloth-section" style="width: 100%; height: 100vh; position: relative; background: #ffffff; overflow: hidden;">
-    <iframe src="hanging_cloth/index.html" scrolling="no" style="width: 100%; height: 100%; border: none; display: block; overflow: hidden;" title="Hanging Cloth Showcase"></iframe>
+    <iframe src="hanging_cloth/index.html?v=2" scrolling="no" style="width: 100%; height: 100%; border: none; display: block; overflow: hidden;" title="Hanging Cloth Showcase"></iframe>
   </section>
 
   <!-- =========================================
@@ -2250,19 +2155,17 @@
 
 
     // ---------------------------------------------
-    // SCROLL LISTENER FOR (A) TEXT COLOR SCRUB & (B) ZOOM-IN IMAGE
+    // SCROLL LISTENER FOR TEXT COLOR SCRUB
     // ---------------------------------------------
     const feelSection = document.getElementById('feel-section');
     const scrubHeadline = document.getElementById('scrub-headline');
     const scrubWords = document.querySelectorAll('.scrub-word .fill');
-    const zoomStage = document.getElementById('zoom-stage');
-    const zoomImg = document.getElementById('zoom-image');
 
     function handleScroll() {
       const viewportHeight = window.innerHeight;
 
       // ===========================================
-      // (A) TEXT SCRUBBING EFFECT:
+      // TEXT SCRUBBING EFFECT:
       // ===========================================
       if (scrubHeadline) {
         const textRect = scrubHeadline.getBoundingClientRect();
@@ -2290,27 +2193,6 @@
           const clipRight = (1 - wordProgress) * 100;
           wordFill.style.clipPath = `inset(0 ${clipRight}% 0 0)`;
         });
-      }
-
-      // ===========================================
-      // (B) 100% FULLSCREEN IMAGE ZOOM-IN EFFECT
-      // ===========================================
-      if (zoomStage && zoomImg) {
-        const zoomRect = zoomStage.getBoundingClientRect();
-        if (zoomRect.bottom > -200 && zoomRect.top < viewportHeight + 200) {
-          const zoomTotalScrollable = zoomStage.offsetHeight - viewportHeight;
-          const scrolledInside = -zoomRect.top;
-
-          if (scrolledInside >= 0 && scrolledInside <= zoomTotalScrollable) {
-            const zoomProgress = scrolledInside / zoomTotalScrollable;
-            const currentScale = 1 + (zoomProgress * 0.35);
-            zoomImg.style.transform = `scale3d(${currentScale.toFixed(4)}, ${currentScale.toFixed(4)}, 1)`;
-          } else if (scrolledInside < 0) {
-            zoomImg.style.transform = `scale3d(1, 1, 1)`;
-          } else {
-            zoomImg.style.transform = `scale3d(1.35, 1.35, 1)`;
-          }
-        }
       }
     }
 
