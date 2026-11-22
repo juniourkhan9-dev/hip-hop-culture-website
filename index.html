@@ -1108,6 +1108,17 @@
       color: #ffffff !important;
     }
 
+    /* Brands & Metrics Section GPU Layer & Zero-Reflow Text Counters */
+    #brands-metrics-section {
+      content-visibility: auto;
+      contain-intrinsic-size: 1px 800px;
+      transform: translateZ(0);
+    }
+    #brands-metrics-section span[id^="metric-"] {
+      will-change: contents;
+      contain: layout style;
+    }
+
     /* Metrics section in dark mode */
     body.dark-mode #brands-metrics-section {
       background: #0e0f14 !important;
@@ -2133,6 +2144,27 @@
     const savedTheme = localStorage.getItem('elvique_theme') || 'light';
     applyTheme(savedTheme);
 
+    // High-performance Iframe Visibility Controller
+    // Pauses heavy WebGL / physics rendering inside iframes when off-screen to free 100% GPU
+    if ('IntersectionObserver' in window) {
+      const iframeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const iframe = entry.target.querySelector('iframe');
+          if (iframe && iframe.contentWindow) {
+            iframe.contentWindow.postMessage({
+              type: 'VISIBILITY_CHANGE',
+              isVisible: entry.isIntersecting
+            }, '*');
+          }
+        });
+      }, { rootMargin: '250px 0px 250px 0px', threshold: 0 });
+
+      const trySection = document.getElementById('try-the-look-embed');
+      const clothSection = document.getElementById('hanging-cloth-section');
+      if (trySection) iframeObserver.observe(trySection);
+      if (clothSection) iframeObserver.observe(clothSection);
+    }
+
     if (themeToggleBtn) {
       themeToggleBtn.addEventListener('click', () => {
         const currentTheme = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
@@ -2270,8 +2302,8 @@
     });
 
     // ---------------------------------------------
-    // (C) ANIMATED NUMBERS COUNTER FOR PAGE 7
-    // Triggers fast counting animation from 0+ to target when scrolled into view
+    // (C) ANIMATED NUMBERS COUNTER FOR BRANDS & METRICS SECTION
+    // Optimized single RAF loop with zero layout thrashing
     // ---------------------------------------------
     let metricsAnimated = false;
     const metricsSection = document.getElementById('brands-metrics-section');
@@ -2279,32 +2311,37 @@
     const m2 = document.getElementById('metric-2');
     const m3 = document.getElementById('metric-3');
 
-    function animateNumber(element, start, end, duration, suffix = "+", isFormatted = false) {
+    function animateMetrics() {
       const startTime = performance.now();
-      function updateNum(currentTime) {
+      const duration = 1400;
+
+      function formatThousands(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      }
+
+      function updateAllMetrics(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        // Fast ease-out power curve
         const ease = 1 - Math.pow(1 - progress, 3);
-        const current = Math.floor(start + (end - start) * ease);
 
-        if (isFormatted) {
-          element.textContent = current.toLocaleString('en-US') + suffix;
-        } else {
-          element.textContent = current + suffix;
-        }
+        const v1 = Math.floor(500 * ease);
+        const v2 = Math.floor(2000 * ease);
+        const v3 = Math.floor(150 * ease);
+
+        if (m1) m1.textContent = v1 + '+';
+        if (m2) m2.textContent = formatThousands(v2) + '+';
+        if (m3) m3.textContent = v3 + 'K +';
 
         if (progress < 1) {
-          requestAnimationFrame(updateNum);
+          requestAnimationFrame(updateAllMetrics);
         } else {
-          if (isFormatted) {
-            element.textContent = end.toLocaleString('en-US') + suffix;
-          } else {
-            element.textContent = end + suffix;
-          }
+          if (m1) m1.textContent = '500+';
+          if (m2) m2.textContent = '2,000+';
+          if (m3) m3.textContent = '150K +';
         }
       }
-      requestAnimationFrame(updateNum);
+
+      requestAnimationFrame(updateAllMetrics);
     }
 
     function checkMetricsInView() {
@@ -2312,10 +2349,7 @@
       const rect = metricsSection.getBoundingClientRect();
       if (rect.top <= window.innerHeight * 0.85) {
         metricsAnimated = true;
-        // Fast dynamic counting animations
-        animateNumber(m1, 0, 500, 1400, "+", false);
-        animateNumber(m2, 0, 2000, 1600, "+", true);
-        animateNumber(m3, 0, 150, 1500, "K +", false);
+        animateMetrics();
       }
     }
 

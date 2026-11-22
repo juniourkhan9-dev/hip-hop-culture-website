@@ -701,14 +701,15 @@
     camera.position.set(0, 0.05, 6.2);
     camera.lookAt(0, -0.15, 0);
 
-    // 3. Renderer with high DPI sharpness
+    // 3. Ultra-Smooth 120 FPS WebGL Renderer
     const renderer = new THREE.WebGLRenderer({
       canvas: canvas,
       antialias: true,
       alpha: false,
-      powerPreference: "high-performance"
+      powerPreference: "high-performance",
+      precision: "mediump"
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25));
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.toneMapping = THREE.LinearToneMapping;
 
@@ -791,6 +792,7 @@
     function selectLook(index) {
       currentIndex = (index + totalModels) % totalModels;
       targetRotationY = -currentIndex * angleStep;
+      requestRender();
 
       LOOKS.forEach((look, i) => {
         const tick = document.getElementById(`tick-${i}`);
@@ -860,6 +862,7 @@
       prevMouseX = e.clientX;
       dragStartRotation = currentRotationY;
       stopAutoRotate();
+      requestRender();
     });
 
     window.addEventListener('pointermove', (e) => {
@@ -868,6 +871,7 @@
       targetRotationY = dragStartRotation + deltaX * 0.005;
       currentRotationY = targetRotationY;
       orbitGroup.rotation.y = currentRotationY;
+      requestRender();
     });
 
     window.addEventListener('pointerup', () => {
@@ -937,17 +941,37 @@
     window.addEventListener('resize', handleResize);
     handleResize();
 
-    // Render loop with Visibility Optimization (Pauses offscreen to maximize FPS during page scroll)
+    // Render loop with Visibility Optimization & Idle Sleep (0% GPU idle load)
     let isVisible = true;
+    let isRendering = false;
     let animationFrameId = null;
+
+    function requestRender() {
+      if (!isRendering && isVisible) {
+        isRendering = true;
+        animationFrameId = requestAnimationFrame(animate);
+      }
+    }
+
+    // Listen to parent window visibility messages
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'VISIBILITY_CHANGE') {
+        isVisible = Boolean(e.data.isVisible);
+        if (isVisible) {
+          requestRender();
+        } else if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+          isRendering = false;
+        }
+      }
+    });
 
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           isVisible = entry.isIntersecting;
-          if (isVisible && !animationFrameId) {
-            animate();
-          }
+          if (isVisible) requestRender();
         });
       }, { threshold: 0.05 });
       observer.observe(document.body);
@@ -955,24 +979,37 @@
 
     function animate() {
       if (!isVisible) {
+        isRendering = false;
         animationFrameId = null;
         return;
       }
-      animationFrameId = requestAnimationFrame(animate);
 
       // Smooth damping
-      currentRotationY += (targetRotationY - currentRotationY) * 0.08;
+      const diff = targetRotationY - currentRotationY;
+      currentRotationY += diff * 0.08;
       orbitGroup.rotation.y = currentRotationY;
 
       // Billboarding: counter-rotate meshes so they face the camera cleanly
-      modelMeshes.forEach(mesh => {
-        mesh.rotation.y = -orbitGroup.rotation.y;
-      });
+      const count = modelMeshes.length;
+      for (let i = 0; i < count; i++) {
+        modelMeshes[i].rotation.y = -currentRotationY;
+      }
 
       renderer.render(scene, camera);
+
+      // Sleep check: if settled and not dragging/auto-rotating, stop RAF to free GPU
+      if (Math.abs(diff) < 0.0001 && !isDragging && !autoRotateTimer) {
+        currentRotationY = targetRotationY;
+        orbitGroup.rotation.y = currentRotationY;
+        renderer.render(scene, camera);
+        isRendering = false;
+        animationFrameId = null;
+      } else {
+        animationFrameId = requestAnimationFrame(animate);
+      }
     }
 
-    animate();
+    requestRender();
     startAutoRotate();
 
     // Interactive Theme Swapper for Three.js WebGL Scene & DOM
