@@ -605,11 +605,14 @@
       overflow: visible;
       cursor: pointer;
       box-shadow: none;
-      filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.18));
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: transform, filter;
+      filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.20));
+      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
       border: none !important; /* Zero borders */
       background: transparent !important;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transform-style: preserve-3d;
     }
 
     /* Subtle Cinematic Tilted Perspective (Matching Image 2 Reference) */
@@ -626,10 +629,9 @@
       transform: perspective(1200px) rotateY(-3.5deg) rotateZ(0.5deg);
     }
 
-    /* Smooth Hover Lift without any collision or overlap */
+    /* Smooth Zero-Lag Hover Lift (Composite-only transform) */
     .apparel-overlap-card:hover {
-      transform: perspective(1200px) rotateY(0deg) rotateZ(0deg) translateY(-16px) scale(1.04) !important;
-      filter: drop-shadow(0 26px 45px rgba(0, 0, 0, 0.30)) !important;
+      transform: perspective(1200px) rotateY(0deg) rotateZ(0deg) translateY(-14px) scale(1.04) !important;
       border: none !important;
       z-index: 10;
     }
@@ -2169,6 +2171,8 @@
       // ===========================================
       if (scrubHeadline) {
         const textRect = scrubHeadline.getBoundingClientRect();
+        if (textRect.bottom < -50 || textRect.top > viewportHeight + 50) return;
+
         const startPoint = viewportHeight * 0.70;
         const endPoint = viewportHeight * 0.15;
         
@@ -2458,7 +2462,7 @@
     });
 
     lenis.on('scroll', () => {
-      onScrollTick();
+      requestScrollTick();
     });
 
     function raf(time) {
@@ -2481,14 +2485,18 @@
       }, 160);
     }
 
+    function requestScrollTick() {
+      if (!isScrollTicking) {
+        isScrollTicking = true;
+        requestAnimationFrame(onScrollTick);
+      }
+    }
+
     // Trigger on both wheel (before cursor can be captured) and scroll
     window.addEventListener('wheel', lockIframes, { passive: true });
     window.addEventListener('scroll', () => {
       lockIframes();
-      if (!isScrollTicking) {
-        requestAnimationFrame(onScrollTick);
-        isScrollTicking = true;
-      }
+      requestScrollTick();
     }, { passive: true });
 
     // Handle forwarded wheel events from iframes so scroll never gets trapped
