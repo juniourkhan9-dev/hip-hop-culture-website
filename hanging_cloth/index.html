@@ -1130,24 +1130,13 @@
       setTheme(initialTheme);
     } catch(e) {}
 
-    // Forward all mouse wheel events to parent window so page scroll never gets trapped
+    // Forward mouse wheel cleanly to parent Lenis scroll
     window.addEventListener('wheel', (e) => {
       try {
         if (window.parent && window.parent !== window) {
-          window.parent.dispatchEvent(new WheelEvent('wheel', {
-            deltaX: e.deltaX,
-            deltaY: e.deltaY,
-            deltaZ: e.deltaZ,
-            deltaMode: e.deltaMode,
-            clientX: e.clientX,
-            clientY: e.clientY,
-            bubbles: true,
-            cancelable: false
-          }));
           window.parent.postMessage({
             type: 'IFRAME_WHEEL_EVENT',
-            deltaY: e.deltaY,
-            deltaX: e.deltaX
+            deltaY: e.deltaY
           }, '*');
         }
       } catch (err) {}

@@ -31,6 +31,26 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
+    html {
+      scroll-behavior: auto !important;
+    }
+
+    html.lenis, html.lenis body {
+      height: auto;
+    }
+
+    .lenis.lenis-smooth {
+      scroll-behavior: auto !important;
+    }
+
+    .lenis.lenis-smooth [data-lenis-prevent] {
+      overscroll-behavior: contain;
+    }
+
+    html.lenis-scrolling iframe {
+      pointer-events: none !important;
+    }
+
     body {
       background-color: var(--bg-light);
       color: var(--text-dark);
@@ -2491,21 +2511,19 @@
     }
 
     // ---------------------------------------------
-    // LENIS BUTTER-SMOOTH LUXURY GLIDE (Gradual & smooth even on fast scroll)
+    // LENIS LIQUID BUTTER SCROLL (Pure LERP Physics Engine)
+    // lerp: 0.075 produces the smoothest possible gradual deceleration
     // ---------------------------------------------
     const lenis = new Lenis({
-      duration: 1.35,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -8 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
+      lerp: 0.075,
+      wheelMultiplier: 0.82,
+      touchMultiplier: 1.0,
       smoothWheel: true,
-      wheelMultiplier: 0.75,
-      touchMultiplier: 1.1,
       infinite: false
     });
 
     lenis.on('scroll', () => {
-      requestScrollTick();
+      onScrollTick();
     });
 
     function raf(time) {
@@ -2514,47 +2532,11 @@
     }
     requestAnimationFrame(raf);
 
-    // Direct Iframe Pointer-Events Lock (Zero DOM style invalidation, 120 FPS pure scrolling)
-    let isScrollTicking = false;
-    let scrollTimeout = null;
-    const iframesToLock = [tryLookIframe, hangingClothIframe].filter(Boolean);
-
-    function lockIframes() {
-      for (let i = 0; i < iframesToLock.length; i++) {
-        if (iframesToLock[i].style.pointerEvents !== 'none') {
-          iframesToLock[i].style.pointerEvents = 'none';
-        }
-      }
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        for (let i = 0; i < iframesToLock.length; i++) {
-          iframesToLock[i].style.pointerEvents = 'auto';
-        }
-      }, 120);
-    }
-
-    function requestScrollTick() {
-      if (!isScrollTicking) {
-        isScrollTicking = true;
-        requestAnimationFrame(onScrollTick);
-      }
-    }
-
-    // Trigger on both wheel (before cursor can be captured) and scroll
-    window.addEventListener('wheel', lockIframes, { passive: true });
-    window.addEventListener('scroll', () => {
-      lockIframes();
-      requestScrollTick();
-    }, { passive: true });
-
-    // Handle forwarded wheel events from iframes so scroll never gets trapped
+    // Forwarded wheel events from iframes smoothly fed to Lenis
     window.addEventListener('message', (e) => {
       if (e.data && e.data.type === 'IFRAME_WHEEL_EVENT') {
-        lockIframes();
         if (typeof lenis !== 'undefined' && lenis) {
-          lenis.scrollTo(lenis.scroll + e.data.deltaY, { immediate: false, duration: 0.25 });
-        } else {
-          window.scrollBy({ top: e.data.deltaY, behavior: 'auto' });
+          lenis.scrollTo(lenis.scroll + e.data.deltaY * 0.85, { immediate: false, duration: 0.35 });
         }
       }
     });
@@ -2563,11 +2545,10 @@
       handleScroll();
       checkMetricsInView();
       handlePage8Scroll();
-      isScrollTicking = false;
     }
     
     // Initial run
-    requestAnimationFrame(onScrollTick);
+    onScrollTick();
   </script>
 </body>
 </html>
